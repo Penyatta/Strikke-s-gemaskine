@@ -1,6 +1,11 @@
+//Library til at lave knapper og tekstfelter
+import controlP5.*;
+
 //Værdi der bruges til at display når der scrolles
 int camY=0;
+
 String[] tags = {"Vinter", "Forår", "Sommer", "Efterår"};
+
 //State maschine der holder styr på hvilken skærm der skal vises
 //man kan skifte mellem de forskellige skærme ved at sætte skærm= (navnet på skærmen der refereres til)
 int startSkærm=0;
@@ -14,7 +19,7 @@ void setup() {
   fullScreen();
 }
 void draw() {
-  //fordeling på statemachine, hvis skærm er lig denne skærm er det som skal vises
+  //fordeling på statemachine, hvis skærm værdi er lig en specifik skærm er det den som skal vises
   if (skærm==startSkærm) {
     startSkærm();
   } else if (skærm==søgeSkærm) {
