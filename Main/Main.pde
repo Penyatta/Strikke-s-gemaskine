@@ -1,4 +1,4 @@
-//Library til at lave knapper og tekstfelter
+//Library til at lave tekstfelter
 import controlP5.*;
 
 ControlP5 cp5;
@@ -14,13 +14,14 @@ int startSkærm=0;
 int søgeSkærm=1;
 int mitSkærm=2;
 int opretSkærm=3;
-int indstillingerSkærm=4;
+int hjælpSkærm=4;
 int skærm=startSkærm;
 
 void setup() {
   fullScreen();
   cp5=new ControlP5(this); 
   startSkærmSetup();
+  hjælpSkærmSetup();
 }
 void draw() {
   background(100);
@@ -33,8 +34,8 @@ void draw() {
     mitSkærm();
   } else if (skærm==opretSkærm) {
     opretSkærm();
-  } else if (skærm==indstillingerSkærm) {
-    indstillingerSkærm();
+  } else if (skærm==hjælpSkærm) {
+    hjælpSkærm();
   } else {
     //Hvis det ikke er en valid værdi for skærm ender programmet her og der printes en fejl til konsollen
     println("error - skærm ikke defineret rigtigt");
@@ -55,4 +56,5 @@ void mousePressed(){
   //kører knap funktionerne der tjekker om knapperne tilhørende de forskellige skærme er blevet trykket på
   startSkærmKnapper();
   søgeSkærmKnapper();
+  hjælpSkærmKnapper();
 }

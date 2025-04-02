@@ -96,3 +96,36 @@ class Knap {
     }
   }
 }
+
+class TilbageKnap extends Knap {
+  TilbageKnap(float POSX, float POSY, float SIZEX, float SIZEY, color TEKSTFARVE, String TEKST,
+    int TEKSTSIZE, color FELTFARVE, color MOUSEOVERFARVE, float RUNDHED, int KNAPSKÆRM) {
+    super(POSX, POSY, SIZEX, SIZEY, TEKSTFARVE, TEKST, TEKSTSIZE, FELTFARVE, MOUSEOVERFARVE, RUNDHED, KNAPSKÆRM);
+  }
+  @Override
+    void tegn() {      
+      //Tegnes kun hvis knappen er på den samme skærm som brugeren er
+    if (knapSkærm==skærm) {
+      
+      //dette herinde skal erstattes af en flot model til tilbage knappen
+      
+      //Sørger for at det er det øverste venstre hjørne som knappen tegnes fra
+      rectMode(CORNER);
+      //Skifter farven hvis musen er over knappen
+      if (mouseOver()) {
+        fill(mouseOverFarve);
+      } else {
+        fill(feltFarve);
+      }
+      //Tegner selve knappen
+      rect(posX, posY-camY, sizeX, sizeY, rundhed, rundhed, rundhed, rundhed);
+      //Sørger for at tekst tegnes med udgangspunkt i centrum af knappen
+      textAlign(CENTER, CENTER);
+      //Skifter farven på teksten
+      fill(tekstFarve);
+      //Skriver teksten
+      text(tekst, posX+sizeX/2, posY-camY+sizeY/2);
+    }
+    }
+}
+      
