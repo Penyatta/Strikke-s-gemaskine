@@ -20,8 +20,12 @@ int skærm=startSkærm;
 void setup() {
   fullScreen();
   cp5=new ControlP5(this); 
+  //funktioner der kører de dele der kræves i setup for hver skærm
   startSkærmSetup();
   hjælpSkærmSetup();
+  søgeSkærmSetup();
+  mitSkærmSetup();
+  opretSkærmSetup();
 }
 void draw() {
   background(100);
@@ -57,4 +61,6 @@ void mousePressed(){
   startSkærmKnapper();
   søgeSkærmKnapper();
   hjælpSkærmKnapper();
+  mitSkærmKnapper();
+  opretSkærmKnapper();
 }
