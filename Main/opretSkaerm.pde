@@ -18,6 +18,6 @@ void opretSkærmKnapper(){
   skærm=startSkærm;
   }
   if(opretSkærmOpretKnap.mouseOver()){
-  saveOpskrifter("data/opskrifter.json");
+  saveOpskrifter("opskrifter.json");
   }
 }
