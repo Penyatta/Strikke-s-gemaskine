@@ -26,6 +26,7 @@ void setup() {
   søgeSkærmSetup();
   mitSkærmSetup();
   opretSkærmSetup();
+  loadOpskrifter("opskrifter.json");
 }
 void draw() {
   background(100);

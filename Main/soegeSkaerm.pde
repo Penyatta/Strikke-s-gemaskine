@@ -1,5 +1,5 @@
 void søgeSkærm(){
-  
+  displayOpskrifter(400);
 }
 
 Knap søgeSkærmTilbageKnap;
