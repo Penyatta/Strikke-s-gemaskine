@@ -5,20 +5,20 @@ ArrayList<Opskrift> opskrifter = new ArrayList<Opskrift>();
 void loadOpskrifter(String jsonFilePath) {
   //Sletter de nuværende opskrifter for at de ikke loades flere gange
   opskrifter.clear();
-  
+
   // load JSON filen
   JSONArray jsonOpskrifter = loadJSONArray(jsonFilePath);
-  
+
   // går igennem hver af opskrifterne i JSON filen
   for (int i = 0; i < jsonOpskrifter.size(); i++) {
     JSONObject jsonOpskrift = jsonOpskrifter.getJSONObject(i);
-    
+
     // gem værdierne i JSON filen
     String titel = jsonOpskrift.getString("titel");
     String link = jsonOpskrift.getString("link");
     String sværhedsgrad = jsonOpskrift.getString("svaerhedsgrad");
     String produktType = jsonOpskrift.getString("produktType");
-    
+
     // load billedet
     PImage billede = null;
     if (jsonOpskrift.hasKey("billedePath")) {
@@ -30,10 +30,10 @@ void loadOpskrifter(String jsonFilePath) {
         billede = createImage(100, 100, RGB); // det andet billede
       }
     }
-    
+
     // Laver opskrift objectet
     Opskrift nyOpskrift = new Opskrift(titel, link, sværhedsgrad, produktType, billede);
-    
+
     // tilføj de krævne garn
     if (jsonOpskrift.hasKey("kraevneGarn")) {
       JSONArray garnTyper = jsonOpskrift.getJSONArray("kraevneGarn");
@@ -42,71 +42,86 @@ void loadOpskrifter(String jsonFilePath) {
         nyOpskrift.tilfoejGarntype(garnType);
       }
     }
-    
+
     // tilføjer de fundne opskrifter til listen
     opskrifter.add(nyOpskrift);
   }
-  
+
   println("Loaded " + opskrifter.size() + " opskrifter fra " + jsonFilePath);
 }
 
-// Funktion til at gemme opskrifter til en JSON fil 
+// Funktion til at gemme opskrifter til en JSON fil
 void saveOpskrifter(String jsonFilePath) {
   JSONArray jsonOpskrifter = new JSONArray();
-  
+
   for (int i = 0; i < opskrifter.size(); i++) {
     Opskrift opskrift = opskrifter.get(i);
     JSONObject jsonOpskrift = new JSONObject();
-    
+
     // Gemmer de basale egenskaber af opskrifterne
     jsonOpskrift.setString("titel", opskrift.titel);
     jsonOpskrift.setString("link", opskrift.link);
     jsonOpskrift.setString("svaerhedsgrad", opskrift.sværhedsgrad);
     jsonOpskrift.setString("produktType", opskrift.produktType);
-    
+
     // Gemmer garntyper
     JSONArray garnTyper = new JSONArray();
     for (int j = 0; j < opskrift.krævneGarn.size(); j++) {
       garnTyper.setString(j, opskrift.krævneGarn.get(j));
     }
     jsonOpskrift.setJSONArray("kraevneGarn", garnTyper);
-    
+
     // tilføjer opskriften til en JSON fil
     jsonOpskrifter.setJSONObject(i, jsonOpskrift);
   }
-  
+
   // Gemmer JSON filen
   saveJSONArray(jsonOpskrifter, jsonFilePath);
   println("Saved " + opskrifter.size() + " opskrifter to " + jsonFilePath);
 }
 
-// 
-void displayOpskrifter(int startY) {
-  int y = startY;
-  int spacing = 120;
-  
+//
+void displayOpskrifter(Opskrift opskrifter[]) {
+  float posY=height/3;
+  float posX=width/7*3;
+  float bredde=width/2;
+  float højde=height/4;
+  float spacing=height/32;
+  strokeCap(SQUARE);
+
   for (Opskrift opskrift : opskrifter) {
-    fill(255);
-    rect(width/2 - 200, y - camY, 400, 100, 10);
-    
+    noStroke();
+    rectMode(CORNER);
+    fill(247, 239, 210);
+    rect(posX, posY-camY, bredde, højde);
+
     fill(0);
-    textAlign(CENTER, CENTER);
-    textSize(16);
-    text(opskrift.titel, width/2, y - camY + 20);
-    
-    textSize(12);
-    text("Sværhedsgrad: " + opskrift.sværhedsgrad, width/2, y - camY + 45);
-    
-    textSize(10);
+    textAlign(CORNER);
+    textSize(30);
+    text(opskrift.titel, posX+width/100, posY-camY+width/50);
+
+    textSize(20);
+    text("Sværhedsgrad: " + opskrift.sværhedsgrad, posX+width/100, posY-camY+højde/4+width/50);
+
+    text("produkttype: "+opskrift.produktType, posX+width/100, posY-camY+højde/4*2+width/50);
+
     String garnInfo = "Garntyper: ";
     for (int i = 0; i < opskrift.krævneGarn.size(); i++) {
       garnInfo += opskrift.krævneGarn.get(i);
-      if (i < opskrift.krævneGarn.size() - 1) {
+      if (i < opskrift.krævneGarn.size() - 2) {
         garnInfo += ", ";
+      } else if (i < opskrift.krævneGarn.size() - 1) {
+        garnInfo += " og ";
       }
     }
-    text(garnInfo, width/2, y - camY + 70);
-    
-    y += spacing;
+    text(garnInfo, posX+width/100, posY-camY+højde/4*3+width/50);
+
+    image(opskrift.billede,posX+bredde/24*17,posY-camY+højde/10,bredde/24*5,højde/10*8);
+
+    stroke(71, 92, 108);
+    strokeWeight(10);
+    line(posX+bredde/24*15, posY-camY-1, posX+bredde/24*15, posY-camY+højde);
+
+    posY+=spacing+højde;
   }
 }

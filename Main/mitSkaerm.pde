@@ -1,5 +1,5 @@
 void mitSkærm(){
-  
+  background(255);
 }
 
 Knap mitSkærmTilbageKnap;

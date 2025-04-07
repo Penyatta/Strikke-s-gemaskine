@@ -1,4 +1,5 @@
 void startSkærm() {
+  background(255);
 }
 
 //Opretter knapperne til at starte med

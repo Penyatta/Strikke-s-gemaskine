@@ -1,5 +1,5 @@
 void opretSkærm(){
-  
+  background(255);
 }
 
 Knap opretSkærmTilbageKnap;

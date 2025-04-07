@@ -69,6 +69,7 @@ class Knap {
     if (knapSkærm==skærm) {
       //Sørger for at det er det øverste venstre hjørne som knappen tegnes fra
       rectMode(CORNER);
+      noStroke();
       //Skifter farven hvis musen er over knappen
       if (mouseOver()) {
         fill(mouseOverFarve);
@@ -76,7 +77,7 @@ class Knap {
         fill(feltFarve);
       }
       //Tegner selve knappen
-      rect(posX, posY-camY, sizeX, sizeY, rundhed, rundhed, rundhed, rundhed);
+      rect(posX, posY-camY, sizeX, sizeY, rundhed);
       //Sørger for at tekst tegnes med udgangspunkt i centrum af knappen
       textAlign(CENTER, CENTER);
       //Skifter farven på teksten
@@ -109,6 +110,7 @@ class TilbageKnap extends Knap {
       
       //Sørger for at det er det øverste venstre hjørne som knappen tegnes fra
       rectMode(CORNER);
+      noStroke();
       //Skifter farven hvis musen er over knappen
       if (mouseOver()) {
         fill(mouseOverFarve);

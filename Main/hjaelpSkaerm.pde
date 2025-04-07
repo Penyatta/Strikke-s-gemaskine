@@ -1,4 +1,5 @@
 void hjælpSkærm() {
+  background(255);
 }
 
 HjælpKnap hjælpKnap;
@@ -23,6 +24,7 @@ class HjælpKnap extends Knap {
     void tegn() {
     //Sørger for at det er det øverste venstre hjørne som knappen tegnes fra
     rectMode(CORNER);
+    noStroke();
     //Skifter farven hvis musen er over knappen
     if (mouseOver()) {
       fill(mouseOverFarve);
