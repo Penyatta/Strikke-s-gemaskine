@@ -6,7 +6,10 @@ ControlP5 cp5;
 //Værdi der bruges til at display når der scrolles
 int camY=0;
 
-String[] tags = {"Vinter", "Forår", "Sommer", "Efterår"};
+//String[] tags = {"Vinter", "Forår", "Sommer", "Efterår"};
+
+PFont generalFont;
+PFont boldFont;
 
 //State maschine der holder styr på hvilken skærm der skal vises
 //man kan skifte mellem de forskellige skærme ved at sætte skærm= (navnet på skærmen der refereres til)
@@ -27,6 +30,9 @@ void setup() {
   mitSkærmSetup();
   opretSkærmSetup();
   loadOpskrifter("opskrifter.json");
+  generalFont=createFont("InriaSerif-Regular.ttf",32);
+  boldFont=createFont("InriaSerif-Bold.ttf",32);
+  
 }
 void draw() {
   background(100);

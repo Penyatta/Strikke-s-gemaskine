@@ -1,5 +1,6 @@
 void hjælpSkærm() {
   background(255);
+  overskriftBjælke("Hjælp");
 }
 
 HjælpKnap hjælpKnap;
@@ -36,6 +37,7 @@ class HjælpKnap extends Knap {
     //Sørger for at tekst tegnes med udgangspunkt i centrum af knappen
     textAlign(CENTER, CENTER);
     //Skifter farven på teksten
+    textSize(20);
     fill(tekstFarve);
     //Skriver teksten
     text(tekst, posX+sizeX/2, posY-camY+sizeY/2);

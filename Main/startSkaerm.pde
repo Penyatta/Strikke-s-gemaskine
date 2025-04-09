@@ -1,5 +1,6 @@
 void startSkærm() {
   background(255);
+  overskriftBjælke("StrikkeGuiden");
 }
 
 //Opretter knapperne til at starte med
@@ -14,7 +15,7 @@ void startSkærmSetup() {
   knapper.add(startSkærmSøgeKnap);
   startSkærmOpretKnap = new Knap(width/6*3-width/32, height/2, width/16, height/16, color(0), "Opret", 10, color(255, 0, 0), color(0, 255, 0), 10, startSkærm);
   knapper.add(startSkærmOpretKnap);
-  startSkærmMitKnap = new Knap(width/6*4-width/32, height/2, width/16, height/16, color(0), "Mit", 10, color(255, 0, 0), color(0, 255, 0), 10, startSkærm);
+  startSkærmMitKnap = new Knap(width/6*4-width/32, height/2, width/16, height/16, color(0), "Min profil", 10, color(255, 0, 0), color(0, 255, 0), 10, startSkærm);
   knapper.add(startSkærmMitKnap);
 }
 

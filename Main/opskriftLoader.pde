@@ -82,6 +82,7 @@ void saveOpskrifter(String jsonFilePath) {
 
 //
 void displayOpskrifter(Opskrift opskrifter[]) {
+  //Værdier der bestemmer position og størrelse af viste opskrifter
   float posY=height/3;
   float posX=width/7*3;
   float bredde=width/2;
@@ -89,22 +90,24 @@ void displayOpskrifter(Opskrift opskrifter[]) {
   float spacing=height/32;
   strokeCap(SQUARE);
 
+  //Går igennem de opskrifter der er i arrayet som funktionen modtager
   for (Opskrift opskrift : opskrifter) {
     noStroke();
     rectMode(CORNER);
+    //tegner selve kassen
     fill(247, 239, 210);
     rect(posX, posY-camY, bredde, højde);
-
+    //skriver titlen
     fill(0);
     textAlign(CORNER);
     textSize(30);
     text(opskrift.titel, posX+width/100, posY-camY+width/50);
-
+    //skriver sværhedsgraden
     textSize(20);
     text("Sværhedsgrad: " + opskrift.sværhedsgrad, posX+width/100, posY-camY+højde/4+width/50);
-
+    //Skriver produkttypen
     text("produkttype: "+opskrift.produktType, posX+width/100, posY-camY+højde/4*2+width/50);
-
+    //skriver garntyperne og tilføjer tegn imellem hvis der er flere
     String garnInfo = "Garntyper: ";
     for (int i = 0; i < opskrift.krævneGarn.size(); i++) {
       garnInfo += opskrift.krævneGarn.get(i);
@@ -115,8 +118,8 @@ void displayOpskrifter(Opskrift opskrifter[]) {
       }
     }
     text(garnInfo, posX+width/100, posY-camY+højde/4*3+width/50);
-
-    image(opskrift.billede,posX+bredde/24*17,posY-camY+højde/10,bredde/24*5,højde/10*8);
+//Viser billedet 
+    image(opskrift.billede, posX+bredde/24*17, posY-camY+højde/10, bredde/24*5, højde/10*8);
 
     stroke(71, 92, 108);
     strokeWeight(10);

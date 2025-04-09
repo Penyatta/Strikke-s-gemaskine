@@ -82,6 +82,7 @@ class Knap {
       textAlign(CENTER, CENTER);
       //Skifter farven på teksten
       fill(tekstFarve);
+      textSize(20);
       //Skriver teksten
       text(tekst, posX+sizeX/2, posY-camY+sizeY/2);
     }
@@ -124,6 +125,7 @@ class TilbageKnap extends Knap {
       //Skifter farven på teksten
       fill(tekstFarve);
       //Skriver teksten
+      textSize(20);
       text(tekst, posX+sizeX/2, posY-camY+sizeY/2);
     }
     }

@@ -1,5 +1,6 @@
 void mitSkærm(){
   background(255);
+  overskriftBjælke("Min profil");
 }
 
 Knap mitSkærmTilbageKnap;

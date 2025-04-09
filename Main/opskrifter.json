@@ -1,18 +1,24 @@
 [
-    {
-      "titel": "Stribet sweater",
-      "link": "https://example.com/sweater",
-      "svaerhedsgrad": "Svær",
-      "produktType": "Trøje",
-      "billedePath": "data/sweater.jpg",
-      "kraevneGarn": ["Uld", "Bomuld"]
-    },
-    {
-      "titel": "Sokker",
-      "link": "https://example.com/sokker",
-      "svaerhedsgrad": "Middel",
-      "produktType": "Sokker",
-      "billedePath": "data/sokker.jpg",
-      "kraevneGarn": ["Bomuld", "Akryl"]
-    }
-  ]
+  {
+    "titel": "Stribet sweater",
+    "svaerhedsgrad": "Svær",
+    "link": "https://example.com/sweater",
+    "kraevneGarn": [
+      "Uld",
+      "Bomuld"
+    ],
+    "produktType": "Trøje",
+    "billedePath": "sweater.jpg"
+  },
+  {
+    "titel": "Sokker",
+    "svaerhedsgrad": "Middel",
+    "link": "https://example.com/sokker",
+    "kraevneGarn": [
+      "Bomuld",
+      "Akryl"
+    ],
+    "produktType": "Sokker",
+    "billedePath": "sokker.jpg"
+  }
+]

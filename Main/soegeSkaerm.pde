@@ -1,8 +1,6 @@
-
 void søgeSkærm() {
   background(255);
-  fill(71, 92, 108);
-  rect(0,0-camY,width,height/9*2);
+  overskriftBjælke("Søg efter opskrifter");
   //Tjekker om arrayet er tomt før det viser det
   if (!opskrifter.isEmpty()) {
     // Converterer opskrifeter til et normalt array i stedet for en arraylist
@@ -23,4 +21,13 @@ void søgeSkærmKnapper() {
   if (søgeSkærmTilbageKnap.mouseOver()) {
     skærm=startSkærm;
   }
+}
+
+void overskriftBjælke(String tekst) {
+  fill(71, 92, 108);
+  rect(0, 0-camY, width, height/9*2);
+  fill(247, 239, 210);
+  textAlign(CENTER,CENTER);
+  textSize(100);
+  text(tekst,width/2,height/9);
 }
