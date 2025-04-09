@@ -8,7 +8,7 @@ TilbageKnap hjælpSkærmTilbageKnap;
 
 void hjælpSkærmSetup(){
   //laver knapperne
-  hjælpKnap = new HjælpKnap(width/8*7, height/16, width/16, height/16, color(0), "Hjælp", 10, color(255, 0, 0), color(0, 255, 0), 10, startSkærm);
+  hjælpKnap = new HjælpKnap(width/8*7, height/9, width/8, height/8, color(247, 239, 210), "Hjælp", 60, color(205,139,98), color(0, 255, 0), 0, startSkærm);
   knapper.add(hjælpKnap);
   hjælpSkærmTilbageKnap = new TilbageKnap(width/8, height/16, width/16, height/16, color(0), "tilbage", 10, color(255, 0, 0), color(0, 255, 0), 10, hjælpSkærm);
   knapper.add(hjælpSkærmTilbageKnap);
@@ -24,8 +24,11 @@ class HjælpKnap extends Knap {
   @Override
     void tegn() {
     //Sørger for at det er det øverste venstre hjørne som knappen tegnes fra
-    rectMode(CORNER);
+    rectMode(CENTER);
     noStroke();
+    //tegner skyggen
+    skyggeImplement(posX-sizeX/2,posY-camY+sizeY/2,sizeX);
+    
     //Skifter farven hvis musen er over knappen
     if (mouseOver()) {
       fill(mouseOverFarve);
@@ -33,18 +36,18 @@ class HjælpKnap extends Knap {
       fill(feltFarve);
     }
     //Tegner selve knappen
-    rect(posX, posY-camY, sizeX, sizeY, rundhed, rundhed, rundhed, rundhed);
+    rect(posX, posY-camY, sizeX, sizeY, rundhed);
     //Sørger for at tekst tegnes med udgangspunkt i centrum af knappen
     textAlign(CENTER, CENTER);
     //Skifter farven på teksten
-    textSize(20);
+    textSize(tekstSize);
     fill(tekstFarve);
     //Skriver teksten
-    text(tekst, posX+sizeX/2, posY-camY+sizeY/2);
+    text(tekst, posX, posY-camY);
   }
   @Override
   boolean mouseOver(){
-    if (posX < mouseX && mouseX < (posX+sizeX) && posY < mouseY && mouseY < (posY+sizeY)) {
+    if ((posX-sizeX/2) < mouseX && mouseX < (posX+sizeX/2) && (posY-sizeY/2) < mouseY && mouseY < (posY+sizeY/2)) {
       return(true);
     } else {
       return(false);
@@ -59,4 +62,13 @@ void hjælpSkærmKnapper(){
   if(hjælpSkærmTilbageKnap.mouseOver()){
   skærm=startSkærm;
   }
+}
+
+void skyggeImplement(float posX,float posY,float bredde){
+ for(int i=1;i<skyggeAfstand+1;i++){
+   stroke(0,(skyggeAfstand-i)*50);
+   strokeWeight(1);
+   line(posX,posY+i,posX+bredde-1,posY+i);
+ }
+ noStroke();
 }

@@ -7,8 +7,7 @@
       "Uld",
       "Bomuld"
     ],
-    "produktType": "Trøje",
-    "billedePath": "sweater.jpg"
+    "produktType": "Trøje"
   },
   {
     "titel": "Sokker",
@@ -18,7 +17,6 @@
       "Bomuld",
       "Akryl"
     ],
-    "produktType": "Sokker",
-    "billedePath": "sokker.jpg"
+    "produktType": "Sokker"
   }
 ]

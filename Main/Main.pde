@@ -11,6 +11,8 @@ int camY=0;
 PFont generalFont;
 PFont boldFont;
 
+int skyggeAfstand=5;
+
 //State maschine der holder styr på hvilken skærm der skal vises
 //man kan skifte mellem de forskellige skærme ved at sætte skærm= (navnet på skærmen der refereres til)
 int startSkærm=0;

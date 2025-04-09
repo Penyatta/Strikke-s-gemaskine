@@ -83,7 +83,7 @@ void saveOpskrifter(String jsonFilePath) {
 //
 void displayOpskrifter(Opskrift opskrifter[]) {
   //Værdier der bestemmer position og størrelse af viste opskrifter
-  float posY=height/3;
+  float posY=height/5*2;
   float posX=width/7*3;
   float bredde=width/2;
   float højde=height/4;
@@ -99,10 +99,12 @@ void displayOpskrifter(Opskrift opskrifter[]) {
     rect(posX, posY-camY, bredde, højde);
     //skriver titlen
     fill(0);
+    textFont(boldFont);
     textAlign(CORNER);
     textSize(30);
     text(opskrift.titel, posX+width/100, posY-camY+width/50);
     //skriver sværhedsgraden
+    textFont(generalFont);
     textSize(20);
     text("Sværhedsgrad: " + opskrift.sværhedsgrad, posX+width/100, posY-camY+højde/4+width/50);
     //Skriver produkttypen
@@ -119,7 +121,15 @@ void displayOpskrifter(Opskrift opskrifter[]) {
     }
     text(garnInfo, posX+width/100, posY-camY+højde/4*3+width/50);
 //Viser billedet 
+ if (opskrift.billede == null) {
+    fill(200);
+    rect(posX+bredde/24*17, posY-camY+højde/10, bredde/24*5, højde/10*8);
+    fill(0);
+    textAlign(CENTER, CENTER);
+    text("No Image", posX+bredde/24*17+bredde/48*5, posY+højde/10+højde/10*4);
+  } else {
     image(opskrift.billede, posX+bredde/24*17, posY-camY+højde/10, bredde/24*5, højde/10*8);
+  }
 
     stroke(71, 92, 108);
     strokeWeight(10);
