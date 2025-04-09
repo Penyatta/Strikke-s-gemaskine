@@ -69,7 +69,7 @@ class Knap {
     if (knapSkærm==skærm) {
       //Sørger for at det er det øverste venstre hjørne som knappen tegnes fra
       rectMode(CORNER);
-      noStroke();
+      skyggeImplement(posX,posY+sizeY-1,sizeX);
       //Skifter farven hvis musen er over knappen
       if (mouseOver()) {
         fill(mouseOverFarve);

@@ -66,7 +66,7 @@ void hjælpSkærmKnapper(){
 
 void skyggeImplement(float posX,float posY,float bredde){
  for(int i=1;i<skyggeAfstand+1;i++){
-   stroke(0,(skyggeAfstand-i)*50);
+   stroke(0,(skyggeAfstand-i)*30);
    strokeWeight(1);
    line(posX,posY+i,posX+bredde-1,posY+i);
  }

@@ -11,11 +11,11 @@ Knap startSkærmMitKnap;
 
 void startSkærmSetup() {
   //Tilføjer egenskaberne til kanpperne som er blevet oprettet tidligere og tilføjer dem til en array list med alle knapper i knap klassen
-  startSkærmSøgeKnap = new Knap(width/6*2-width/32, height/2, width/16, height/16, color(0), "Søg", 10, color(255, 0, 0), color(0, 255, 0), 10, startSkærm);
+  startSkærmSøgeKnap = new Knap(width/2-width/10, height/5*3-width/10, width/5, width/5, color(247, 239, 210), "Søg efter opskrifter", 10, color(71, 92, 108), color(0, 255, 0), 0, startSkærm);
   knapper.add(startSkærmSøgeKnap);
-  startSkærmOpretKnap = new Knap(width/6*3-width/32, height/2, width/16, height/16, color(0), "Opret", 10, color(255, 0, 0), color(0, 255, 0), 10, startSkærm);
+  startSkærmOpretKnap = new Knap(width/10*7, height/5*3-width/10, width/5, width/5, color(247, 239, 210), "Tilføj din egen opskrift", 10, color(71, 92, 108), color(0, 255, 0), 0, startSkærm);
   knapper.add(startSkærmOpretKnap);
-  startSkærmMitKnap = new Knap(width/6*4-width/32, height/2, width/16, height/16, color(0), "Min profil", 10, color(255, 0, 0), color(0, 255, 0), 10, startSkærm);
+  startSkærmMitKnap = new Knap(width/10, height/5*3-width/10, width/5, width/5, color(247, 239, 210), "Min profil", 10, color(71, 92, 108), color(0, 255, 0), 0, startSkærm);
   knapper.add(startSkærmMitKnap);
 }
 
