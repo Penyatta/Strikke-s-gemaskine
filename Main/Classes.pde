@@ -82,7 +82,7 @@ class Knap {
       textAlign(CENTER, CENTER);
       //Skifter farven på teksten
       fill(tekstFarve);
-      textSize(20);
+      textSize(tekstSize);
       //Skriver teksten
       text(tekst, posX+sizeX/2, posY-camY+sizeY/2);
     }
