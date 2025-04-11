@@ -1,0 +1,22 @@
+[
+  {
+    "titel": "Stribet sweater",
+    "svaerhedsgrad": "Svær",
+    "link": "https://example.com/sweater",
+    "kraevneGarn": [
+      "Uld",
+      "Bomuld"
+    ],
+    "produktType": "Trøje"
+  },
+  {
+    "titel": "Sokker",
+    "svaerhedsgrad": "Middel",
+    "link": "https://example.com/sokker",
+    "kraevneGarn": [
+      "Bomuld",
+      "Akryl"
+    ],
+    "produktType": "Sokker"
+  }
+]

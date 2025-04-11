@@ -1,3 +1,5 @@
+PImage pilTilbage;
+
 void hjælpSkærm() {
   background(255);
   overskriftBjælke("Hjælp");
@@ -6,11 +8,12 @@ void hjælpSkærm() {
 HjælpKnap hjælpKnap;
 TilbageKnap hjælpSkærmTilbageKnap;
 
-void hjælpSkærmSetup(){
+void hjælpSkærmSetup() {
+  pilTilbage=loadImage("TilbagePil.png");
   //laver knapperne
-  hjælpKnap = new HjælpKnap(width/8*7, height/9, width/8, height/8, color(247, 239, 210), "Hjælp", 60, color(205,139,98), color(0, 255, 0), 0, startSkærm);
+  hjælpKnap = new HjælpKnap(width/8*7, height/9, width/8, height/8, color(247, 239, 210), "Hjælp", 60, color(205, 139, 98), color(0, 255, 0), 0, startSkærm);
   knapper.add(hjælpKnap);
-  hjælpSkærmTilbageKnap = new TilbageKnap(width/8, height/16, width/16, height/16, color(0), "tilbage", 10, color(255, 0, 0), color(0, 255, 0), 10, hjælpSkærm);
+  hjælpSkærmTilbageKnap = new TilbageKnap(height/9-height/15, height/9-height/17, height/15*2, height/17*2, color(0), "tilbage", 10, color(205, 139, 98), color(0, 255, 0), 10, hjælpSkærm);
   knapper.add(hjælpSkærmTilbageKnap);
 }
 
@@ -27,8 +30,8 @@ class HjælpKnap extends Knap {
     rectMode(CENTER);
     noStroke();
     //tegner skyggen
-    skyggeImplement(posX-sizeX/2,posY-camY+sizeY/2,sizeX);
-    
+    skyggeImplement(posX-sizeX/2, posY-camY+sizeY/2, sizeX);
+
     //Skifter farven hvis musen er over knappen
     if (mouseOver()) {
       fill(mouseOverFarve);
@@ -36,17 +39,17 @@ class HjælpKnap extends Knap {
       fill(feltFarve);
     }
     //Tegner selve knappen
-    rect(posX, posY, sizeX, sizeY, rundhed);
+    rect(posX, posY-camY, sizeX, sizeY, rundhed);
     //Sørger for at tekst tegnes med udgangspunkt i centrum af knappen
     textAlign(CENTER, CENTER);
     //Skifter farven på teksten
     textSize(tekstSize);
     fill(tekstFarve);
     //Skriver teksten
-    text(tekst, posX, posY);
+    text(tekst, posX, posY-camY);
   }
   @Override
-  boolean mouseOver(){
+    boolean mouseOver() {
     if ((posX-sizeX/2) < mouseX && mouseX < (posX+sizeX/2) && (posY-sizeY/2) < mouseY && mouseY < (posY+sizeY/2)) {
       return(true);
     } else {
@@ -55,20 +58,20 @@ class HjælpKnap extends Knap {
   }
 }
 
-void hjælpSkærmKnapper(){
-  if(hjælpKnap.mouseOver()){
-   skærm=hjælpSkærm; 
+void hjælpSkærmKnapper() {
+  if (hjælpKnap.mouseOver()) {
+    skærm=hjælpSkærm;
   }
-  if(hjælpSkærmTilbageKnap.mouseOver()){
-  skærm=startSkærm;
+  if (hjælpSkærmTilbageKnap.mouseOver()) {
+    skærm=startSkærm;
   }
 }
 
-void skyggeImplement(float posX,float posY,float bredde){
- for(int i=1;i<skyggeAfstand+1;i++){
-   stroke(0,(skyggeAfstand-i)*30);
-   strokeWeight(1);
-   line(posX,posY+i,posX+bredde-1,posY+i);
- }
- noStroke();
+void skyggeImplement(float posX, float posY, float bredde) {
+  for (int i=1; i<skyggeAfstand+1; i++) {
+    stroke(0, (skyggeAfstand-i)*30);
+    strokeWeight(1);
+    line(posX, posY+i, posX+bredde-1, posY+i);
+  }
+  noStroke();
 }
