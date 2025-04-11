@@ -18,6 +18,25 @@ class Opskrift {
     garntyper++;
   }
   void displayOpskrift(int x, int y) {
+     fill(247, 239, 210);
+    noStroke();
+    rect(x, y, width / 2, height / 4);  // En boks til opskriften
+    
+    fill(0);
+    textFont(createFont("Arial", 16));
+    textAlign(CORNER);
+    textSize(18);
+
+    // Vis opskriftens titel, sværhedsgrad, produktType og garn
+    text(titel, x + 10, y + 20);
+    text("Sværhedsgrad: " + sværhedsgrad, x + 10, y + 50);
+    text("Produkttype: " + produktType, x + 10, y + 80);
+    text("Garn: " + String.join(", ", krævneGarn), x + 10, y + 110);  // Garn kan være flere typer
+
+    // Hvis der er et billede, vis det (hvis nødvendigt)
+    if (billede != null) {
+      image(billede, x + width / 2, y);
+    }
   }
 }
 
