@@ -19,6 +19,6 @@ void opretSkærmKnapper(){
   skærm=startSkærm;
   }
   if(opretSkærmOpretKnap.mouseOver()){
-  saveOpskrifter("opskrifter.json");
+  //saveOpskrifter("opskrifter.json");
   }
 }
