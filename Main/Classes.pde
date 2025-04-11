@@ -6,7 +6,7 @@ class Opskrift {
   String sværhedsgrad;
   String produktType;
   PImage billede;
-  Opskrift(String TITEL, String LINK, String SVÆRHEDSGRAD, String PRODUKTTYPE,PImage BILLEDE) {
+  Opskrift(String TITEL, String LINK, String SVÆRHEDSGRAD, String PRODUKTTYPE, PImage BILLEDE) {
     titel=TITEL;
     link=LINK;
     sværhedsgrad=SVÆRHEDSGRAD;
@@ -69,7 +69,7 @@ class Knap {
     if (knapSkærm==skærm) {
       //Sørger for at det er det øverste venstre hjørne som knappen tegnes fra
       rectMode(CORNER);
-      skyggeImplement(posX,posY+sizeY-1,sizeX);
+      skyggeImplement(posX, posY+sizeY-1, sizeX);
       //Skifter farven hvis musen er over knappen
       if (mouseOver()) {
         fill(mouseOverFarve);
@@ -103,31 +103,26 @@ class TilbageKnap extends Knap {
     super(POSX, POSY, SIZEX, SIZEY, TEKSTFARVE, TEKST, TEKSTSIZE, FELTFARVE, MOUSEOVERFARVE, RUNDHED, KNAPSKÆRM);
   }
   @Override
-    void tegn() {      
-      //Tegnes kun hvis knappen er på den samme skærm som brugeren er
+    void tegn() {
+    //Tegnes kun hvis knappen er på den samme skærm som brugeren er
     if (knapSkærm==skærm) {
-      
-      //dette herinde skal erstattes af en flot model til tilbage knappen
-      
       //Sørger for at det er det øverste venstre hjørne som knappen tegnes fra
+      pushMatrix();
       rectMode(CORNER);
       noStroke();
-      //Skifter farven hvis musen er over knappen
-      if (mouseOver()) {
-        fill(mouseOverFarve);
-      } else {
-        fill(feltFarve);
-      }
       //Tegner selve knappen
-      rect(posX, posY-camY, sizeX, sizeY, rundhed, rundhed, rundhed, rundhed);
-      //Sørger for at tekst tegnes med udgangspunkt i centrum af knappen
-      textAlign(CENTER, CENTER);
-      //Skifter farven på teksten
-      fill(tekstFarve);
-      //Skriver teksten
-      textSize(20);
-      text(tekst, posX+sizeX/2, posY-camY+sizeY/2);
+      translate(posX, posY);
+      fill(feltFarve);
+      noStroke();
+      beginShape();
+      vertex(height/15, 0);
+      vertex(height/15, height/17*2);
+      vertex(0, height/17);
+      endShape(CLOSE);
+      arc(height/15, height/17*2, height/15*2, height/25*4, PI/2*3, PI*2);
+      fill(71, 92, 108);
+      arc(height/15, height/17*2, height/15*2, height/31*2, PI/2*3, PI*2);
+      popMatrix();
     }
-    }
+  }
 }
-      
