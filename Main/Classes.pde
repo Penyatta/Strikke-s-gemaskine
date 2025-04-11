@@ -84,7 +84,17 @@ class Knap {
       fill(tekstFarve);
       textSize(tekstSize);
       //Skriver teksten
-      text(tekst, posX+sizeX/2, posY-camY+sizeY/2);
+      if (textWidth(tekst)>=sizeX-10) {
+        ArrayList<String> linjer = tekstSplit(tekst, sizeX - 30);
+        float linjeHøjde = tekstSize * 1.2;
+        float totalHøjde = linjer.size() * linjeHøjde;
+        float startY = posY - camY + sizeY/2 - totalHøjde/2 + linjeHøjde/2;
+        for (int i = 0; i < linjer.size(); i++) {
+          text(linjer.get(i), posX + sizeX/2, startY + i * linjeHøjde);
+        }
+      } else {
+        text(tekst, posX+sizeX/2, posY-camY+sizeY/2);
+      }
     }
   }
   //funktion der returnerer sand når musen er over knappen men ellers falsk
@@ -95,6 +105,35 @@ class Knap {
       return(false);
     }
   }
+}
+
+ArrayList<String> tekstSplit(String tekst, float maxBredde) {
+  //opretter arraylist til linjerne
+  ArrayList<String> linjer = new ArrayList<String>();
+  //laver et array med alle ordene
+  String[] ord = tekst.split(" ");
+  //opretter en string hvor linjerne kan samles i
+  String linje = "";
+  //Kører lige så mange gange osm der er ord
+  for (int i = 0; i < ord.length; i++) {
+    //laver en test linje
+    String testLinje = linje + (linje.equals("") ? "" : " ") + ord[i];
+    //tejkker om testlinjen er større end maxBredde
+    if (textWidth(testLinje) > maxBredde) {
+      //Hvis den er større end den må tilføjes den nuværende linje
+      //til arraylisten og der startes på næste linje med det nuværende ord
+      linjer.add(linje);
+      linje = ord[i];
+    } else {
+      //Hvis testlinjen er mindre end max ændres den aktuelle linje til at være lig testlinjen
+      linje = testLinje;
+    }
+  }
+  //Hvis funktionen er gået igennem alle ordene og den sidste linje ikke er tilføjet gør den det
+  if (!linje.equals("")) {
+    linjer.add(linje);
+  }
+  return linjer;
 }
 
 class TilbageKnap extends Knap {
