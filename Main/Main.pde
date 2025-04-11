@@ -57,6 +57,9 @@ void draw() {
   for (Knap k : knapper) {
     k.tegn();
   }
+  for (Textfield field : textfields) {
+    field.tegnPåSkærm();
+  }
 }
 
 void mouseDragged(){
@@ -72,4 +75,17 @@ void mousePressed(){
   hjælpSkærmKnapper();
   mitSkærmKnapper();
   opretSkærmKnapper();
+}
+
+void keyPressed(){
+ if (activeField != null) {
+    // Tjekker om det er slet man klikker på
+    if (key == BACKSPACE && activeField.tekst.length() > 0) {
+      activeField.tekst = activeField.tekst.substring(0, activeField.tekst.length() - 1);
+    }
+    // Normale tryk. Skal være normale keys, ikke backspace og ikke enter.
+    else if (key != CODED && key != BACKSPACE && key != ENTER) {
+      activeField.tekst += key;
+    }
+  } 
 }
