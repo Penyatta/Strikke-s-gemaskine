@@ -77,6 +77,7 @@ void mousePressed(){
   opretSkærmKnapper();
 }
 
+
 void keyPressed(){
  if (activeField != null) {
     // Tjekker om det er slet man klikker på
