@@ -1,5 +1,3 @@
-PImage pilTilbage;
-
 void hjælpSkærm() {
   background(255);
   overskriftBjælke("Hjælp");
@@ -9,7 +7,6 @@ HjælpKnap hjælpKnap;
 TilbageKnap hjælpSkærmTilbageKnap;
 
 void hjælpSkærmSetup() {
-  pilTilbage=loadImage("TilbagePil.png");
   //laver knapperne
   hjælpKnap = new HjælpKnap(width/8*7, height/9, width/8, height/8, color(247, 239, 210), "Hjælp", 60, color(205, 139, 98), color(0, 255, 0), 0, startSkærm);
   knapper.add(hjælpKnap);
