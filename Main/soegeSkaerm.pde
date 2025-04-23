@@ -54,7 +54,7 @@ void overskriftBjælke(String tekst) {
   fill(247, 239, 210);
   textFont(generalFont);
   textAlign(CENTER, CENTER);
-  textSize(100);
+  textSize(100*width/1920);
   text(tekst, width/2, height/9);
 }
 
