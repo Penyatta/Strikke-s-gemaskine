@@ -82,6 +82,7 @@ class Knap {
     rundhed=RUNDHED;
     knapSkærm=KNAPSKÆRM;
     mouseOverFarve=MOUSEOVERFARVE;
+    tekstSize=tekstSize*width/1920;
   }
   void tegn() {
     //Tegnes kun hvis knappen er på den samme skærm som brugeren er
