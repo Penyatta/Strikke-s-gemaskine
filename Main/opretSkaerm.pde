@@ -19,7 +19,5 @@ void opretSkærmKnapper(){
   if(opretSkærmTilbageKnap.mouseOver()){
   skærm=startSkærm;
   }
-  if(opretSkærmOpretKnap.mouseOver()){
-  saveOpskrifter("opskrifter.json");
-  }
+  
 }

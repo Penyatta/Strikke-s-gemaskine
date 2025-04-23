@@ -18,6 +18,25 @@ class Opskrift {
     garntyper++;
   }
   void displayOpskrift(int x, int y) {
+    fill(247, 239, 210);
+    noStroke();
+    rect(x, y, width / 2, height / 4);  // En boks til opskriften
+
+    fill(0);
+    textFont(createFont("Arial", 16));
+    textAlign(CORNER);
+    textSize(18);
+
+    // Vis opskriftens titel, sværhedsgrad, produktType og garn
+    text(titel, x + 10, y + 20);
+    text("Sværhedsgrad: " + sværhedsgrad, x + 10, y + 50);
+    text("Produkttype: " + produktType, x + 10, y + 80);
+    text("Garn: " + String.join(", ", krævneGarn), x + 10, y + 110);  // Garn kan være flere typer
+
+    // Hvis der er et billede, vis det (hvis nødvendigt)
+    if (billede != null) {
+      image(billede, x + width / 2, y);
+    }
   }
 }
 
@@ -77,7 +96,11 @@ class Knap {
         fill(feltFarve);
       }
       //Tegner selve knappen
-      rect(posX, posY-camY, sizeX, sizeY, rundhed);
+      if (knapSkærm==søgeSkærm) {
+        rect(posX, posY-camY, sizeX, sizeY, rundhed);
+      } else {
+        rect(posX, posY, sizeX, sizeY, rundhed);
+      }
       //Sørger for at tekst tegnes med udgangspunkt i centrum af knappen
       textAlign(CENTER, CENTER);
       //Skifter farven på teksten
@@ -90,10 +113,18 @@ class Knap {
         float totalHøjde = linjer.size() * linjeHøjde;
         float startY = posY - camY + sizeY/2 - totalHøjde/2 + linjeHøjde/2;
         for (int i = 0; i < linjer.size(); i++) {
+          if (knapSkærm==søgeSkærm) {
           text(linjer.get(i), posX + sizeX/2, startY + i * linjeHøjde);
+        } else {
+          text(linjer.get(i), posX + sizeX/2, startY +camY + i * linjeHøjde);
+        }
         }
       } else {
-        text(tekst, posX+sizeX/2, posY-camY+sizeY/2);
+        if (knapSkærm==søgeSkærm) {
+          text(tekst, posX+sizeX/2, posY-camY+sizeY/2);
+        } else {
+          text(tekst, posX+sizeX/2, posY+sizeY/2);
+        }
       }
     }
   }
@@ -168,9 +199,9 @@ class TilbageKnap extends Knap {
 
 /*
 Den følgende klasse er lavet af Noah Magnus Thomsen
-Vi har fået lov til at bruge koden under en verbal aftale
-https://github.com/NuddiGaming/Space-education
-*/
+ Vi har fået lov til at bruge koden under en verbal aftale
+ https://github.com/NuddiGaming/Space-education
+ */
 ArrayList<Textfield> textfields = new ArrayList<Textfield>();
 Textfield activeField = null; // Holder styr på hvilket felt der er aktivt
 

@@ -27,7 +27,7 @@ class HjælpKnap extends Knap {
     rectMode(CENTER);
     noStroke();
     //tegner skyggen
-    skyggeImplement(posX-sizeX/2, posY-camY+sizeY/2, sizeX);
+    skyggeImplement(posX-sizeX/2, posY+sizeY/2, sizeX);
 
     //Skifter farven hvis musen er over knappen
     if (mouseOver()) {
@@ -36,14 +36,14 @@ class HjælpKnap extends Knap {
       fill(feltFarve);
     }
     //Tegner selve knappen
-    rect(posX, posY-camY, sizeX, sizeY, rundhed);
+    rect(posX, posY, sizeX, sizeY, rundhed);
     //Sørger for at tekst tegnes med udgangspunkt i centrum af knappen
     textAlign(CENTER, CENTER);
     //Skifter farven på teksten
     textSize(tekstSize);
     fill(tekstFarve);
     //Skriver teksten
-    text(tekst, posX, posY-camY);
+    text(tekst, posX, posY);
   }
   @Override
     boolean mouseOver() {
