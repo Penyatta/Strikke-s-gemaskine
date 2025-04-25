@@ -41,21 +41,22 @@ void setup() {
 }
 void draw() {
   background(100);
-  //fordeling på statemachine, hvis skærm værdi er lig en specifik skærm er det den som skal vises
-  if (skærm==startSkærm) {
+  // Skærmfordeling via state machine
+  if (skærm == startSkærm) {
     startSkærm();
-  } else if (skærm==søgeSkærm) {
+  } else if (skærm == søgeSkærm) {
     søgeSkærm();
-  } else if (skærm==mitSkærm) {
+  } else if (skærm == mitSkærm) {
     mitSkærm();
-  } else if (skærm==opretSkærm) {
+  } else if (skærm == opretSkærm) {
     opretSkærm();
-  } else if (skærm==hjælpSkærm) {
+  } else if (skærm == hjælpSkærm) {
     hjælpSkærm();
   } else {
-    //Hvis det ikke er en valid værdi for skærm ender programmet her og der printes en fejl til konsollen
     println("error - skærm ikke defineret rigtigt");
+
   }
+
   //tegner knapper
   for (Knap k : knapper) {
     k.tegn();
@@ -118,8 +119,8 @@ void mouseWheel(MouseEvent event) {
   }
 }
 
-void keyPressed(){
- if (activeField != null) {
+void keyPressed() {
+  if (activeField != null) {
     // Tjekker om det er slet man klikker på
     if (key == BACKSPACE && activeField.tekst.length() > 0) {
       activeField.tekst = activeField.tekst.substring(0, activeField.tekst.length() - 1);
@@ -128,5 +129,5 @@ void keyPressed(){
     else if (key != CODED && key != BACKSPACE && key != ENTER) {
       activeField.tekst += key;
     }
-  } 
+  }
 }
