@@ -31,10 +31,24 @@ void søgeSkærm() {
   rect(580*width/1440,150*width/1440,18*width/1440,780*width/1440);
 
   overskriftBjælke("Søg efter opskrifter");
+  sværhedsgradsGroup.tegnAlle();
 }
 
+SwitchGroup sværhedsgradsGroup;
+
 void søgeSkærmSetup() {
-  // Create the back button for search screen
+  sværhedsgradsGroup = new SwitchGroup();
+  
+  // Laver alle switchesne
+  Switch begynderSwitch = new Switch((580*width/1440)/4, height/3, 30, "Let", false);
+  Switch øvetSwitch = new Switch((580*width/1440)/2, height/3, 30, "Mellem", false);
+  Switch ekspertSwitch = new Switch((580*width/1440)/4*3, height/3, 30, "Svær", false);
+  
+  // Tilføjer alle switchesne til en gruppe
+  sværhedsgradsGroup.addSwitch(begynderSwitch);
+  sværhedsgradsGroup.addSwitch(øvetSwitch);
+  sværhedsgradsGroup.addSwitch(ekspertSwitch);
+  // Laver tilbageknappen til søgeskærmen
   søgeSkærmTilbageKnap = new TilbageKnap(height/9-height/15, height/9-height/17, height/15*2, height/17*2, color(0), "tilbage", 10, color(205, 139, 98), color(0, 255, 0), 10, søgeSkærm);
   knapper.add(søgeSkærmTilbageKnap);
   søgeSkærmSøgKnap = new Knap(493*width/1440, height/9*2+height/40, 67*width/1440, 67*height/982, color(71, 92, 108), "Søg", 30, color(247, 239, 210), color(247, 239, 210), 0, søgeSkærm);
@@ -51,6 +65,7 @@ void søgeSkærmKnapper() {
     // Reset scroll position when leaving the screen
     camY = 0;
   }
+  sværhedsgradsGroup.checkMouse();
 }
 
 void overskriftBjælke(String tekst) {

@@ -256,7 +256,7 @@ class Textfield {
         line(posX, posY+i+sizeY-1, posX+sizeX-1, posY+i+sizeY-1);
       }
       noStroke();
-      
+
       //skyggeImplement(posX, posY+sizeY-1, sizeX, true);
       textAlign(CORNER, CENTER);
       fill(tekstFarve);
@@ -305,5 +305,150 @@ class Textfield {
   // Deactivate funktion
   void deactivate() {
     active = false;
+  }
+}
+
+class Switch {
+  float posX, posY;
+  float diameter;
+  String titel;
+  boolean tændt;
+
+  Switch(float posX, float posY, float diameter, String titel, boolean initialState) {
+    this.posX = posX;
+    this.posY = posY;
+    this.diameter = diameter;
+    this.titel = titel;
+    this.tændt = initialState;
+  }
+
+  void tegn() {
+    //Skriver titlen
+    fill(71, 92, 108);
+    textAlign(CENTER, BOTTOM);
+    textSize(20*width/1440);
+    text(titel, posX, posY - diameter/2);
+
+    // Tegner knappen
+    if (tændt) {
+      // Fyldt cirkel når tændt
+      fill(71, 92, 108);
+      ellipse(posX, posY, diameter, diameter);
+    } else {
+      // Hul cirkel når slået fra
+      fill(255); // Hvis baggrund
+      stroke(71, 92, 108);
+      strokeWeight(2);
+      ellipse(posX, posY, diameter, diameter);
+      noStroke();
+    }
+  }
+
+  boolean mouseOver() {
+    // Check if mouse is over the switch
+    float distance = dist(mouseX, mouseY, posX, posY);
+    return distance <= diameter/2;
+  }
+
+  void setState(boolean state) {
+    tændt = state;
+  }
+
+  boolean getState() {
+    return tændt;
+  }
+
+  String getTitel() {
+    return titel;
+  }
+}
+
+// Klasse til at holde styr på flere switches
+class SwitchGroup {
+  ArrayList<Switch> switches;
+  int selectedIndex = -1; // Index på den valgte switch
+
+  SwitchGroup() {
+    switches = new ArrayList<Switch>();
+  }
+
+  void addSwitch(Switch newSwitch) {
+    switches.add(newSwitch);
+
+    // Hvis det er den første switch og den er tændt sæt den som den valgte switch
+    if (switches.size() == 1 && newSwitch.getState()) {
+      selectedIndex = 0;
+    }
+    // Hvis denne er tændt sørg for at alle de andre ikke er
+    else if (newSwitch.getState()) {
+      selectSwitch(switches.size() - 1);
+    }
+  }
+
+  void tegnAlle() {
+    for (Switch s : switches) {
+      s.tegn();
+    }
+  }
+
+  void checkMouse() {
+    for (int i = 0; i < switches.size(); i++) {
+      Switch s = switches.get(i);
+      if (s.mouseOver()) {
+        // Hvis denne er tændt sluk den
+        if (s.getState()) {
+          s.setState(false);
+          selectedIndex = -1; // ingen switch valgt
+        }
+        // hvis den some er trykket på er slukket
+        else {
+          // Sluk alle switches
+          for (Switch sw : switches) {
+            sw.setState(false);
+          }
+
+          // Tænd denne switch
+          s.setState(true);
+          selectedIndex = i;
+        }
+        break; // Slut efter den rigtige knap er blevet fundet og behandlet
+      }
+    }
+  }
+
+  // Vælg en switch efter index og sæt alle andre til slukket
+  void selectSwitch(int index) {
+    if (index >= 0 && index < switches.size()) {
+      // Slukker alle switches
+      for (Switch s : switches) {
+        s.setState(false);
+      }
+
+      // Tænder for den valgte switch
+      switches.get(index).setState(true);
+      selectedIndex = index;
+    }
+  }
+
+  // Skaffer den valgte Switch
+  Switch getSelectedSwitch() {
+    if (selectedIndex >= 0 && selectedIndex < switches.size()) {
+      return switches.get(selectedIndex);
+    }
+    return null;
+  }
+
+  // Skaf titlen på den valgte switch
+  String getSelectedTitle() {
+    Switch selected = getSelectedSwitch();
+    if (selected != null) {
+      return selected.getTitel();
+    }
+    return "";
+  }
+
+  // Get the index of the selected switch
+  int getSelectedIndex() {
+    return selectedIndex;
   }
 }
