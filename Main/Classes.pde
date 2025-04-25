@@ -327,18 +327,20 @@ class Switch {
     fill(71, 92, 108);
     textAlign(CENTER, BOTTOM);
     textSize(20*width/1440);
-    text(titel, posX, posY - diameter/2);
+    text(titel, posX, posY + diameter/2*3);
 
     // Tegner knappen
     if (tændt) {
       // Fyldt cirkel når tændt
       fill(71, 92, 108);
+      stroke(71, 92, 108);
+      strokeWeight(4);
       ellipse(posX, posY, diameter, diameter);
     } else {
       // Hul cirkel når slået fra
-      fill(255); // Hvis baggrund
+      fill(255); // Hvid baggrund
       stroke(71, 92, 108);
-      strokeWeight(2);
+      strokeWeight(4);
       ellipse(posX, posY, diameter, diameter);
       noStroke();
     }
