@@ -82,8 +82,8 @@ void hentOpskrifterFraServer(String kilde) {
 void displayOpskrifter(Opskrift opskrifter[]) {
   //Værdier der bestemmer position og størrelse af viste opskrifter
   float posY = height/5*2;
-  float posX = width/7*3;
-  float bredde = width/2;
+  float posX = 653*width/1440;
+  float bredde = width/31*16;
   float højde = height/4;
   float spacing = height/32;
   strokeCap(SQUARE);
@@ -97,6 +97,7 @@ void displayOpskrifter(Opskrift opskrifter[]) {
       //tegner selve kassen
       fill(247, 239, 210);
       rect(posX, posY - camY, bredde, højde);
+      skyggeImplement(posX, posY-camY+højde-1, bredde,true);
       
       //skriver titlen
       fill(0);

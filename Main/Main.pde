@@ -98,28 +98,44 @@ void mousePressed() {
   hjælpSkærmKnapper();
   mitSkærmKnapper();
   opretSkærmKnapper();
+  
+  for (Textfield field : textfields) {
+    if (field.mouseOver()) {
+      if (activeField != null) {
+        activeField.deactivate(); // Deactivater alle felter hvis 'activeField' ikke er sat
+      }
+      field.activate(); // Activater det field man klikker på
+      return;
+    }
+  }
+  if (activeField != null) {
+    activeField.deactivate();
+    activeField = null;
+  }
 }
 
 void mouseWheel(MouseEvent event) {
-  // Using mouse wheel for scrolling (positive = scroll down, negative = scroll up)
-  float e = event.getCount();
+  if (skærm == søgeSkærm || skærm == opretSkærm) {
+    // Using mouse wheel for scrolling (positive = scroll down, negative = scroll up)
+    float e = event.getCount();
 
-  // Update camY based on mouse wheel direction, constrained to prevent over-scrolling
-  camY += e * scrollSpeed;
+    // Update camY based on mouse wheel direction, constrained to prevent over-scrolling
+    camY += e * scrollSpeed;
 
-  // Prevent scrolling above the top
-  if (camY < 0) {
-    camY = 0;
-  }
+    // Prevent scrolling above the top
+    if (camY < 0) {
+      camY = 0;
+    }
 
-  // Prevent scrolling too far down (adjust maxScroll based on your content)
-  if (camY > maxScroll) {
-    camY = maxScroll;
+    // Prevent scrolling too far down (adjust maxScroll based on your content)
+    if (camY > maxScroll) {
+      camY = maxScroll;
+    }
   }
 }
 
-void keyPressed(){
- if (activeField != null) {
+void keyPressed() {
+  if (activeField != null) {
     // Tjekker om det er slet man klikker på
     if (key == BACKSPACE && activeField.tekst.length() > 0) {
       activeField.tekst = activeField.tekst.substring(0, activeField.tekst.length() - 1);
@@ -128,5 +144,5 @@ void keyPressed(){
     else if (key != CODED && key != BACKSPACE && key != ENTER) {
       activeField.tekst += key;
     }
-  } 
+  }
 }

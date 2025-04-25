@@ -89,7 +89,11 @@ class Knap {
     if (knapSkærm==skærm) {
       //Sørger for at det er det øverste venstre hjørne som knappen tegnes fra
       rectMode(CORNER);
-      skyggeImplement(posX, posY+sizeY-1, sizeX);
+      if (knapSkærm==søgeSkærm) {
+        skyggeImplement(posX, posY+sizeY-1, sizeX, true);
+      } else {
+        skyggeImplement(posX, posY+sizeY-1, sizeX, false);
+      }
       //Skifter farven hvis musen er over knappen
       if (mouseOver()) {
         fill(mouseOverFarve);
@@ -108,17 +112,17 @@ class Knap {
       fill(tekstFarve);
       textSize(tekstSize);
       //Skriver teksten
-      if (textWidth(tekst)>=sizeX-10) {
-        ArrayList<String> linjer = tekstSplit(tekst, sizeX - 30);
+      if (textWidth(tekst)>=sizeX-10*width/1440) {
+        ArrayList<String> linjer = tekstSplit(tekst, sizeX - 30*width/1440);
         float linjeHøjde = tekstSize * 1.2;
         float totalHøjde = linjer.size() * linjeHøjde;
         float startY = posY - camY + sizeY/2 - totalHøjde/2 + linjeHøjde/2;
         for (int i = 0; i < linjer.size(); i++) {
           if (knapSkærm==søgeSkærm) {
-          text(linjer.get(i), posX + sizeX/2, startY + i * linjeHøjde);
-        } else {
-          text(linjer.get(i), posX + sizeX/2, startY +camY + i * linjeHøjde);
-        }
+            text(linjer.get(i), posX + sizeX/2, startY + i * linjeHøjde);
+          } else {
+            text(linjer.get(i), posX + sizeX/2, startY +camY + i * linjeHøjde);
+          }
         }
       } else {
         if (knapSkærm==søgeSkærm) {
@@ -212,6 +216,8 @@ class Textfield {
   int tekstSize, textfieldSkærm;
   String startTekst, tekst;
   boolean active;
+  boolean cursor=false;
+  int timer=0;
 
   Textfield(float posX, float posY, float sizeX, float sizeY, color tekstFarve, color activeFarve, color outlineFarve,
     color baggrundsFarve, int tekstSize, String startTekst, String tekst, float rundhed, int textfieldSkærm, boolean active) {
@@ -231,36 +237,6 @@ class Textfield {
     this.active = active;
     textfields.add(this);
   }
-
-  void tegn() {
-    if (textfieldSkærm == skærm) { // Tjekker skærm
-      rectMode(CORNER);
-      // Sætte den rigtige farve ud fra om det er active
-      if (active) {
-        fill(activeFarve);
-      } else {
-        fill(baggrundsFarve);
-      }
-      stroke(outlineFarve);
-      rect(posX, posY-camY, sizeX, sizeY, rundhed);
-      textAlign(CENTER, CENTER);
-      fill(tekstFarve);
-      textSize(tekstSize);
-      // Teksten som står i feltet
-      String displayedText;
-      if (active) {
-        displayedText = tekst;
-      } else {
-        if (tekst.isEmpty()) {
-          displayedText = startTekst;
-        } else {
-          displayedText = tekst;
-        }
-      }
-      text(displayedText, posX + sizeX / 2, posY-camY + sizeY / 2);
-    }
-  }
-
   void tegnPåSkærm() {
     pushMatrix();
     resetMatrix();
@@ -272,9 +248,17 @@ class Textfield {
       } else {
         fill(baggrundsFarve);
       }
-      stroke(outlineFarve);
+      noStroke();
       rect(posX, posY, sizeX, sizeY, rundhed);
-      textAlign(CENTER, CENTER);
+      for (int i=1; i<skyggeAfstand+1; i++) {
+        stroke(0, (skyggeAfstand-i)*7.5);
+        strokeWeight(1);
+        line(posX, posY+i+sizeY-1, posX+sizeX-1, posY+i+sizeY-1);
+      }
+      noStroke();
+      
+      //skyggeImplement(posX, posY+sizeY-1, sizeX, true);
+      textAlign(CORNER, CENTER);
       fill(tekstFarve);
       textSize(tekstSize);
       // Teksten som står i feltet
@@ -288,7 +272,21 @@ class Textfield {
           displayedText = tekst;
         }
       }
-      text(displayedText, posX + sizeX / 2, posY + sizeY / 2);
+      float maxTextWidth = sizeX - width/100 * 2;
+      while (textWidth(displayedText) > maxTextWidth && displayedText.length() > 0) {
+        displayedText = displayedText.substring(1);
+      }
+      text(displayedText, posX + width/100, posY + sizeY / 2);
+      if (active) {
+        timer++;
+        if (timer>60) {
+          cursor=!cursor;
+          timer=0;
+        }
+        if (cursor) {
+          rect(posX+width/100+textWidth(displayedText)+2, posY+sizeY/2-tekstSize/2, 2, tekstSize);
+        }
+      }
     }
     popMatrix();
   }

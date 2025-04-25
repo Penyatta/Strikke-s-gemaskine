@@ -27,7 +27,7 @@ class HjælpKnap extends Knap {
     rectMode(CENTER);
     noStroke();
     //tegner skyggen
-    skyggeImplement(posX-sizeX/2, posY+sizeY/2, sizeX);
+    skyggeImplement(posX-sizeX/2, posY+sizeY/2, sizeX,false);
 
     //Skifter farven hvis musen er over knappen
     if (mouseOver()) {
@@ -64,9 +64,13 @@ void hjælpSkærmKnapper() {
   }
 }
 
-void skyggeImplement(float posX, float posY, float bredde) {
+void skyggeImplement(float posX, float posY, float bredde,boolean lysBaggrund) {
   for (int i=1; i<skyggeAfstand+1; i++) {
+    if(lysBaggrund){
+      stroke(0, (skyggeAfstand-i)*15);
+    } else{
     stroke(0, (skyggeAfstand-i)*30);
+    }
     strokeWeight(1);
     line(posX, posY+i, posX+bredde-1, posY+i);
   }
