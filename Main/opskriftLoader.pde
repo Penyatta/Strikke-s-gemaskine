@@ -11,7 +11,7 @@ void hentOpskrifterFraServer(String kilde) {
   if (kilde.equals("søg")) {
     url = "http://localhost:3000/searchOpskrifter";  // URL til søgning
   } else {
-    url = "http://10.194.168.175:3000/opskrifter";  // Standard URL til hovedskærm
+    url = "http://https://server-3-clwu.onrender.com/opskrifter";  // Standard URL til hovedskærm
   }
 
   // Udfør GET anmodning

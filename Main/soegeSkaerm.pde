@@ -61,7 +61,7 @@ void overskriftBjælke(String tekst) {
 void hentOpskrifterFraServer() {
   opskrifter.clear();  // Tømmer eksisterende opskrifter, før vi henter nye
 
-  GetRequest get = new GetRequest("http://10.194.168.175:3000/opskrifter");
+  GetRequest get = new GetRequest("https://server-3-clwu.onrender.com/opskrifter");
   get.send();
 
   String json = get.getContent();
