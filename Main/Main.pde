@@ -1,4 +1,5 @@
 
+
 //Library til at lave tekstfelter
 import controlP5.*;
 ControlP5 cp5;
@@ -41,21 +42,22 @@ void setup() {
 }
 void draw() {
   background(100);
-  //fordeling på statemachine, hvis skærm værdi er lig en specifik skærm er det den som skal vises
-  if (skærm==startSkærm) {
+  // Skærmfordeling via state machine
+  if (skærm == startSkærm) {
     startSkærm();
-  } else if (skærm==søgeSkærm) {
+  } else if (skærm == søgeSkærm) {
     søgeSkærm();
-  } else if (skærm==mitSkærm) {
+  } else if (skærm == mitSkærm) {
     mitSkærm();
-  } else if (skærm==opretSkærm) {
+  } else if (skærm == opretSkærm) {
     opretSkærm();
-  } else if (skærm==hjælpSkærm) {
+  } else if (skærm == hjælpSkærm) {
     hjælpSkærm();
   } else {
-    //Hvis det ikke er en valid værdi for skærm ender programmet her og der printes en fejl til konsollen
     println("error - skærm ikke defineret rigtigt");
+
   }
+
   //tegner knapper
   for (Knap k : knapper) {
     k.tegn();
