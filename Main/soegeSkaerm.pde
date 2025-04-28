@@ -6,7 +6,6 @@ Knap søgeSkærmSøgKnap;
 
 void søgeSkærm() {
   background(255);
- 
 
   // Tjek om opskrifter er tomt
   if (!opskrifter.isEmpty()) {
