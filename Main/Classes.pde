@@ -454,3 +454,143 @@ class SwitchGroup {
     return selectedIndex;
   }
 }
+
+// Simple dropdown class
+class Dropdown {
+  float posX, posY, sizeX, sizeY;
+  String[] options;
+  String placeholder;
+  int selectedIndex = -1;
+  boolean isOpen = false;
+  int dropdownScreen;
+  int dropdownIndex; // To keep track of which dropdown this is
+  
+  Dropdown(float posX, float posY, float sizeX, float sizeY, String[] options, String placeholder, int dropdownScreen, int dropdownIndex) {
+    this.posX = posX;
+    this.posY = posY;
+    this.sizeX = sizeX;
+    this.sizeY = sizeY;
+    this.options = options;
+    this.placeholder = placeholder;
+    this.dropdownScreen = dropdownScreen;
+    this.dropdownIndex = dropdownIndex;
+  }
+  
+  void tegn() {
+    if (dropdownScreen == skærm) {
+      // Draw main dropdown box
+      rectMode(CORNER);
+      noStroke();
+      
+      // Draw shadow
+      skyggeImplement(posX, posY + sizeY - 1, sizeX, true);
+      
+      // Draw main box
+      if (mouseOverMain()) {
+        fill(220, 180, 150); // Hover color
+      } else {
+        fill(247, 239, 210); // Normal color
+      }
+      rect(posX, posY, sizeX, sizeY);
+      
+      // Draw dropdown text
+      fill(71, 92, 108);
+      textAlign(LEFT, CENTER);
+      textSize(20);
+      
+      String displayText = selectedIndex >= 0 ? options[selectedIndex] : placeholder;
+      text(displayText, posX + 15, posY + sizeY/2);
+      
+      // Draw dropdown arrow
+      fill(247, 239, 210);
+      triangle(
+        posX + sizeX - 30, posY + sizeY/3,
+        posX + sizeX - 15, posY + sizeY/3,
+        posX + sizeX - 22.5, posY + sizeY*2/3
+      );
+      
+      // Draw dropdown options if open
+      if (isOpen) {
+        for (int i = 0; i < options.length; i++) {
+          float optionY = posY + sizeY + i * sizeY;
+          
+          // Draw option background
+          if (mouseOverOption(i)) {
+            fill(220, 180, 150); // Hover color
+          } else {
+            fill(247, 239, 210); // Normal color
+          }
+          rect(posX, optionY, sizeX, sizeY);
+          
+          // Draw option text
+          fill(71, 92, 108);
+          textAlign(LEFT, CENTER);
+          text(options[i], posX + 15, optionY + sizeY/2);
+        }
+        
+        // Draw shadow for the dropdown container
+        skyggeImplement(posX, posY + sizeY + options.length * sizeY - 1, sizeX, true);
+      }
+    }
+  }
+  
+  boolean mouseOverMain() {
+    return mouseX > posX && mouseX < posX + sizeX && 
+           mouseY > posY && mouseY < posY + sizeY &&
+           dropdownScreen == skærm;
+  }
+  
+  boolean mouseOverOption(int index) {
+    float optionY = posY + sizeY + index * sizeY;
+    return mouseX > posX && mouseX < posX + sizeX && 
+           mouseY > optionY && mouseY < optionY + sizeY &&
+           dropdownScreen == skærm;
+  }
+  
+  void checkMouse() {
+    if (mouseOverMain()) {
+      // Close all other dropdowns before opening this one
+      for (int i = 0; i < garnDropdowns.size(); i++) {
+        Dropdown dropdown = garnDropdowns.get(i);
+        if (dropdown != this) {
+          dropdown.isOpen = false;
+        }
+      }
+      isOpen = !isOpen;
+    } else if (isOpen) {
+      for (int i = 0; i < options.length; i++) {
+        if (mouseOverOption(i)) {
+          // Only update if selecting a different option
+          if (selectedIndex != i) {
+            selectedIndex = i;
+            
+            // Check if we need to add a new dropdown
+            checkAddNewDropdown();
+          }
+          
+          isOpen = false;
+          break;
+        }
+      }
+      
+      // Close dropdown if clicked outside
+      if (!mouseOverOptionsArea()) {
+        isOpen = false;
+      }
+    }
+  }
+  
+  boolean mouseOverOptionsArea() {
+    return mouseX > posX && mouseX < posX + sizeX && 
+           mouseY > posY && mouseY < posY + sizeY + (isOpen ? options.length * sizeY : 0) &&
+           dropdownScreen == skærm;
+  }
+  
+  int getSelectedIndex() {
+    return selectedIndex;
+  }
+  
+  String getSelectedOption() {
+    return selectedIndex >= 0 ? options[selectedIndex] : "";
+  }
+}
