@@ -28,14 +28,15 @@ void setup() {
   fullScreen();
   cp5=new ControlP5(this);
   //funktioner der kører de dele der kræves i setup for hver skærm
+  generalFont=createFont("InriaSerif-Regular.ttf", 32);
+  boldFont=createFont("InriaSerif-Bold.ttf", 32);
   startSkærmSetup();
   hjælpSkærmSetup();
   søgeSkærmSetup();
   mitSkærmSetup();
   opretSkærmSetup();
   //loadOpskrifter("opskrifter.json");
-  generalFont=createFont("InriaSerif-Regular.ttf", 32);
-  boldFont=createFont("InriaSerif-Bold.ttf", 32);
+  
   // Initialize lastY for drag scrolling
   lastMouseY = mouseY; // Initialize lastMouseY
 }

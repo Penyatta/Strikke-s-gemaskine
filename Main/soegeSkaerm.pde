@@ -32,12 +32,14 @@ void søgeSkærm() {
 
   overskriftBjælke("Søg efter opskrifter");
   
-  textSize(30*width/1440);
+  textSize(40*width/1440);
   fill(71, 92, 108);
   textAlign(CORNER,CORNER);
-  text("Sværhedsgrad",105*width/1440,425*height/982);
-  text("Produkttype",105*width/1440,563*height/982);
-  text("Søg udfra mit garn",105*width/1440,814*height/982);
+  text("Filtrer - kryds af",45*width/1440,370*height/982);
+  textSize(30*width/1440);
+  text("Sværhedsgrad",45*width/1440,425*height/982);
+  text("Produkttype",45*width/1440,563*height/982);
+  text("Søg udfra mit garn",45*width/1440,814*height/982);
   
   sværhedsgradsGroup.tegnAlle();
   produktTypeGroup.tegnAlle();
@@ -64,20 +66,28 @@ void søgeSkærmSetup() {
   sværhedsgradsGroup.addSwitch(ekspertSwitch);
   
   // Laver alle switchesne
-  Switch sweaterSwitch = new Switch((580*width/1440)/4, 607*height/982, 30*width/1440, "Sweater", false);
-  Switch cardiganSwitch = new Switch((580*width/1440)/2, 607*height/982, 30*width/1440, "Cardigan", false);
-  Switch hueSwitch = new Switch((580*width/1440)/4*3, 607*height/982, 30*width/1440, "Hue", false);
+  Switch sweatersSwitch = new Switch((580*width/1440)/4, 607*height/982, 30*width/1440, "Sweaters", false);
+  Switch cardigansSwitch = new Switch((580*width/1440)/2, 607*height/982, 30*width/1440, "Cardigans", false);
+  Switch huerSwitch = new Switch((580*width/1440)/4*3, 607*height/982, 30*width/1440, "Huer", false);
   Switch vanterSwitch = new Switch((580*width/1440)/4, 698*height/982, 30*width/1440, "Vanter", false);
-  Switch vestSwitch = new Switch((580*width/1440)/2, 698*height/982, 30*width/1440, "Vest", false);
-  Switch topSwitch = new Switch((580*width/1440)/4*3, 698*height/982, 30*width/1440, "Top", false);
+  Switch vesteSwitch = new Switch((580*width/1440)/2, 698*height/982, 30*width/1440, "Veste", false);
+  Switch toppeSwitch = new Switch((580*width/1440)/4*3, 698*height/982, 30*width/1440, "Toppe", false);
+  Switch halstørklæderSwitch = new Switch((580*width/1440)/4*3, 607*height/982, 30*width/1440, "Halstørklæder", false);
+  Switch tæpperSwitch = new Switch((580*width/1440)/4, 698*height/982, 30*width/1440, "Tæpper", false);
+  Switch karkludeSwitch = new Switch((580*width/1440)/2, 698*height/982, 30*width/1440, "Karklude", false);
+  Switch kjolerSwitch = new Switch((580*width/1440)/4*3, 698*height/982, 30*width/1440, "Kjoler", false);
   
   // Tilføjer alle switchesne til en gruppe
-  produktTypeGroup.addSwitch(sweaterSwitch);
-  produktTypeGroup.addSwitch(cardiganSwitch);
-  produktTypeGroup.addSwitch(hueSwitch);
+  produktTypeGroup.addSwitch(sweatersSwitch);
+  produktTypeGroup.addSwitch(cardigansSwitch);
+  produktTypeGroup.addSwitch(huerSwitch);
   produktTypeGroup.addSwitch(vanterSwitch);
-  produktTypeGroup.addSwitch(vestSwitch);
-  produktTypeGroup.addSwitch(topSwitch);
+  produktTypeGroup.addSwitch(vesteSwitch);
+  produktTypeGroup.addSwitch(toppeSwitch);
+   produktTypeGroup.addSwitch(halstørklæderSwitch);
+  produktTypeGroup.addSwitch(tæpperSwitch);
+  produktTypeGroup.addSwitch(karkludeSwitch);
+  produktTypeGroup.addSwitch(kjolerSwitch);
   
   Switch jaSwitch = new Switch((580*width/1440)/4, 845*height/982, 30*width/1440, "Ja", false);
   udfraGarnGroup.addSwitch(jaSwitch);
@@ -85,9 +95,12 @@ void søgeSkærmSetup() {
   // Laver tilbageknappen til søgeskærmen
   søgeSkærmTilbageKnap = new TilbageKnap(height/9-height/15, height/9-height/17, height/15*2, height/17*2, color(0), "tilbage", 10, color(205, 139, 98), color(0, 255, 0), 10, søgeSkærm);
   knapper.add(søgeSkærmTilbageKnap);
+  
+  //laver søgefeltknappen til søgeskærmen
   søgeSkærmSøgKnap = new Knap(493*width/1440, height/9*2+height/40, 67*width/1440, 67*height/982, color(71, 92, 108), "Søg", 30, color(247, 239, 210), color(247, 239, 210), 0, søgeSkærm);
   knapper.add(søgeSkærmSøgKnap);
   textfields.add(new Textfield(35*width/1440, height/9*2+height/40, 440*width/1440, 67*height/982, color(71, 92, 108), color(247, 239, 210), color(247, 239, 210), color(247, 239, 210), 30*width/1440, "Søgefelt", "", 0, søgeSkærm,false));
+  
   // Load recipes from server if using server functionality
   // You can comment this out if you're not using the server feature
   //hentOpskrifterFraServer();
