@@ -102,7 +102,7 @@ class Knap {
       }
       //Tegner selve knappen
       if (knapSkærm==søgeSkærm) {
-        rect(posX, posY-camY, sizeX, sizeY, rundhed);
+        rect(posX, posY, sizeX, sizeY, rundhed);
       } else {
         rect(posX, posY, sizeX, sizeY, rundhed);
       }
@@ -121,12 +121,12 @@ class Knap {
           if (knapSkærm==søgeSkærm) {
             text(linjer.get(i), posX + sizeX/2, startY + i * linjeHøjde);
           } else {
-            text(linjer.get(i), posX + sizeX/2, startY +camY + i * linjeHøjde);
+            text(linjer.get(i), posX + sizeX/2, startY + i * linjeHøjde);
           }
         }
       } else {
         if (knapSkærm==søgeSkærm) {
-          text(tekst, posX+sizeX/2, posY-camY+sizeY/2);
+          text(tekst, posX+sizeX/2, posY+sizeY/2);
         } else {
           text(tekst, posX+sizeX/2, posY+sizeY/2);
         }
