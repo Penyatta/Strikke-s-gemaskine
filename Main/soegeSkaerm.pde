@@ -50,6 +50,9 @@ SwitchGroup produktTypeGroup;
 SwitchGroup udfraGarnGroup;
 
 void søgeSkærmSetup() {
+  
+  hentOpskrifterFraServer();
+
   sværhedsgradsGroup = new SwitchGroup();
   produktTypeGroup =new SwitchGroup();
   udfraGarnGroup = new SwitchGroup();
@@ -100,9 +103,7 @@ void søgeSkærmSetup() {
   knapper.add(søgeSkærmSøgKnap);
   textfields.add(new Textfield(35*width/1440, height/9*2+height/40, 440*width/1440, 67*height/982, color(71, 92, 108), color(247, 239, 210), color(247, 239, 210), color(247, 239, 210), 30*width/1440, "Søgefelt", "", 0, søgeSkærm,false));
   
-  // Load recipes from server if using server functionality
-  // You can comment this out if you're not using the server feature
-  //hentOpskrifterFraServer();
+ 
 }
 
 void søgeSkærmKnapper() {
@@ -130,7 +131,7 @@ void overskriftBjælke(String tekst) {
 void hentOpskrifterFraServer() {
   opskrifter.clear();  // Tømmer eksisterende opskrifter, før vi henter nye
 
-  GetRequest get = new GetRequest("https://server-kopi.onrender.com/opskrifter");
+  GetRequest get = new GetRequest("http://server-kopi.onrender.com/opskrifter");
   get.send();
 
   String json = get.getContent();
@@ -150,11 +151,16 @@ void hentOpskrifterFraServer() {
       String titel = jsonOpskrift.getString("titel");
       String produktType = jsonOpskrift.getString("produkttype");
       String sværhedsgrad = jsonOpskrift.getString("sværhedsgrad");
-      String garn = jsonOpskrift.getString("garn");
+      JSONArray garnArray = jsonOpskrift.getJSONArray("garn");
 
-      // Opretter opskrift objektet (uden billede)
-      Opskrift nyOpskrift = new Opskrift(titel, "", sværhedsgrad, produktType, null);
-      nyOpskrift.tilfoejGarntype(garn);  // Tilføjer garn
+Opskrift nyOpskrift = new Opskrift(titel, "", sværhedsgrad, produktType, null);
+
+// Tilføj hver garntype enkeltvis
+for (int j = 0; j < garnArray.size(); j++) {
+  String garnType = garnArray.getString(j);
+  nyOpskrift.tilfoejGarntype(garnType);
+}
+
 
       opskrifter.add(nyOpskrift);  // Tilføj til opskrifter listen
 
