@@ -1,5 +1,4 @@
 
-
 // Liste med opskrifter
 ArrayList<Opskrift> opskrifter = new ArrayList<Opskrift>();
 
@@ -67,34 +66,30 @@ void hentOpskrifterFraServer(String kilde) {
   println("Opskrifter listen indeholder " + opskrifter.size() + " opskrifter.");
 
   thread("hentBillederThread");
-  
-  // Beregn max scroll baseret på antal opskrifter og layout
-int antal = opskrifter.size();
-float højde = height / 4;
-float spacing = height / 32;
-maxScroll = (højde + spacing) * antal - (height - height / 5 * 2);
-
-// Sørg for det ikke bliver negativt
-if (maxScroll < 0) {
-  maxScroll = 0;
 }
 
+void hentBilledeTilOpskrift(Opskrift opskrift, String imageUrl) {
+  opskrift.imageUrl = imageUrl; // gem url i objektet
+  opskrift.billedeHentes = true;
+  thread("hentBilledeThread");
 }
-
 
 void hentBillederThread() {
   for (Opskrift o : opskrifter) {
     if (o.billedeHentes && o.imageUrl != null && o.billede == null) {
-
+      println("🔄 Henter billede for: " + o.titel);
       PImage img = loadImage(o.imageUrl);
       if (img != null) {
         o.billede = img;
-
-        o.billedeHentes = false;
+        println("📷 Hentet billede for: " + o.titel);
+      } else {
+        println("⚠️ Kunne ikke hente billede for: " + o.titel);
       }
+      o.billedeHentes = false;
     }
   }
 }
+
 
 void displayOpskrifter(Opskrift opskrifter[]) {
   //Værdier der bestemmer position og størrelse af viste opskrifter
