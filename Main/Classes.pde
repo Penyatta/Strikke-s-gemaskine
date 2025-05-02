@@ -1,27 +1,17 @@
-
 class Opskrift {
-
- // Billede og hentestatus
-  String imageUrl;
-  boolean billedeHentes = false;
-  PImage billede = null;
-
-  // Opskriftsinfo
   String titel;
   String link;
   ArrayList<String> krævneGarn = new ArrayList<String>();
   int garntyper;
   String sværhedsgrad;
   String produktType;
-
-  // Constructor
+  PImage billede;
   Opskrift(String TITEL, String LINK, String SVÆRHEDSGRAD, String PRODUKTTYPE, PImage BILLEDE) {
-    titel = TITEL;
-    link = LINK;
-    sværhedsgrad = SVÆRHEDSGRAD;
-    produktType = PRODUKTTYPE;
-    billede = BILLEDE;
-    
+    titel=TITEL;
+    link=LINK;
+    sværhedsgrad=SVÆRHEDSGRAD;
+    billede=BILLEDE;
+    produktType=PRODUKTTYPE;
   }
   void tilfoejGarntype(String garn) {
     krævneGarn.add(garn);

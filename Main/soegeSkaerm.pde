@@ -1,4 +1,4 @@
-
+import http.requests.*;
 
 // Declare the back button for the search screen
 Knap søgeSkærmTilbageKnap;
@@ -13,6 +13,9 @@ void søgeSkærm() {
     // Konverterer opskrifter til et array og viser dem
     Opskrift[] opskriftArray = opskrifter.toArray(new Opskrift[0]);
     
+    // Debugging: Bekræft at vi sender opskrifterne til displayOpskrifter
+    //println("Viser " + opskriftArray.length + " opskrifter");
+    
     // Add the "Opskrifter" title text with proper camY offset
     textFont(generalFont);
     textSize(80);
@@ -22,7 +25,6 @@ void søgeSkærm() {
     
     displayOpskrifter(opskriftArray);
   }
-  
   noStroke();
   fill(247, 239, 210);
   rect(580*width/1440,150*width/1440,18*width/1440,780*width/1440);
@@ -48,8 +50,8 @@ SwitchGroup produktTypeGroup;
 SwitchGroup udfraGarnGroup;
 
 void søgeSkærmSetup() {
-
-  hentOpskrifterFraServer("søg");
+  
+  hentOpskrifterFraServer();
 
   sværhedsgradsGroup = new SwitchGroup();
   produktTypeGroup =new SwitchGroup();
@@ -124,4 +126,54 @@ void overskriftBjælke(String tekst) {
   textAlign(CENTER, CENTER);
   textSize(100*width/1920);
   text(tekst, width/2, height/9);
+}
+
+void hentOpskrifterFraServer() {
+  opskrifter.clear();  // Tømmer eksisterende opskrifter, før vi henter nye
+
+  GetRequest get = new GetRequest("http://server-kopi.onrender.com/opskrifter");
+  get.send();
+
+  String json = get.getContent();
+
+  // Debugging: Udskriv serverens svar (JSON-data)
+  println("Server svar: " + json);
+
+  if (json != null && json.length() > 0) {
+    JSONArray jsonOpskrifter = parseJSONArray(json);
+
+    // Debugging: Tjek, om vi modtager data fra serveren
+    println("Modtaget JSON data fra serveren: " + jsonOpskrifter.size() + " opskrifter");
+
+    for (int i = 0; i < jsonOpskrifter.size(); i++) {
+      JSONObject jsonOpskrift = jsonOpskrifter.getJSONObject(i);
+
+      String titel = jsonOpskrift.getString("titel");
+      String produktType = jsonOpskrift.getString("produkttype");
+      String sværhedsgrad = jsonOpskrift.getString("sværhedsgrad");
+      JSONArray garnArray = jsonOpskrift.getJSONArray("garn");
+
+Opskrift nyOpskrift = new Opskrift(titel, "", sværhedsgrad, produktType, null);
+
+// Tilføj hver garntype enkeltvis
+for (int j = 0; j < garnArray.size(); j++) {
+  String garnType = garnArray.getString(j);
+  nyOpskrift.tilfoejGarntype(garnType);
+}
+
+
+      opskrifter.add(nyOpskrift);  // Tilføj til opskrifter listen
+
+      // Debugging: Udskriv opskriften vi tilføjer
+      println("Tilføjer opskrift: " + titel);
+    }
+
+    // Debugging: Bekræft hvor mange opskrifter der er blevet tilføjet
+    println("✅ Hentede " + opskrifter.size() + " opskrifter fra serveren");
+  } else {
+    println("⚠️ Fejl: Kunne ikke hente opskrifter fra serveren");
+  }
+
+  // Debugging: Tjek indholdet af opskrifter listen
+  println("Opskrifter listen indeholder " + opskrifter.size() + " opskrifter.");
 }
