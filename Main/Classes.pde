@@ -187,7 +187,11 @@ class TilbageKnap extends Knap {
       noStroke();
       //Tegner selve knappen
       translate(posX, posY);
-      fill(feltFarve);
+      if (mouseOver()) {
+        fill(mouseOverFarve);
+      } else {
+        fill(feltFarve);
+      }
       noStroke();
       beginShape();
       vertex(height/15, 0);
@@ -460,11 +464,12 @@ class Dropdown {
   float posX, posY, sizeX, sizeY;
   String[] options;
   String placeholder;
+  String chosen;
   int selectedIndex = -1;
   boolean isOpen = false;
   int dropdownScreen;
   int dropdownIndex; // To keep track of which dropdown this is
-  
+
   Dropdown(float posX, float posY, float sizeX, float sizeY, String[] options, String placeholder, int dropdownScreen, int dropdownIndex) {
     this.posX = posX;
     this.posY = posY;
@@ -475,78 +480,77 @@ class Dropdown {
     this.dropdownScreen = dropdownScreen;
     this.dropdownIndex = dropdownIndex;
   }
-  
+
   void tegn() {
     if (dropdownScreen == skærm) {
       // Draw main dropdown box
       rectMode(CORNER);
       noStroke();
-      
+
       // Draw shadow
-      skyggeImplement(posX, posY + sizeY - 1, sizeX, true);
-      
+      skyggeImplement(posX, posY + sizeY - 1-camY, sizeX, true);
+
       // Draw main box
       if (mouseOverMain()) {
         fill(220, 180, 150); // Hover color
       } else {
         fill(247, 239, 210); // Normal color
       }
-      rect(posX, posY, sizeX, sizeY);
-      
+      rect(posX, posY-camY, sizeX, sizeY);
+
       // Draw dropdown text
       fill(71, 92, 108);
       textAlign(LEFT, CENTER);
-      textSize(20);
-      
-      String displayText = selectedIndex >= 0 ? options[selectedIndex] : placeholder;
-      text(displayText, posX + 15, posY + sizeY/2);
-      
+      textSize(30*width/1440);
+
+      String displayText = selectedIndex >= 0 ? chosen : placeholder;
+      text(displayText, posX + 12*width/1440, posY + sizeY/2-camY);
+
       // Draw dropdown arrow
-      fill(247, 239, 210);
       triangle(
-        posX + sizeX - 30, posY + sizeY/3,
-        posX + sizeX - 15, posY + sizeY/3,
-        posX + sizeX - 22.5, posY + sizeY*2/3
-      );
-      
+        posX + sizeX - 48*width/1440, posY + sizeY/3-camY,
+        posX + sizeX - 22*width/1440, posY + sizeY/3-camY,
+        posX + sizeX - 35*width/1440, posY + sizeY*2/3-camY
+        );
+
       // Draw dropdown options if open
       if (isOpen) {
         for (int i = 0; i < options.length; i++) {
           float optionY = posY + sizeY + i * sizeY;
-          
+
           // Draw option background
           if (mouseOverOption(i)) {
             fill(220, 180, 150); // Hover color
           } else {
             fill(247, 239, 210); // Normal color
           }
-          rect(posX, optionY, sizeX, sizeY);
-          
+          rect(posX, optionY-camY, sizeX, sizeY);
+
           // Draw option text
           fill(71, 92, 108);
           textAlign(LEFT, CENTER);
-          text(options[i], posX + 15, optionY + sizeY/2);
+          text(options[i], posX + 15, optionY + sizeY/2-camY);
         }
-        
+
         // Draw shadow for the dropdown container
-        skyggeImplement(posX, posY + sizeY + options.length * sizeY - 1, sizeX, true);
+        skyggeImplement(posX, posY + sizeY + options.length * sizeY - 1-camY, sizeX, true);
       }
     }
   }
-  
+
   boolean mouseOverMain() {
-    return mouseX > posX && mouseX < posX + sizeX && 
-           mouseY > posY && mouseY < posY + sizeY &&
-           dropdownScreen == skærm;
+    return mouseX > posX && mouseX < posX + sizeX &&
+      mouseY > posY-camY && mouseY < posY + sizeY-camY &&
+      dropdownScreen == skærm;
   }
-  
+
   boolean mouseOverOption(int index) {
     float optionY = posY + sizeY + index * sizeY;
-    return mouseX > posX && mouseX < posX + sizeX && 
-           mouseY > optionY && mouseY < optionY + sizeY &&
-           dropdownScreen == skærm;
+    return mouseX > posX && mouseX < posX + sizeX &&
+      mouseY > optionY-camY && mouseY < optionY + sizeY-camY &&
+      dropdownScreen == skærm;
   }
-  
+
   void checkMouse() {
     if (mouseOverMain()) {
       // Close all other dropdowns before opening this one
@@ -557,39 +561,77 @@ class Dropdown {
         }
       }
       isOpen = !isOpen;
+      if (isOpen) {
+        openDropdown=dropdownIndex;
+      } else {
+        openDropdown=-1;
+      }
     } else if (isOpen) {
+      openDropdown=-1;
       for (int i = 0; i < options.length; i++) {
         if (mouseOverOption(i)) {
           // Only update if selecting a different option
-          if (selectedIndex != i) {
+          if (options[i]!="Ingen") {
+            if (dropdownIndex < mitGarn.size()) {
+              mitGarn.set(dropdownIndex, options[i]);
+            } else {
+              mitGarn.add(options[i]);
+            }
             selectedIndex = i;
-            
-            // Check if we need to add a new dropdown
-            checkAddNewDropdown();
+            chosen=options[i];
+          } else {
+            // Check if dropdownIndex is valid before removing
+            if (dropdownIndex >= 0 && dropdownIndex < mitGarn.size()) {
+              mitGarn.remove(dropdownIndex);
+            }
+            openDropdown=-1;
+
+            // Store dropdowns to update in a separate list to avoid concurrent modification
+            ArrayList<Dropdown> dropdownsToUpdate = new ArrayList<Dropdown>();
+            for (int j = 0; j < garnDropdowns.size(); j++) {
+              Dropdown dropdown = garnDropdowns.get(j);
+              if (dropdown.dropdownIndex > dropdownIndex) {
+                dropdownsToUpdate.add(dropdown);
+              }
+            }
+
+            // Update the stored dropdowns
+            for (Dropdown dropdown : dropdownsToUpdate) {
+              dropdown.dropdownIndex--;
+              dropdown.posY = dropdown.posY - (height/14 + 15*width/1440);
+            }
+            if (garnDropdowns.size()>=2) {
+              needRemove=true;
+              needRemoved=dropdownIndex;
+              openDropdown=-1;
+            }
           }
-          
+
           isOpen = false;
+          openDropdown=-1;
+          checkAddNewDropdown();
           break;
         }
       }
-      
+
       // Close dropdown if clicked outside
       if (!mouseOverOptionsArea()) {
         isOpen = false;
+        openDropdown=-1;
       }
     }
   }
-  
+
   boolean mouseOverOptionsArea() {
-    return mouseX > posX && mouseX < posX + sizeX && 
-           mouseY > posY && mouseY < posY + sizeY + (isOpen ? options.length * sizeY : 0) &&
-           dropdownScreen == skærm;
+    return mouseX > posX && mouseX < posX + sizeX &&
+      mouseY > posY-camY && mouseY < posY + sizeY + (isOpen ? options.length * sizeY : 0)-camY &&
+      dropdownScreen == skærm;
   }
-  
+
   int getSelectedIndex() {
     return selectedIndex;
   }
-  
+
   String getSelectedOption() {
     return selectedIndex >= 0 ? options[selectedIndex] : "";
   }

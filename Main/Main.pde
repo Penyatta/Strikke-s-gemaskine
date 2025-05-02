@@ -1,7 +1,5 @@
 
-//Library til at lave tekstfelter
-import controlP5.*;
-ControlP5 cp5;
+import java.util.Arrays;
 
 PFont generalFont;
 PFont boldFont;
@@ -26,7 +24,6 @@ int lastMouseY;
 
 void setup() {
   fullScreen();
-  cp5=new ControlP5(this);
   //funktioner der kører de dele der kræves i setup for hver skærm
   startSkærmSetup();
   hjælpSkærmSetup();
@@ -68,7 +65,7 @@ void draw() {
 // Replace your mouseDragged function with this version
 void mouseDragged() {
   // Only scroll in screens that need scrolling
-  if (skærm == søgeSkærm || skærm == opretSkærm) {
+  if (skærm == søgeSkærm || skærm == opretSkærm || skærm == mitSkærm) {
     // Calculate difference from last position
     int diff = mouseY - lastMouseY;
 
@@ -115,7 +112,7 @@ void mousePressed() {
 }
 
 void mouseWheel(MouseEvent event) {
-  if (skærm == søgeSkærm || skærm == opretSkærm) {
+  if (skærm == søgeSkærm || skærm == opretSkærm || skærm == mitSkærm) {
     // Using mouse wheel for scrolling (positive = scroll down, negative = scroll up)
     float e = event.getCount();
 

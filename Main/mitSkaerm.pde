@@ -1,17 +1,21 @@
-void mitSkærm(){
+ArrayList<String> mitGarn = new ArrayList<String>();
+int openDropdown=-1;
+boolean allowOpen;
+boolean needRemove=false;
+int needRemoved;
+
+
+void mitSkærm() {
   background(255);
-   noStroke();
-  fill(247, 239, 210);
-  rect(580*width/1440,150*width/1440,18*width/1440,780*width/1440);
-  overskriftBjælke("Min profil");
   // Display title for the dropdown section
   fill(71, 92, 108);
   textAlign(CENTER);
-  textSize(28);
-  text("Mit garntyper", 290*width/1440, height/3 - 40);
-  
-  
- // Display all dropdown menus in reverse order (bottom one first)
+  textSize(35*width/1440);
+  text("Mit Garn", 290*width/1440, height/3 - 40-camY);
+
+
+
+  // Display all dropdown menus in reverse order (bottom one first)
   for (int i = garnDropdowns.size() - 1; i >= 0; i--) {
     garnDropdowns.get(i).tegn();
   }
@@ -20,48 +24,94 @@ void mitSkærm(){
     addGarnDropdown();
     needToAddDropdown = false;
   }
+  noStroke();
+  fill(247, 239, 210);
+  rect(580*width/1440, 150*width/1440, 18*width/1440, 780*width/1440);
+  overskriftBjælke("Min profil");
 }
 
 Knap mitSkærmTilbageKnap;
 ArrayList<Dropdown> garnDropdowns = new ArrayList<Dropdown>();
 boolean needToAddDropdown = false; // Flag to indicate we need to add a dropdown
 
-void mitSkærmSetup(){
+void mitSkærmSetup() {
   //laver knapperne
-  mitSkærmTilbageKnap = new TilbageKnap(height/9-height/15, height/9-height/17, height/15*2, height/17*2, color(0), "tilbage", 10, color(205, 139, 98), color(0, 255, 0), 10, mitSkærm);
+  mitSkærmTilbageKnap = new TilbageKnap(height/9-height/15, height/9-height/17, height/15*2, height/17*2, color(0), "tilbage", 10, color(205, 139, 98), color(247, 239, 210), 10, mitSkærm);
   knapper.add(mitSkærmTilbageKnap);
   // laver den første dropdown menu
   addGarnDropdown();
 }
 
-void mitSkærmKnapper(){
-  if(mitSkærmTilbageKnap.mouseOver()){
-  skærm=startSkærm;
+void mitSkærmKnapper() {
+  if (mitSkærmTilbageKnap.mouseOver()) {
+    skærm=startSkærm;
+    // Reset scroll position when leaving the screen
+    camY = 0;
   }
+  if (openDropdown==-1) {
+    allowOpen=true;
+  } else {
+    allowOpen=false;
+  }
+
+
+  // Check all dropdown interactions
+
   // Check all dropdown interactions
   for (Dropdown dropdown : garnDropdowns) {
-    dropdown.checkMouse();
+    if (allowOpen) {
+      dropdown.checkMouse();
+    } else if (openDropdown==dropdown.dropdownIndex) {
+      dropdown.checkMouse();
+    }
+  }
+
+  if (!allowOpen) {
+    openDropdown=-1;
+  }
+  if (needRemove) {
+    // Use our new method instead
+    removeDropdown(needRemoved);
+    needRemove = false;
   }
 }
 
 // Function to add a new yarn dropdown
 void addGarnDropdown() {
   // Calculate position for the new dropdown
-  float dropdownY = height/3 + (garnDropdowns.size() * (height/30 + 10));
-  
+  float dropdownY = height/3 + (garnDropdowns.size() * (height/14 + 15*width/1440));
+
   // Create dropdown menu for yarn types
   String[] garnTyper = {"Uld", "Bomuld", "Akryl", "Alpaka", "Hør", "Silke", "Mohair", "Merino", "Bambus"};
-  Dropdown newDropdown = new Dropdown(83*width/1440, dropdownY, 350*width/1440, height/30, garnTyper, "Vælg garntype", mitSkærm, garnDropdowns.size());
-  
-  // Add to the list of dropdowns
-  garnDropdowns.add(newDropdown);
+  ArrayList<String> temp = new ArrayList<String>(Arrays.asList(garnTyper));
+  temp.removeAll(mitGarn);
+  if (temp.size()!=0) {
+    temp.add("Ingen");
+    String[] garnUdenGengang = temp.toArray(new String[0]);
+    Dropdown newDropdown = new Dropdown(83*width/1440, dropdownY, 425*width/1440, height/14, garnUdenGengang, "Vælg garntype", mitSkærm, garnDropdowns.size());
+    // Add to the list of dropdowns
+    garnDropdowns.add(newDropdown);
+  }
 }
 
 // Check if we need to add a new dropdown
 void checkAddNewDropdown() {
-  // Only add a new dropdown if the last one has a selection
-  if (!garnDropdowns.isEmpty() && garnDropdowns.get(garnDropdowns.size() - 1).selectedIndex != -1) {
-    // Check if we already have an empty dropdown at the end
+  // Create dropdown menu for yarn types
+  String[] garnTyper = {"Uld", "Bomuld", "Akryl", "Alpaka", "Hør", "Silke", "Mohair", "Merino", "Bambus"};
+  ArrayList<String> temp = new ArrayList<String>(Arrays.asList(garnTyper));
+  temp.removeAll(mitGarn);
+
+  // Only add "Ingen" if there are options available
+  if (temp.size() > 0) {
+    temp.add("Ingen");
+    String[] garnUdenGengang = temp.toArray(new String[0]);
+
+    // Update options for existing dropdowns
+    for (Dropdown dropdown : garnDropdowns) {
+      dropdown.options = garnUdenGengang.clone(); // Use clone to avoid reference issues
+    }
+
+    // Check if we need to add a new dropdown
     boolean hasEmptyDropdown = false;
     for (Dropdown dropdown : garnDropdowns) {
       if (dropdown.selectedIndex == -1) {
@@ -69,10 +119,35 @@ void checkAddNewDropdown() {
         break;
       }
     }
-    
-    // If there's no empty dropdown, set flag to add a new one
-    if (!hasEmptyDropdown) {
+
+    // If there's no empty dropdown and we have available yarn types, set flag to add a new one
+    if (!hasEmptyDropdown && temp.size() > 1 && garnDropdowns.size() < garnTyper.length) {
       needToAddDropdown = true;
     }
   }
+}
+
+// Add this new method to mitSkaerm.pde
+void removeDropdown(int index) {
+  // Remove from mitGarn list if applicable
+  if (index >= 0 && index < mitGarn.size()) {
+    mitGarn.remove(index);
+  }
+
+  // Remove the dropdown
+  garnDropdowns.remove(index);
+
+  // Update positions and indices of remaining dropdowns
+  for (int i = 0; i < garnDropdowns.size(); i++) {
+    Dropdown dropdown = garnDropdowns.get(i);
+    dropdown.dropdownIndex = i;
+    dropdown.posY = height/3 + (i * (height/14 + 15*width/1440));
+  }
+
+  // Reset dropdown state
+  openDropdown = -1;
+
+
+  // Check if we need to add a new dropdown
+  checkAddNewDropdown();
 }

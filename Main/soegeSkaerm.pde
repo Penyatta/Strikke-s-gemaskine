@@ -96,7 +96,7 @@ void søgeSkærmSetup() {
   udfraGarnGroup.addSwitch(jaSwitch);
   
   // Laver tilbageknappen til søgeskærmen
-  søgeSkærmTilbageKnap = new TilbageKnap(height/9-height/15, height/9-height/17, height/15*2, height/17*2, color(0), "tilbage", 10, color(205, 139, 98), color(0, 255, 0), 10, søgeSkærm);
+  søgeSkærmTilbageKnap = new TilbageKnap(height/9-height/15, height/9-height/17, height/15*2, height/17*2, color(0), "tilbage", 10, color(205, 139, 98), color(247, 239, 210), 10, søgeSkærm);
   knapper.add(søgeSkærmTilbageKnap);
   søgeSkærmSøgKnap = new Knap(493*width/1440, height/9*2+height/40, 67*width/1440, 67*height/982, color(71, 92, 108), "Søg", 30, color(247, 239, 210), color(247, 239, 210), 0, søgeSkærm);
   knapper.add(søgeSkærmSøgKnap);
@@ -120,7 +120,7 @@ void søgeSkærmKnapper() {
 void overskriftBjælke(String tekst) {
   rectMode(CORNER);
   fill(71, 92, 108);
-  rect(0, 0, width, height/9*2); // Note: removed camY offset for header - headers typically stay fixed
+  rect(0, 0, width, height/9*2);
   fill(247, 239, 210);
   textFont(generalFont);
   textAlign(CENTER, CENTER);
