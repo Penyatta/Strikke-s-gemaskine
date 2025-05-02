@@ -66,16 +66,16 @@ void opretSkærmSetup(){
   
   
   // Tilføjer alle switchesne til en gruppe
-  produktTypeGroup.addSwitch(sweatersSwitch);
-  produktTypeGroup.addSwitch(cardigansSwitch);
-  produktTypeGroup.addSwitch(huerSwitch);
-  produktTypeGroup.addSwitch(vanterSwitch);
-  produktTypeGroup.addSwitch(vesteSwitch);
-  produktTypeGroup.addSwitch(toppeSwitch);
-   produktTypeGroup.addSwitch(halstørklæderSwitch);
-  produktTypeGroup.addSwitch(tæpperSwitch);
-  produktTypeGroup.addSwitch(karkludeSwitch);
-  produktTypeGroup.addSwitch(kjolerSwitch);
+  opretProduktTypeGroup.addSwitch(sweatersSwitch);
+  opretProduktTypeGroup.addSwitch(cardigansSwitch);
+  opretProduktTypeGroup.addSwitch(huerSwitch);
+  opretProduktTypeGroup.addSwitch(vanterSwitch);
+  opretProduktTypeGroup.addSwitch(vesteSwitch);
+  opretProduktTypeGroup.addSwitch(toppeSwitch);
+   opretProduktTypeGroup.addSwitch(halstørklæderSwitch);
+  opretProduktTypeGroup.addSwitch(tæpperSwitch);
+  opretProduktTypeGroup.addSwitch(karkludeSwitch);
+  opretProduktTypeGroup.addSwitch(kjolerSwitch);
   
   garnTypeGroup = new SwitchGroup();
   

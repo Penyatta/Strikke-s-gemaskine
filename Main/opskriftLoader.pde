@@ -30,8 +30,8 @@ void hentOpskrifterFraServer(String kilde) {
 
       String titel = jsonOpskrift.getString("titel");
       String link = jsonOpskrift.getString("url"); // ændret fra "link"
-      String sværhedsgrad = jsonOpskrift.getString("sværhedsgrad"); // korrekt stavet
-      String produktType = jsonOpskrift.getString("produkttype"); // korrekt stavet
+      String sværhedsgrad = jsonOpskrift.getString("sværhedsgrad"); 
+      String produktType = jsonOpskrift.getString("produkttype"); 
 
       // Load billede
 
