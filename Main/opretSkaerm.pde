@@ -1,7 +1,3 @@
-
-
-
-
 void opretSkærm(){
   background(255);
   overskriftBjælke("Tilføj din egen opskrift");
@@ -29,6 +25,7 @@ SwitchGroup opretSværhedsgradsGroup;
 SwitchGroup opretProduktTypeGroup;
 SwitchGroup garnTypeGroup;
 Knap opretSkærmTilbageKnap;
+Textfield TitelTextfelt;
 
 void opretSkærmSetup(){
   //laver knapperne
@@ -38,8 +35,9 @@ void opretSkærmSetup(){
   
   // Tilføj et tekstfelt til opretSkærm
 
-  textfields.add(new Textfield( 50*width/1440+100, 300*height/1125,width/3, 50, color(71, 92, 108), color(247, 239, 210), color(247, 239, 210), color(247, 239, 210),
-  30*width/1440, "Indtast opskriftens navn", "", 0, opretSkærm, false));
+ TitelTextfelt = new Textfield( 50*width/1440+100, 300*height/1125,width/3, 50, color(71, 92, 108), color(247, 239, 210), color(247, 239, 210), color(247, 239, 210),
+  30*width/1440, "Indtast opskriftens navn", "", 0, opretSkærm, false);
+  textfields.add(TitelTextfelt);
   
   opretSværhedsgradsGroup = new SwitchGroup();
   

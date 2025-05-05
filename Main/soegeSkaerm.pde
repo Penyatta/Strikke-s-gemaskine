@@ -83,7 +83,6 @@ void søgeSkærmSetup() {
   //laver søgefeltknappen til søgeskærmen
   søgeSkærmSøgKnap = new Knap(493*width/1440, height/9*2+height/40, 67*width/1440, 67*height/982, color(71, 92, 108), "Søg", 30, color(247, 239, 210), color(247, 239, 210), 0, søgeSkærm);
   knapper.add(søgeSkærmSøgKnap);
-  textfields.add(new Textfield(35*width/1440, height/9*2+height/40, 440*width/1440, 67*height/982, color(71, 92, 108), color(247, 239, 210), color(247, 239, 210), color(247, 239, 210), 30*width/1440, "Søgefelt", "", 0, søgeSkærm, false));
 
   højde=540*height/982;
   Switch sweaterSwitch = new Switch(bredde1, højde, 30*width/1440, "Sweater", false);

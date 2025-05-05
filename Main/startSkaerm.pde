@@ -14,7 +14,7 @@ Knap startSkærmMitKnap;
 
 void startSkærmSetup() {
   startSkærmBaggrund=loadImage("ForsideBaggrund.png");
-  //Tilføjer egenskaberne til kanpperne som er blevet oprettet tidligere og tilføjer dem til en array list med alle knapper i knap klassen
+  //Tilføjer egenskaberne til knapperne som er blevet oprettet tidligere og tilføjer dem til en array list med alle knapper i knap klassen
   startSkærmSøgeKnap = new Knap(width/2-width/10, height/5*3-width/10, width/5, width/5, color(247, 239, 210), "Søg efter opskrifter", 55*width/1440, color(71, 92, 108), color(71, 92, 108), 0, startSkærm);
   knapper.add(startSkærmSøgeKnap);
   startSkærmOpretKnap = new Knap(width/10*7, height/5*3-width/10, width/5, width/5, color(247, 239, 210), "Tilføj din egen opskrift", 55*width/1440, color(71, 92, 108), color(71, 92, 108), 0, startSkærm);

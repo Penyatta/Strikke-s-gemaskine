@@ -37,7 +37,13 @@ void setup() {
   // Initialize lastY for drag scrolling
   lastMouseY = mouseY; // Initialize lastMouseY
 }
+
 void draw() {
+  println();
+  println(textfields.size());
+  for(Textfield textfield : textfields){
+    print(textfield.startTekst+" ");
+  }
   background(100);
   // Skærmfordeling via state machine
   if (skærm == startSkærm) {
