@@ -22,7 +22,8 @@ void hentOpskrifterFraServer(String kilde) {
   get.send();
 
   String json = get.getContent();
-
+  // Debugging: Udskriv serverens svar (JSON-data)
+  println("Server svar: " + json);
 
   if (json != null && json.length() > 0) {
     JSONArray jsonOpskrifter = parseJSONArray(json);
@@ -120,6 +121,14 @@ void displayOpskrifter(Opskrift opskrifter[]) {
       fill(247, 239, 210);
       rect(posX, posY - camY, bredde, højde);
       skyggeImplement(posX, posY-camY+højde-1, bredde, true);
+      boolean gemt = false;
+      for (Opskrift gemtOpskrift : gemteOpskrifter) {
+        if (opskrift.titel.equals(gemtOpskrift.titel)) {
+          gemt = true;
+          break;
+        }
+      }
+      tegnStjerne(posX+bredde/24*14, posY+højde/9-camY, gemt);
 
       //skriver titlen
       fill(0);
@@ -127,7 +136,6 @@ void displayOpskrifter(Opskrift opskrifter[]) {
       textAlign(CORNER);
       textSize(30);
       text(opskrift.titel, posX + width/100, posY - camY + width/50);
-
       //skriver kategorien
       textFont(generalFont);
       textSize(20);
@@ -163,7 +171,6 @@ void displayOpskrifter(Opskrift opskrifter[]) {
       strokeWeight(10);
       line(posX + bredde/24*15, posY - camY - 1, posX + bredde/24*15, posY - camY + højde);
     }
-
     posY += spacing + højde;
   }
 }

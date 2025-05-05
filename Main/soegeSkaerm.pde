@@ -13,6 +13,8 @@ void søgeSkærm() {
     // Konverterer opskrifter til et array og viser dem
     Opskrift[] opskriftArray = opskrifter.toArray(new Opskrift[0]);
 
+    // Debugging: Bekræft at vi sender opskrifterne til displayOpskrifter
+    //println("Viser " + opskriftArray.length + " opskrifter");
 
     // Add the "Opskrifter" title text with proper camY offset
     textFont(generalFont);
@@ -70,7 +72,6 @@ void søgeSkærmSetup() {
   float bredde1=(580*width/1440)/4;
   float bredde2=(580*width/1440)/2;
   float bredde3=(580*width/1440)/4*3;
-
 
   Switch jaSwitch = new Switch((580*width/1440)/4, 845*height/982, 30*width/1440, "Ja", false);
   udfraGarnGroup.addSwitch(jaSwitch);
@@ -130,6 +131,38 @@ void søgeSkærmKnapper() {
 
   produktTypeGroup.checkMouse();
   udfraGarnGroup.checkMouse();
+  //gemmer opskrifter hvis man trykker på stjernen
+  if (mouseY>height/9*2 && mouseX>580*width/1440 && !opskrifter.isEmpty()) {
+    float posY = height/5*2;
+    float posX = 653*width/1440;
+    float bredde = width/31*16;
+    float højde = height/4;
+    float spacing = height/32;
+    for (Opskrift opskrift : opskrifter) {
+      if (mouseX>posX+bredde/31*17 && mouseX<posX+bredde/31*17+bredde/15 && mouseY>posY-camY && mouseY<posY+højde/5-camY) {
+        boolean gemt=false;
+        int gemtIndex = -1;
+        // Check if recipe is already saved
+        for (int i = 0; i < gemteOpskrifter.size(); i++) {
+          if (opskrift.titel.equals(gemteOpskrifter.get(i).titel)) {
+            gemt = true;
+            gemtIndex = i;
+            break;
+          }
+        }
+
+        if (gemt) {
+          // Remove the recipe if it's already saved
+          gemteOpskrifter.remove(gemtIndex);
+        } else {
+          // Add the recipe if it's not saved
+          gemteOpskrifter.add(opskrift);
+        }
+        saveRecipesToFile();
+      }
+      posY += spacing + højde;
+    }
+  }
 }
 
 void overskriftBjælke(String tekst) {
