@@ -1,6 +1,5 @@
 
-
-
+PImage uploadedImage; // Variabel til at gemme det uploadede billede
 
 void opretSkærm(){
   background(255);
@@ -23,12 +22,38 @@ void opretSkærm(){
   opretSværhedsgradsGroup.tegnAlle();
   opretProduktTypeGroup.tegnAlle();
   garnTypeGroup.tegnAlle();
+
+  // Hvis et billede er uploadet, vis det
+  float posY = height/6*2;
+  float posX = 400*width/1440;
+  float bredde = (width/31*16);
+  float højde = (height/4);
+  
+  if (uploadedImage != null) {
+    image(uploadedImage, posX + bredde/24*17, posY - camY + højde/10, bredde/24*5, højde/10*8); // Placér billede
+  }
+}
+
+// Funktion til at vælge billede
+void selectImage() {
+  selectInput("Vælg et billede til upload:", "fileSelected");
+}
+
+// Funktion der bliver kaldt, når en fil er valgt
+void fileSelected(File selection) {
+  if (selection != null) {
+    uploadedImage = loadImage(selection.getAbsolutePath()); // Indlæs billede
+    if (uploadedImage == null) {
+      println("Fejl: Kunne ikke indlæse billedet.");
+    }
+  }
 }
 
 SwitchGroup opretSværhedsgradsGroup;
 SwitchGroup opretProduktTypeGroup;
 SwitchGroup garnTypeGroup;
 Knap opretSkærmTilbageKnap;
+Knap billedeKnap;
 
 void opretSkærmSetup(){
   //laver knapperne
@@ -103,6 +128,10 @@ void opretSkærmSetup(){
   garnTypeGroup.addSwitch(strømpegarnSwitch);
   garnTypeGroup.addSwitch(silkegarnSwitch);
 
+// Tilføj en knap til at vælge billede
+  billedeKnap = new Knap (1000,320, 200*width/1440, 50, color(247, 239, 210), "Vælg billede", 30*width/1440, color(71, 92, 108), color(205, 139, 98), 10, opretSkærm);
+  knapper.add(billedeKnap);
+
 }
 
 void opretSkærmKnapper(){
@@ -110,6 +139,10 @@ void opretSkærmKnapper(){
   if(opretSkærmTilbageKnap.mouseOver()){
   skærm=startSkærm;
   camY=0;
+  }
+  // Håndter billede-knap
+  if (knapper.get(knapper.size()-1).mouseOver()) {
+    selectImage();  // Kald funktionen til at vælge billede
   }
   
    garnTypeGroup.checkMouse();
