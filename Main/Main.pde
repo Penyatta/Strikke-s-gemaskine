@@ -39,11 +39,6 @@ void setup() {
 }
 
 void draw() {
-  println();
-  println(textfields.size());
-  for(Textfield textfield : textfields){
-    print(textfield.startTekst+" ");
-  }
   background(100);
   // Skærmfordeling via state machine
   if (skærm == startSkærm) {
@@ -60,12 +55,15 @@ void draw() {
     println("error - skærm ikke defineret rigtigt");
   }
 
-  //tegner knapper
+  for (Textfield field : textfields) {
+    field.tegnPåSkærm();
+  }
+   //tegner knapper
   for (Knap k : knapper) {
     k.tegn();
   }
-  for (Textfield field : textfields) {
-    field.tegnPåSkærm();
+  if (skærm==opretSkærm){
+    overskriftBjælke("Tilføj din egen opskrift");
   }
 }
 

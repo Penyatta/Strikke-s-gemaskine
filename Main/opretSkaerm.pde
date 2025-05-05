@@ -1,27 +1,26 @@
 void opretSkærm(){
   background(255);
-  overskriftBjælke("Tilføj din egen opskrift");
   
   textSize(30*width/1440);
   fill(71, 92, 108);
   textFont(boldFont);
   textAlign(CORNER,CORNER);
-  text("Navn:",50*width/1440,300*height/982);
-  text("Sværhedsgrad:",50*width/1440,425*height/982);
-  text("Produkttype:",50*width/1440,550*height/982);
-  text("Type af garn:",50*width/1440,814*height/982);
+  //text("Navn:",50*width/1440,300*height/982-camY);
+  text("Vælg kategori",100*width/1440,425*height/982-camY);
+  text("Vælg produkttype",100*width/1440,670*height/982-camY);
+  //text("Type af garn:",50*width/1440,814*height/982-camY);
    textFont(generalFont);
   
   noStroke();
   fill(247, 239, 210);
-  rect(700*width/1440,200*width/1440,18*width/1440,780*width/1440);
+  rect(700*width/1440,100*width/1440,18*width/1440,780*width/1440);
   
-  opretSværhedsgradsGroup.tegnAlle();
+  opretKategorierGroup.tegnAlle();
   opretProduktTypeGroup.tegnAlle();
   garnTypeGroup.tegnAlle();
 }
 
-SwitchGroup opretSværhedsgradsGroup;
+SwitchGroup opretKategorierGroup;
 SwitchGroup opretProduktTypeGroup;
 SwitchGroup garnTypeGroup;
 Knap opretSkærmTilbageKnap;
@@ -35,71 +34,59 @@ void opretSkærmSetup(){
   
   // Tilføj et tekstfelt til opretSkærm
 
- TitelTextfelt = new Textfield( 50*width/1440+100, 300*height/1125,width/3, 50, color(71, 92, 108), color(247, 239, 210), color(247, 239, 210), color(247, 239, 210),
+ TitelTextfelt = new Textfield( 100*width/1440, 300*height/1125,width/3, 67*height/982, color(71, 92, 108), color(247, 239, 210), color(247, 239, 210), color(247, 239, 210),
   30*width/1440, "Indtast opskriftens navn", "", 0, opretSkærm, false);
   textfields.add(TitelTextfelt);
   
-  opretSværhedsgradsGroup = new SwitchGroup();
+   float højde=485*height/982;
+  float bredde1=(580*width/1440)/4;
+  float bredde2=(580*width/1440)/2;
+  float bredde3=(580*width/1440)/4*3;
+  float bredde4=(580*width/1440)/4*4;
+  float size=30*width/1440;
+  
+  opretKategorierGroup = new SwitchGroup();
   
   // Opret switches med nye positioner
-  Switch begynderSwitch = new Switch((620*width/1440)/2, 415*height/982, 30*width/1440, "Let", false);
-  Switch øvetSwitch = new Switch((620*width/1440)/4*3, 415*height/982  , 30*width/1440, "Mellem", false);
-  Switch ekspertSwitch = new Switch((620*width/1440)/2*2, 415*height/982 , 30*width/1440, "Svær", false);
-  
-  // Tilføj switches til gruppen
-  opretSværhedsgradsGroup.addSwitch(begynderSwitch);
-  opretSværhedsgradsGroup.addSwitch(øvetSwitch);
-  opretSværhedsgradsGroup.addSwitch(ekspertSwitch);
-  
+  opretKategorierGroup.addSwitch(new Switch(bredde1, højde, size, "Kvinder", false));
+  opretKategorierGroup.addSwitch(new Switch(bredde2, højde, size, "Mænd", false));
+  opretKategorierGroup.addSwitch(new Switch(bredde3, højde, size, "Baby (0-4 år)", false));
+  opretKategorierGroup.addSwitch(new Switch(bredde4, højde, size, "Barn (2-14 år)", false));
+  højde=575*height/982;
+  opretKategorierGroup.addSwitch(new Switch(bredde1, højde, size, "Hjem", false));
   
   opretProduktTypeGroup = new SwitchGroup();
   
-  // Laver alle switchesne
-  Switch OpretSweatersSwitch = new Switch((580*width/1440)/4, 607*height/982, 30*width/1440, "Sweaters", false);
-  Switch OpretCardigansSwitch = new Switch((580*width/1440)/2, 607*height/982, 30*width/1440, "Cardigans", false);
-  Switch OpretHuerSwitch = new Switch((580*width/1440)/4*3, 607*height/982, 30*width/1440, "Huer", false);
-  Switch OpretVanterSwitch = new Switch((580*width/1440)/4, 698*height/982, 30*width/1440, "Vanter", false);
-  Switch OpretVesteSwitch = new Switch((580*width/1440)/2, 698*height/982, 30*width/1440, "Veste", false);
-  Switch OpretToppeSwitch = new Switch((580*width/1440)/4*3, 698*height/982, 30*width/1440, "Toppe", false);
-  Switch OpretHalstørklæderSwitch = new Switch((580*width/1440)/4*3, 607*height/982, 30*width/1440, "Halstørklæder", false);
-  Switch OpretTæpperSwitch = new Switch((580*width/1440)/4, 698*height/982, 30*width/1440, "Tæpper", false);
-  Switch OpretKarkludeSwitch = new Switch((580*width/1440)/2, 698*height/982, 30*width/1440, "Karklude", false);
-  Switch OpretKjolerSwitch = new Switch((580*width/1440)/4*3, 698*height/982, 30*width/1440, "Kjoler", false);
-  
-  
-  // Tilføjer alle switchesne til en gruppe
-  opretProduktTypeGroup.addSwitch(OpretSweatersSwitch);
-  opretProduktTypeGroup.addSwitch(OpretCardigansSwitch);
-  opretProduktTypeGroup.addSwitch(OpretHuerSwitch);
-  opretProduktTypeGroup.addSwitch(OpretVanterSwitch);
-  opretProduktTypeGroup.addSwitch(OpretVesteSwitch);
-  opretProduktTypeGroup.addSwitch(OpretToppeSwitch);
-  opretProduktTypeGroup.addSwitch(OpretHalstørklæderSwitch);
-  opretProduktTypeGroup.addSwitch(OpretTæpperSwitch);
-  opretProduktTypeGroup.addSwitch(OpretKarkludeSwitch);
-  opretProduktTypeGroup.addSwitch(OpretKjolerSwitch);
+  højde=750*height/982;
+
+
+  opretProduktTypeGroup.addSwitch(new Switch(bredde1, højde, size, "Sweater", false));
+  opretProduktTypeGroup.addSwitch(new Switch(bredde2, højde, size, "Cardigan", false));
+  opretProduktTypeGroup.addSwitch(new Switch(bredde3, højde, size, "Hue", false));
+  opretProduktTypeGroup.addSwitch(new Switch(bredde4, højde, size, "Vanter", false));
+  højde=840*height/982;
+  opretProduktTypeGroup.addSwitch(new Switch(bredde1, højde, size, "Vest", false));
+  opretProduktTypeGroup.addSwitch(new Switch(bredde2, højde, size, "Top", false));
+  opretProduktTypeGroup.addSwitch(new Switch(bredde3, højde, size, "Shorts", false));
+  opretProduktTypeGroup.addSwitch(new Switch(bredde4, højde, size, "Strømper", false));
+  højde=930*height/982;
+  opretProduktTypeGroup.addSwitch(new Switch(bredde1, højde, size, "Nederdel", false));
   
   garnTypeGroup = new SwitchGroup();
   
-  // Laver alle switchesne
-  Switch uldSwitch = new Switch((580*width/1440)/4, 845*height/982, 30*width/1440, "Uld", false);
-  Switch bomuldSwitch = new Switch((580*width/1440)/2, 845*height/982, 30*width/1440, "Bomuld", false);
-  Switch mohairSwitch = new Switch((580*width/1440)/4*3, 845*height/982, 30*width/1440, "Mohair", false);
-  Switch alpakaSwitch = new Switch((580*width/1440)/4*4, 845*height/982, 30*width/1440, "Alpaka", false);
-  Switch merinouldSwitch = new Switch((580*width/1440)/4, 936*height/982, 30*width/1440, "Merinould", false);
-  Switch bambusSwitch = new Switch((580*width/1440)/2, 936*height/982, 30*width/1440, "Bambus", false);
-  Switch strømpegarnSwitch = new Switch((580*width/1440)/4*3, 936*height/982, 30*width/1440, "Strømpegarn", false);
-  Switch silkegarnSwitch = new Switch((580*width/1440)/4*4, 936*height/982, 30*width/1440, "Silkegarn", false);
   
-  // Tilføjer alle switchesne til en gruppe
-  garnTypeGroup.addSwitch(uldSwitch);
-  garnTypeGroup.addSwitch(bomuldSwitch);
-  garnTypeGroup.addSwitch(mohairSwitch);
-  garnTypeGroup.addSwitch(alpakaSwitch);
-  garnTypeGroup.addSwitch(merinouldSwitch);
-  garnTypeGroup.addSwitch(bambusSwitch);
-  garnTypeGroup.addSwitch(strømpegarnSwitch);
-  garnTypeGroup.addSwitch(silkegarnSwitch);
+  højde=1020*height/982;
+  // Laver alle switchesne
+  garnTypeGroup.addSwitch(new Switch(bredde1, højde, size, "Uld", false));
+  garnTypeGroup.addSwitch(new Switch(bredde2, højde, size, "Bomuld", false));
+  garnTypeGroup.addSwitch(new Switch(bredde3, højde, size, "Mohair", false));
+  garnTypeGroup.addSwitch(new Switch(bredde4, højde, size, "Alpaka", false));
+  højde=1110*height/982;
+  garnTypeGroup.addSwitch(new Switch(bredde1, højde, size, "Merinould", false));
+  garnTypeGroup.addSwitch(new Switch(bredde2, højde, size, "Bambus", false));
+  garnTypeGroup.addSwitch(new Switch(bredde3, højde, size, "Strømpegarn", false));
+  garnTypeGroup.addSwitch(new Switch(bredde4, højde, size, "Silkegarn", false));
+  
 
 }
 
@@ -109,6 +96,7 @@ void opretSkærmKnapper(){
   skærm=startSkærm;
   camY=0;
   }
-  
+  opretProduktTypeGroup.checkMouse();
    garnTypeGroup.checkMouse();
+   opretKategorierGroup.checkMouse();
 }

@@ -57,15 +57,8 @@ SwitchGroup udfraGarnGroup;
 
 void søgeSkærmSetup() {
 
-
-  hentOpskrifterFraServer();
-
   produktTypeGroup =new SwitchGroup();
   udfraGarnGroup = new SwitchGroup();
-
-
-
-  // Laver alle switchesne
 
 
   float højde=410*height/982;
