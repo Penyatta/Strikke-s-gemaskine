@@ -112,196 +112,196 @@ void mitSkærmKnapper() {
       }
     }
     if (fjern) {
-          if (gemtIndex!=-1) {
-            gemteOpskrifter.remove(gemtIndex);
-            saveRecipesToFile();
-          }
-        }
+      if (gemtIndex!=-1) {
+        gemteOpskrifter.remove(gemtIndex);
+        saveRecipesToFile();
+      }
+    }
   }
 }
 
-    // Function to add a new yarn dropdown
-    void addGarnDropdown() {
-      // Calculate position for the new dropdown
-      float dropdownY = height/3 + (garnDropdowns.size() * (height/14 + 15*width/1440));
+// Function to add a new yarn dropdown
+void addGarnDropdown() {
+  // Calculate position for the new dropdown
+  float dropdownY = height/3 + (garnDropdowns.size() * (height/14 + 15*width/1440));
 
-      // Create dropdown menu for yarn types
-      String[] garnTyper = {"Uld", "Bomuld", "Akryl", "Alpaka", "Hør", "Silke", "Mohair", "Merino", "Bambus"};
-      ArrayList<String> temp = new ArrayList<String>(Arrays.asList(garnTyper));
-      temp.removeAll(mitGarn);
-      if (temp.size()!=0) {
-        temp.add("Ingen");
-        String[] garnUdenGengang = temp.toArray(new String[0]);
-        Dropdown newDropdown = new Dropdown(83*width/1440, dropdownY, 425*width/1440, height/14, garnUdenGengang, "Vælg garntype", mitSkærm, garnDropdowns.size());
-        // Add to the list of dropdowns
-        garnDropdowns.add(newDropdown);
-      }
+  // Create dropdown menu for yarn types
+  String[] garnTyper = {"Uld", "Bomuld", "Akryl", "Alpaka", "Hør", "Silke", "Mohair", "Merino", "Bambus"};
+  ArrayList<String> temp = new ArrayList<String>(Arrays.asList(garnTyper));
+  temp.removeAll(mitGarn);
+  if (temp.size()!=0) {
+    temp.add("Ingen");
+    String[] garnUdenGengang = temp.toArray(new String[0]);
+    Dropdown newDropdown = new Dropdown(83*width/1440, dropdownY, 425*width/1440, height/14, garnUdenGengang, "Vælg garntype", mitSkærm, garnDropdowns.size());
+    // Add to the list of dropdowns
+    garnDropdowns.add(newDropdown);
+  }
+}
+
+// Check if we need to add a new dropdown
+void checkAddNewDropdown() {
+  // Create dropdown menu for yarn types
+  String[] garnTyper = {"Uld", "Bomuld", "Akryl", "Alpaka", "Hør", "Silke", "Mohair", "Merino", "Bambus"};
+  ArrayList<String> temp = new ArrayList<String>(Arrays.asList(garnTyper));
+  temp.removeAll(mitGarn);
+
+  // Only add "Ingen" if there are options available
+  if (temp.size() > 0) {
+    temp.add("Ingen");
+    String[] garnUdenGengang = temp.toArray(new String[0]);
+
+    // Update options for existing dropdowns
+    for (Dropdown dropdown : garnDropdowns) {
+      dropdown.options = garnUdenGengang.clone(); // Use clone to avoid reference issues
     }
 
     // Check if we need to add a new dropdown
-    void checkAddNewDropdown() {
-      // Create dropdown menu for yarn types
-      String[] garnTyper = {"Uld", "Bomuld", "Akryl", "Alpaka", "Hør", "Silke", "Mohair", "Merino", "Bambus"};
-      ArrayList<String> temp = new ArrayList<String>(Arrays.asList(garnTyper));
-      temp.removeAll(mitGarn);
-
-      // Only add "Ingen" if there are options available
-      if (temp.size() > 0) {
-        temp.add("Ingen");
-        String[] garnUdenGengang = temp.toArray(new String[0]);
-
-        // Update options for existing dropdowns
-        for (Dropdown dropdown : garnDropdowns) {
-          dropdown.options = garnUdenGengang.clone(); // Use clone to avoid reference issues
-        }
-
-        // Check if we need to add a new dropdown
-        boolean hasEmptyDropdown = false;
-        for (Dropdown dropdown : garnDropdowns) {
-          if (dropdown.chosen == "") {
-            hasEmptyDropdown = true;
-            break;
-          }
-        }
-
-        // If there's no empty dropdown and we have available yarn types, set flag to add a new one
-        if (!hasEmptyDropdown && temp.size() > 1 && garnDropdowns.size() < garnTyper.length) {
-          needToAddDropdown = true;
-        }
+    boolean hasEmptyDropdown = false;
+    for (Dropdown dropdown : garnDropdowns) {
+      if (dropdown.chosen == "") {
+        hasEmptyDropdown = true;
+        break;
       }
     }
 
-    // Add this new method to mitSkaerm.pde
-    void removeDropdown(int index) {
-      // Clear mitGarn
-      mitGarn.clear();
-
-      // Remove the dropdown
-      garnDropdowns.remove(index);
-
-      for (Dropdown dropdown : garnDropdowns) {
-        mitGarn.add(dropdown.chosen);
-      }
-
-      // Reset dropdown state
-      openDropdown = -1;
-
-      // Check if we need to add a new dropdown
-      checkAddNewDropdown();
+    // If there's no empty dropdown and we have available yarn types, set flag to add a new one
+    if (!hasEmptyDropdown && temp.size() > 1 && garnDropdowns.size() < garnTyper.length) {
+      needToAddDropdown = true;
     }
+  }
+}
 
-    void tegnStjerne(float posX, float posY, boolean fyldt) {
-      pushMatrix();
-      translate(posX, posY);
-      stroke(0);
-      if (fyldt) {
-        fill(230, 214, 2);
-        stroke(0);
-      } else {
-        fill(255, 0);
-      }
-      strokeWeight(2);
-      beginShape();
-      vertex(0*width/1920, -25*width/1920);
-      vertex(7*width/1920, -10*width/1920);
-      vertex(23.5*width/1920, -7.5*width/1920);
-      vertex(11.5*width/1920, 3.5*width/1920);
-      vertex(14.5*width/1920, 20*width/1920);
-      vertex(0*width/1920, 12.5*width/1920);
-      vertex(-14.5*width/1920, 20*width/1920);
-      vertex(-11.5*width/1920, 3.5*width/1920);
-      vertex(-23.5*width/1920, -7.5*width/1920);
-      vertex(-7*width/1920, -10*width/1920);
-      endShape(CLOSE);
-      popMatrix();
-    }
+// Add this new method to mitSkaerm.pde
+void removeDropdown(int index) {
+  // Clear mitGarn
+  mitGarn.clear();
 
-    // Function to check if the JSON file exists and create it if needed
-    void checkRecipeFile() {
-      File f = new File(dataPath("savedRecipes.json"));
-      if (!f.exists()) {
-        // Create an empty JSON array and save it
-        JSONArray emptyArray = new JSONArray();
-        saveJSONArray(emptyArray, "data/savedRecipes.json");
-        println("Created new savedRecipes.json file");
-      }
-    }
+  // Remove the dropdown
+  garnDropdowns.remove(index);
 
-    // Function to load saved recipes from JSON file
-    void loadSavedRecipes() {
-      try {
-        JSONArray savedRecipesJSON = loadJSONArray("data/savedRecipes.json");
-        gemteOpskrifter.clear();
+  for (Dropdown dropdown : garnDropdowns) {
+    mitGarn.add(dropdown.chosen);
+  }
 
-        for (int i = 0; i < savedRecipesJSON.size(); i++) {
-          JSONObject recipeJSON = savedRecipesJSON.getJSONObject(i);
+  // Reset dropdown state
+  openDropdown = -1;
 
-          // Extract recipe data
-          String titel = recipeJSON.getString("titel");
-          String link = recipeJSON.getString("link", "");
-          String svaerhedsgrad = recipeJSON.getString("svaerhedsgrad", "");
-          String produktType = recipeJSON.getString("produktType", "");
+  // Check if we need to add a new dropdown
+  checkAddNewDropdown();
+}
 
-          // Create new recipe object
-          Opskrift savedRecipe = new Opskrift(titel, link, svaerhedsgrad, produktType, null);
+void tegnStjerne(float posX, float posY, boolean fyldt) {
+  pushMatrix();
+  translate(posX, posY);
+  stroke(0);
+  if (fyldt) {
+    fill(230, 214, 2);
+    stroke(0);
+  } else {
+    fill(255, 0);
+  }
+  strokeWeight(2);
+  beginShape();
+  vertex(0*width/1920, -25*width/1920);
+  vertex(7*width/1920, -10*width/1920);
+  vertex(23.5*width/1920, -7.5*width/1920);
+  vertex(11.5*width/1920, 3.5*width/1920);
+  vertex(14.5*width/1920, 20*width/1920);
+  vertex(0*width/1920, 12.5*width/1920);
+  vertex(-14.5*width/1920, 20*width/1920);
+  vertex(-11.5*width/1920, 3.5*width/1920);
+  vertex(-23.5*width/1920, -7.5*width/1920);
+  vertex(-7*width/1920, -10*width/1920);
+  endShape(CLOSE);
+  popMatrix();
+}
 
-          // Add yarn types if they exist
-          if (recipeJSON.hasKey("garn")) {
-            JSONArray garnArray = recipeJSON.getJSONArray("garn");
-            for (int j = 0; j < garnArray.size(); j++) {
-              savedRecipe.tilfoejGarntype(garnArray.getString(j));
-            }
-          }
+// Function to check if the JSON file exists and create it if needed
+void checkRecipeFile() {
+  File f = new File(dataPath("savedRecipes.json"));
+  if (!f.exists()) {
+    // Create an empty JSON array and save it
+    JSONArray emptyArray = new JSONArray();
+    saveJSONArray(emptyArray, "data/savedRecipes.json");
+    println("Created new savedRecipes.json file");
+  }
+}
 
-          // Set image URL if it exists - use "image" key to match hentOpskrifterFraServer
-          if (recipeJSON.hasKey("image")) {
-            savedRecipe.imageUrl = recipeJSON.getString("image");
-            savedRecipe.billedeHentes = true;
-          }
+// Function to load saved recipes from JSON file
+void loadSavedRecipes() {
+  try {
+    JSONArray savedRecipesJSON = loadJSONArray("data/savedRecipes.json");
+    gemteOpskrifter.clear();
 
-          gemteOpskrifter.add(savedRecipe);
+    for (int i = 0; i < savedRecipesJSON.size(); i++) {
+      JSONObject recipeJSON = savedRecipesJSON.getJSONObject(i);
+
+      // Extract recipe data
+      String titel = recipeJSON.getString("titel");
+      String link = recipeJSON.getString("link", "");
+      String svaerhedsgrad = recipeJSON.getString("svaerhedsgrad", "");
+      String produktType = recipeJSON.getString("produktType", "");
+
+      // Create new recipe object
+      Opskrift savedRecipe = new Opskrift(titel, link, svaerhedsgrad, produktType, null);
+
+      // Add yarn types if they exist
+      if (recipeJSON.hasKey("garn")) {
+        JSONArray garnArray = recipeJSON.getJSONArray("garn");
+        for (int j = 0; j < garnArray.size(); j++) {
+          savedRecipe.tilfoejGarntype(garnArray.getString(j));
         }
-        println("Loaded " + gemteOpskrifter.size() + " saved recipes");
+      }
 
-        // Start a thread to load images for saved recipes
-        thread("hentGemteOpskrifterBilleder");
+      // Set image URL if it exists - use "image" key to match hentOpskrifterFraServer
+      if (recipeJSON.hasKey("image")) {
+        savedRecipe.imageUrl = recipeJSON.getString("image");
+        savedRecipe.billedeHentes = true;
       }
-      catch (Exception e) {
-        println("Error loading saved recipes: " + e.getMessage());
-        // If there's an error, create a new file
-        checkRecipeFile();
-      }
+
+      gemteOpskrifter.add(savedRecipe);
+    }
+    println("Loaded " + gemteOpskrifter.size() + " saved recipes");
+
+    // Start a thread to load images for saved recipes
+    thread("hentGemteOpskrifterBilleder");
+  }
+  catch (Exception e) {
+    println("Error loading saved recipes: " + e.getMessage());
+    // If there's an error, create a new file
+    checkRecipeFile();
+  }
+}
+
+// Function to save recipes to JSON file
+void saveRecipesToFile() {
+  JSONArray savedRecipesJSON = new JSONArray();
+
+  for (int i = 0; i < gemteOpskrifter.size(); i++) {
+    Opskrift recipe = gemteOpskrifter.get(i);
+    JSONObject recipeJSON = new JSONObject();
+
+    // Save basic recipe information
+    recipeJSON.setString("titel", recipe.titel);
+    recipeJSON.setString("link", recipe.link);
+    recipeJSON.setString("kategori", recipe.kategori);
+    recipeJSON.setString("produktType", recipe.produktType);
+
+    // Save image URL with the same key name as in hentOpskrifterFraServer
+    if (recipe.imageUrl != null) {
+      recipeJSON.setString("image", recipe.imageUrl);
     }
 
-    // Function to save recipes to JSON file
-    void saveRecipesToFile() {
-      JSONArray savedRecipesJSON = new JSONArray();
-
-      for (int i = 0; i < gemteOpskrifter.size(); i++) {
-        Opskrift recipe = gemteOpskrifter.get(i);
-        JSONObject recipeJSON = new JSONObject();
-
-        // Save basic recipe information
-        recipeJSON.setString("titel", recipe.titel);
-        recipeJSON.setString("link", recipe.link);
-        recipeJSON.setString("sværhedsgrad", recipe.sværhedsgrad);
-        recipeJSON.setString("produktType", recipe.produktType);
-
-        // Save image URL with the same key name as in hentOpskrifterFraServer
-        if (recipe.imageUrl != null) {
-          recipeJSON.setString("image", recipe.imageUrl);
-        }
-
-        // Save yarn types
-        JSONArray garnArray = new JSONArray();
-        for (int j = 0; j < recipe.krævneGarn.size(); j++) {
-          garnArray.setString(j, recipe.krævneGarn.get(j));
-        }
-        recipeJSON.setJSONArray("garn", garnArray);
-
-        savedRecipesJSON.setJSONObject(i, recipeJSON);
-      }
-
-      saveJSONArray(savedRecipesJSON, "data/savedRecipes.json");
-      println("Saved " + gemteOpskrifter.size() + " recipes to file");
+    // Save yarn types
+    JSONArray garnArray = new JSONArray();
+    for (int j = 0; j < recipe.krævneGarn.size(); j++) {
+      garnArray.setString(j, recipe.krævneGarn.get(j));
     }
+    recipeJSON.setJSONArray("garn", garnArray);
+
+    savedRecipesJSON.setJSONObject(i, recipeJSON);
+  }
+
+  saveJSONArray(savedRecipesJSON, "data/savedRecipes.json");
+  println("Saved " + gemteOpskrifter.size() + " recipes to file");
+}
