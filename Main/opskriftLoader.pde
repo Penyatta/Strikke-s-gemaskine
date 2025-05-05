@@ -30,7 +30,7 @@ void hentOpskrifterFraServer(String kilde) {
 
       String titel = jsonOpskrift.getString("titel");
       String link = jsonOpskrift.getString("url"); // ændret fra "link"
-      String sværhedsgrad = jsonOpskrift.getString("sværhedsgrad"); 
+      String køn = jsonOpskrift.getString("køn"); 
       String produktType = jsonOpskrift.getString("produkttype"); 
 
       // Load billede
@@ -40,7 +40,7 @@ void hentOpskrifterFraServer(String kilde) {
         imagePath = jsonOpskrift.getString("image");
       }
 
-      Opskrift nyOpskrift = new Opskrift(titel, link, sværhedsgrad, produktType, null);
+      Opskrift nyOpskrift = new Opskrift(titel, køn, link, produktType, null);
       nyOpskrift.imageUrl = imagePath;
       nyOpskrift.billedeHentes = true;
       opskrifter.add(nyOpskrift);
