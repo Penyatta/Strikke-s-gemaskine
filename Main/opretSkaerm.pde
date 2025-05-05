@@ -1,5 +1,7 @@
 
 
+
+
 void opretSkærm(){
   background(255);
   overskriftBjælke("Tilføj din egen opskrift");
@@ -107,6 +109,7 @@ void opretSkærmKnapper(){
 
   if(opretSkærmTilbageKnap.mouseOver()){
   skærm=startSkærm;
+  camY=0;
   }
   
    garnTypeGroup.checkMouse();

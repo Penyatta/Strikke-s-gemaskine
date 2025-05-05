@@ -9,15 +9,17 @@ class Opskrift {
   String link;
   ArrayList<String> krævneGarn = new ArrayList<String>();
   int garntyper;
-  String sværhedsgrad;
+  String kategori;
   String produktType;
- // PImage billede;
-  Opskrift(String TITEL, String LINK, String SVÆRHEDSGRAD, String PRODUKTTYPE, PImage BILLEDE) {
-    titel=TITEL;
-    link=LINK;
-    sværhedsgrad=SVÆRHEDSGRAD;
-    billede=BILLEDE;
-    produktType=PRODUKTTYPE;
+
+  // Constructor
+  Opskrift(String TITEL,  String KATEGORI, String LINK, String PRODUKTTYPE, PImage BILLEDE) {
+    titel = TITEL;
+    kategori = KATEGORI;
+    link = LINK;
+    produktType = PRODUKTTYPE;
+    billede = BILLEDE;
+    
   }
   void tilfoejGarntype(String garn) {
     krævneGarn.add(garn);
@@ -33,9 +35,9 @@ class Opskrift {
     textAlign(CORNER);
     textSize(18);
 
-    // Vis opskriftens titel, sværhedsgrad, produktType og garn
+    // Vis opskriftens titel, kategori, produktType og garn
     text(titel, x + 10, y + 20);
-    text("Sværhedsgrad: " + sværhedsgrad, x + 10, y + 50);
+    text("Kategori: " + kategori, x + 10, y + 50);
     text("Produkttype: " + produktType, x + 10, y + 80);
     text("Garn: " + String.join(", ", krævneGarn), x + 10, y + 110);  // Garn kan være flere typer
 

@@ -42,7 +42,7 @@ void setup() {
   mitSkærmSetup();
   opretSkærmSetup();
   //loadOpskrifter("opskrifter.json");
-  
+
   // Initialize lastY for drag scrolling
   lastMouseY = mouseY; // Initialize lastMouseY
   
@@ -50,10 +50,6 @@ void setup() {
 
 }
 void draw() {
-  println("");
-  for (int i=0; i<mitGarn.size(); i++) {
-    print(mitGarn.get(i)+", ");
-  }
   background(100);
   // Skærmfordeling via state machine
   if (skærm == startSkærm) {
@@ -68,7 +64,6 @@ void draw() {
     hjælpSkærm();
   } else {
     println("error - skærm ikke defineret rigtigt");
-
   }
 
   //tegner knapper
@@ -158,9 +153,13 @@ void mouseDragged() {
 void mousePressed() {
   // Kører knap funktionerne der tjekker om knapperne tilhørende de forskellige skærme er blevet trykket på
   startSkærmKnapper();
-  søgeSkærmKnapper();
+  if (skærm==søgeSkærm) {
+    søgeSkærmKnapper();
+  }
   hjælpSkærmKnapper();
-  mitSkærmKnapper();
+  if (skærm==mitSkærm) {
+    mitSkærmKnapper();
+  }
   opretSkærmKnapper();
 
   // Aktivere tekstfelter hvis musen er over dem
