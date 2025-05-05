@@ -29,9 +29,6 @@ void søgeSkærm() {
   fill(247, 239, 210);
   rect(580*width/1440,150*width/1440,18*width/1440,780*width/1440);
 
-  overskriftBjælke("Søg efter opskrifter");
-  
-
   textSize(40*width/1440);
   fill(71, 92, 108);
   textAlign(CORNER,CORNER);
@@ -44,6 +41,8 @@ void søgeSkærm() {
   kategoriGroup.tegnAlle();
   produktTypeGroup.tegnAlle();
   udfraGarnGroup.tegnAlle();
+  
+    overskriftBjælke("Søg efter opskrifter");
 }
 
 SwitchGroup kategoriGroup;
@@ -89,7 +88,7 @@ void søgeSkærmSetup() {
   knapper.add(søgeSkærmTilbageKnap);
   
   //laver søgefeltknappen til søgeskærmen
-  søgeSkærmSøgKnap = new Knap(493*width/1440, height/9*2+height/40, 67*width/1440, 67*height/982, color(71, 92, 108), "Søg", 30, color(247, 239, 210), color(247, 239, 210), 0, søgeSkærm);
+  søgeSkærmSøgKnap = new Knap(493*width/1440, height/9*2+height/40-camY, 67*width/1440, 67*height/982, color(71, 92, 108), "Søg", 30, color(247, 239, 210), color(247, 239, 210), 0, søgeSkærm);
   knapper.add(søgeSkærmSøgKnap);
   textfields.add(new Textfield(35*width/1440, height/9*2+height/40, 440*width/1440, 67*height/982, color(71, 92, 108), color(247, 239, 210), color(247, 239, 210), color(247, 239, 210), 30*width/1440, "Søgefelt", "", 0, søgeSkærm,false));
  

@@ -96,7 +96,7 @@ class Knap {
       //Sørger for at det er det øverste venstre hjørne som knappen tegnes fra
       rectMode(CORNER);
       if (knapSkærm==søgeSkærm) {
-        skyggeImplement(posX, posY+sizeY-1, sizeX, true);
+        skyggeImplement(posX, posY+sizeY-1-camY, sizeX, true);
       } else {
         skyggeImplement(posX, posY+sizeY-1, sizeX, false);
       }
@@ -132,9 +132,9 @@ class Knap {
         }
       } else {
         if (knapSkærm==søgeSkærm) {
-          text(tekst, posX+sizeX/2, posY+sizeY/2);
+          text(tekst, posX+sizeX/2, posY+sizeY/2-camY);
         } else {
-          text(tekst, posX+sizeX/2, posY+sizeY/2);
+          text(tekst, posX+sizeX/2, posY+sizeY/2-camY);
         }
       }
     }
@@ -259,11 +259,11 @@ class Textfield {
         fill(baggrundsFarve);
       }
       noStroke();
-      rect(posX, posY, sizeX, sizeY, rundhed);
+      rect(posX, posY-camY, sizeX, sizeY, rundhed);
       for (int i=1; i<skyggeAfstand+1; i++) {
         stroke(0, (skyggeAfstand-i)*7.5);
         strokeWeight(1);
-        line(posX, posY+i+sizeY-1, posX+sizeX-1, posY+i+sizeY-1);
+        line(posX, posY+i+sizeY-1-camY, posX+sizeX-1, posY+i+sizeY-1-camY);
       }
       noStroke();
 
@@ -286,7 +286,7 @@ class Textfield {
       while (textWidth(displayedText) > maxTextWidth && displayedText.length() > 0) {
         displayedText = displayedText.substring(1);
       }
-      text(displayedText, posX + width/100, posY + sizeY / 2);
+      text(displayedText, posX + width/100, posY + sizeY / 2-camY);
       if (active) {
         timer++;
         if (timer>60) {
@@ -339,7 +339,7 @@ class Switch {
     fill(71, 92, 108);
     textAlign(CENTER, BOTTOM);
     textSize(20*width/1440);
-    text(titel, posX, posY + diameter/2*3);
+    text(titel, posX, posY + diameter/2*3-camY);
 
     // Tegner knappen
     if (tændt) {
@@ -347,13 +347,13 @@ class Switch {
       fill(71, 92, 108);
       stroke(71, 92, 108);
       strokeWeight(4);
-      ellipse(posX, posY, diameter, diameter);
+      ellipse(posX, posY-camY, diameter, diameter);
     } else {
       // Hul cirkel når slået fra
       fill(255); // Hvid baggrund
       stroke(71, 92, 108);
       strokeWeight(4);
-      ellipse(posX, posY, diameter, diameter);
+      ellipse(posX, posY-camY, diameter, diameter);
       noStroke();
     }
   }

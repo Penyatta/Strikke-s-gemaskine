@@ -66,6 +66,14 @@ void draw() {
   for (Textfield field : textfields) {
     field.tegnPåSkærm();
   }
+  
+  //hvis man er inde på søgeskærmen eller opretskærm så skal søgefeltene forsvinde under overskriftbjælken, men ikke tilbageknap og hjælpknap
+  if(skærm == søgeSkærm || skærm == opretSkærm){
+    overskriftBjælke("Søg efter opskrifter");
+    søgeSkærmTilbageKnap.tegn();
+    hjælpKnap.tegn();
+  }
+  
 }
 
 // Replace your mouseDragged function with this version
