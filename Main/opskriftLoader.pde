@@ -3,6 +3,7 @@ ArrayList<Opskrift> opskrifter = new ArrayList<Opskrift>();
 
 // Funktion til at hente opskrifter fra serveren (nu med parameter for at vælge kilde)
 void hentOpskrifterFraServer(String kilde) {
+  
   opskrifter.clear();  // Tømmer eksisterende opskrifter, før vi henter nye
 
   String url = "";
@@ -11,7 +12,7 @@ void hentOpskrifterFraServer(String kilde) {
   if (kilde.equals("søg")) {
     url = "http://localhost:3000/searchOpskrifter";  // URL til søgning
   } else {
-    url = "https://server-kopi.onrender.com/opskrifter";  // Standard URL til hovedskærm
+    url = "http://server-kopi.onrender.com/opskrifter";  // Standard URL til hovedskærm
   }
 
   // Udfør GET anmodning
@@ -19,10 +20,9 @@ void hentOpskrifterFraServer(String kilde) {
   get.send();
 
   String json = get.getContent();
-
   // Debugging: Udskriv serverens svar (JSON-data)
   println("Server svar: " + json);
-
+  
   if (json != null && json.length() > 0) {
     JSONArray jsonOpskrifter = parseJSONArray(json);
 
@@ -32,10 +32,10 @@ void hentOpskrifterFraServer(String kilde) {
     for (int i = 0; i < jsonOpskrifter.size(); i++) {
       JSONObject jsonOpskrift = jsonOpskrifter.getJSONObject(i);
 
-      String titel = jsonOpskrift.getString("titel");
-      String link = jsonOpskrift.getString("link");
-      String sværhedsgrad = jsonOpskrift.getString("svaerhedsgrad");
-      String produktType = jsonOpskrift.getString("produktType");
+   String titel = jsonOpskrift.getString("titel");
+String link = jsonOpskrift.getString("url"); // ændret fra "link"
+String sværhedsgrad = jsonOpskrift.getString("sværhedsgrad"); // korrekt stavet
+String produktType = jsonOpskrift.getString("produkttype"); // korrekt stavet
 
       // Load billede
       PImage billede = null;
@@ -54,7 +54,8 @@ void hentOpskrifterFraServer(String kilde) {
 
       // Tilføj garn
       if (jsonOpskrift.hasKey("kraevneGarn")) {
-        JSONArray garnTyper = jsonOpskrift.getJSONArray("kraevneGarn");
+        JSONArray garnTyper = jsonOpskrift.getJSONArray("garn"); // ikke "kraevneGarn"
+
         for (int j = 0; j < garnTyper.size(); j++) {
           String garnType = garnTyper.getString(j);
           nyOpskrift.tilfoejGarntype(garnType);

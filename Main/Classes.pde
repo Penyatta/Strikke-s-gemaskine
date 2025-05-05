@@ -312,6 +312,7 @@ class Textfield {
   }
 }
 
+
 //Class til alle de cirkler vi har som kan være slået til eller fra
 class Switch {
   float posX, posY;
@@ -352,7 +353,9 @@ class Switch {
   }
 
   boolean mouseOver() {
+
     // Check om musen er over switchen
+    
     float distance = dist(mouseX, mouseY, posX, posY);
     return distance <= diameter/2;
   }
@@ -645,3 +648,4 @@ class Dropdown {
       dropdownScreen == skærm;
   }
 }
+

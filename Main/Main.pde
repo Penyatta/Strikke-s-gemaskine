@@ -24,14 +24,15 @@ int lastMouseY;
 void setup() {
   fullScreen();
   //funktioner der kører de dele der kræves i setup for hver skærm
+  generalFont=createFont("InriaSerif-Regular.ttf", 32);
+  boldFont=createFont("InriaSerif-Bold.ttf", 32);
   startSkærmSetup();
   hjælpSkærmSetup();
   søgeSkærmSetup();
   mitSkærmSetup();
   opretSkærmSetup();
   //loadOpskrifter("opskrifter.json");
-  generalFont=createFont("InriaSerif-Regular.ttf", 32);
-  boldFont=createFont("InriaSerif-Bold.ttf", 32);
+  
   // Initialize lastY for drag scrolling
   lastMouseY = mouseY; // Initialize lastMouseY
 }
@@ -116,7 +117,9 @@ void mousePressed() {
 }
 
 void mouseWheel(MouseEvent event) {
+
   if (skærm == søgeSkærm || skærm == opretSkærm || skærm == mitSkærm) {
+
     // Using mouse wheel for scrolling (positive = scroll down, negative = scroll up)
     float e = event.getCount();
 
