@@ -95,6 +95,7 @@ class Knap {
     if (knapSkærm==skærm) {
       //Sørger for at det er det øverste venstre hjørne som knappen tegnes fra
       rectMode(CORNER);
+      //skygge til "søg" knap
       if (knapSkærm==søgeSkærm) {
         skyggeImplement(posX, posY+sizeY-1-camY, sizeX, true);
       } else {
@@ -106,7 +107,7 @@ class Knap {
       } else {
         fill(feltFarve);
       }
-      //Tegner selve knappen
+      //Tegner selve "søg" knappen
       if (knapSkærm==søgeSkærm) {
         rect(posX, posY-camY, sizeX, sizeY, rundhed);
       } else {
@@ -116,7 +117,7 @@ class Knap {
       textAlign(CENTER, CENTER);
       //Skifter farven på teksten
       fill(tekstFarve);
-      textSize(tekstSize);
+      textSize(tekstSize-5);
       //Skriver teksten
       if (textWidth(tekst)>=sizeX-10*width/1440) {
         ArrayList<String> linjer = tekstSplit(tekst, sizeX - 30*width/1440);
@@ -259,18 +260,18 @@ class Textfield {
         fill(baggrundsFarve);
       }
       noStroke();
-      rect(posX, posY-camY, sizeX, sizeY, rundhed);
+      rect(posX+15, posY-camY, sizeX-15, sizeY, rundhed);
       for (int i=1; i<skyggeAfstand+1; i++) {
         stroke(0, (skyggeAfstand-i)*7.5);
         strokeWeight(1);
-        line(posX, posY+i+sizeY-1-camY, posX+sizeX-1, posY+i+sizeY-1-camY);
+        line(posX+15, posY+i+sizeY-1-camY, posX+sizeX-1, posY+i+sizeY-1-camY);
       }
       noStroke();
 
       //skyggeImplement(posX, posY+sizeY-1, sizeX, true);
       textAlign(CORNER, CENTER);
       fill(tekstFarve);
-      textSize(tekstSize);
+      textSize(tekstSize-10);
       // Teksten som står i feltet
       String displayedText;
       if (active) {
@@ -286,7 +287,7 @@ class Textfield {
       while (textWidth(displayedText) > maxTextWidth && displayedText.length() > 0) {
         displayedText = displayedText.substring(1);
       }
-      text(displayedText, posX + width/100, posY + sizeY / 2-camY);
+      text(displayedText, posX + width/100+15, posY + sizeY / 2-camY);
       if (active) {
         timer++;
         if (timer>60) {

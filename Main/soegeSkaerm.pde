@@ -29,14 +29,14 @@ void søgeSkærm() {
   fill(247, 239, 210);
   rect(580*width/1440,150*width/1440,18*width/1440,780*width/1440);
 
-  textSize(40*width/1440);
+  textSize(30*width/1440);
   fill(71, 92, 108);
   textAlign(CORNER,CORNER);
-  text("Filtrer - kryds af",45*width/1440,370*height/982-camY);
-  textSize(30*width/1440);
-  text("Kategorier",45*width/1440,425*height/982-camY);
-  text("Produkttype",45*width/1440,690*height/982-camY);
-  text("Søg udfra mit garn",45*width/1440,1020*height/982-camY);
+  text("Filtrer - kryds af",52*width/1440,370*height/982-camY);
+  textSize(25*width/1440);
+  text("Kategorier",52*width/1440,425*height/982-camY);
+  text("Produkttype",52*width/1440,690*height/982-camY);
+  text("Søg udfra mit garn",52*width/1440,1050*height/982-camY);
  
   kategoriGroup.tegnAlle();
   produktTypeGroup.tegnAlle();
