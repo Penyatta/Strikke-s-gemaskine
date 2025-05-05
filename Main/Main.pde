@@ -38,10 +38,6 @@ void setup() {
   lastMouseY = mouseY; // Initialize lastMouseY
 }
 void draw() {
-  println("");
-  for (int i=0; i<mitGarn.size(); i++) {
-    print(mitGarn.get(i)+", ");
-  }
   background(100);
   // Skærmfordeling via state machine
   if (skærm == startSkærm) {

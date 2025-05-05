@@ -65,6 +65,10 @@ void mitSkærmKnapper() {
     skærm=startSkærm;
     // sætter scroll til nul når man går ud af skærmen
     camY = 0;
+    openDropdown=-1;
+    for (Dropdown dropdown : garnDropdowns) {
+      dropdown.isOpen=false;
+    }
   }
   //holder styr på om man skal kunne åben en ny dropdown
   if (openDropdown==-1) {
@@ -74,11 +78,13 @@ void mitSkærmKnapper() {
   }
 
   // Checker om der skal ske noget med nogen af dropdownsne
-  for (Dropdown dropdown : garnDropdowns) {
-    if (allowOpen) {
-      dropdown.checkMouse();
-    } else if (openDropdown==dropdown.dropdownIndex) {
-      dropdown.checkMouse();
+  if (skærm==mitSkærm) {
+    for (Dropdown dropdown : garnDropdowns) {
+      if (allowOpen) {
+        dropdown.checkMouse();
+      } else if (openDropdown==dropdown.dropdownIndex) {
+        dropdown.checkMouse();
+      }
     }
   }
   //Hvis man kan trykke en menu vil alle handlinger lukke denne menu og dermed gøre det muligt at åbne en ny
