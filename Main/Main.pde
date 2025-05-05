@@ -38,10 +38,9 @@ void setup() {
   lastMouseY = mouseY; // Initialize lastMouseY
 }
 void draw() {
-  println("");
-  for (int i=0; i<mitGarn.size(); i++) {
-    print(mitGarn.get(i)+", ");
-  }
+  //for (int i=0; i<mitGarn.size(); i++) {
+  //  print(mitGarn.get(i)+", ");
+  //}
   background(100);
   // Skærmfordeling via state machine
   if (skærm == startSkærm) {
@@ -89,9 +88,9 @@ void mouseDragged() {
     // Calculate maximum scroll based on content amount
     int maxScroll = 1000; // Default value
 
-    if (skærm == søgeSkærm && !opskrifter.isEmpty()) {
+    if (skærm == søgeSkærm && !alleOpskrifter.isEmpty()) {
       // Calculate based on number of recipes
-      maxScroll = int((height/5*2 + (height/4 + height/32) * opskrifter.size()) - height + 100);
+      maxScroll = int((height/5*2 + (height/4 + height/32) * alleOpskrifter.size()) - height + 100);
     }
 
     // Boundary checks
