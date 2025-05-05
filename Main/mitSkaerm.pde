@@ -7,7 +7,7 @@ int needRemoved;
 
 void mitSkærm() {
   background(255);
-  // Display title for the dropdown section
+  // Viser titlen til mit garn
   fill(71, 92, 108);
   textAlign(CENTER);
   textSize(35*width/1440);
@@ -15,11 +15,11 @@ void mitSkærm() {
 
 
 
-  // Display all dropdown menus in reverse order (bottom one first)
+  // Tegner alle dropdowns starter med den nederste så hvis man åbner en længere oppe vises den ikke under dem som kommer senere
   for (int i = garnDropdowns.size() - 1; i >= 0; i--) {
     garnDropdowns.get(i).tegn();
   }
-  // Check if we need to add a new dropdown (do this outside of any iteration)
+  // Checker om der skal tilføjes ny dropdown
   if (needToAddDropdown) {
     addGarnDropdown();
     needToAddDropdown = false;
@@ -32,7 +32,7 @@ void mitSkærm() {
 
 Knap mitSkærmTilbageKnap;
 ArrayList<Dropdown> garnDropdowns = new ArrayList<Dropdown>();
-boolean needToAddDropdown = false; // Flag to indicate we need to add a dropdown
+boolean needToAddDropdown = false; 
 
 void mitSkærmSetup() {
   //laver knapperne
@@ -45,19 +45,17 @@ void mitSkærmSetup() {
 void mitSkærmKnapper() {
   if (mitSkærmTilbageKnap.mouseOver()) {
     skærm=startSkærm;
-    // Reset scroll position when leaving the screen
+    // sætter scroll til nul når man går ud af skærmen
     camY = 0;
   }
+  //holder styr på om man skal kunne åben en ny dropdown
   if (openDropdown==-1) {
     allowOpen=true;
   } else {
     allowOpen=false;
   }
 
-
-  // Check all dropdown interactions
-
-  // Check all dropdown interactions
+  // Checker om der skal ske noget med nogen af dropdownsne
   for (Dropdown dropdown : garnDropdowns) {
     if (allowOpen) {
       dropdown.checkMouse();
@@ -65,14 +63,15 @@ void mitSkærmKnapper() {
       dropdown.checkMouse();
     }
   }
-
+//Hvis man kan trykke en menu vil alle handlinger lukke denne menu og dermed gøre det muligt at åbne en ny
   if (!allowOpen) {
     openDropdown=-1;
   }
+  //hvis det er blevet markeret at der skal fjernes en
   if (needRemove) {
-    // Use our new method instead
     removeDropdown(needRemoved);
     needRemove = false;
+    checkAddNewDropdown();
   }
 }
 
@@ -114,7 +113,7 @@ void checkAddNewDropdown() {
     // Check if we need to add a new dropdown
     boolean hasEmptyDropdown = false;
     for (Dropdown dropdown : garnDropdowns) {
-      if (dropdown.selectedIndex == -1) {
+      if (dropdown.chosen == "") {
         hasEmptyDropdown = true;
         break;
       }
@@ -129,24 +128,18 @@ void checkAddNewDropdown() {
 
 // Add this new method to mitSkaerm.pde
 void removeDropdown(int index) {
-  // Remove from mitGarn list if applicable
-  if (index >= 0 && index < mitGarn.size()) {
-    mitGarn.remove(index);
-  }
-
+  // Clear mitGarn
+  mitGarn.clear();
+  
   // Remove the dropdown
   garnDropdowns.remove(index);
-
-  // Update positions and indices of remaining dropdowns
-  for (int i = 0; i < garnDropdowns.size(); i++) {
-    Dropdown dropdown = garnDropdowns.get(i);
-    dropdown.dropdownIndex = i;
-    dropdown.posY = height/3 + (i * (height/14 + 15*width/1440));
+  
+  for(Dropdown dropdown : garnDropdowns){
+    mitGarn.add(dropdown.chosen);
   }
 
   // Reset dropdown state
   openDropdown = -1;
-
 
   // Check if we need to add a new dropdown
   checkAddNewDropdown();

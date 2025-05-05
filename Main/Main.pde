@@ -1,4 +1,3 @@
-
 import java.util.Arrays;
 
 PFont generalFont;
@@ -37,6 +36,10 @@ void setup() {
   lastMouseY = mouseY; // Initialize lastMouseY
 }
 void draw() {
+  println("");
+  for (int i=0; i<mitGarn.size(); i++) {
+    print(mitGarn.get(i)+", ");
+  }
   background(100);
   //fordeling på statemachine, hvis skærm værdi er lig en specifik skærm er det den som skal vises
   if (skærm==startSkærm) {
@@ -95,7 +98,7 @@ void mousePressed() {
   hjælpSkærmKnapper();
   mitSkærmKnapper();
   opretSkærmKnapper();
-  
+
   for (Textfield field : textfields) {
     if (field.mouseOver()) {
       if (activeField != null) {
