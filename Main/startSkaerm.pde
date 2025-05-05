@@ -1,4 +1,3 @@
-
 PImage startSkærmBaggrund;
 
 void startSkærm() {

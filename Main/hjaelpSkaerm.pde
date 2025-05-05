@@ -1,4 +1,3 @@
-
 void hjælpSkærm() {
   background(255);
   overskriftBjælke("Hjælp");
