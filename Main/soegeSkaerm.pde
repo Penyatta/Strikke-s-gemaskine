@@ -60,15 +60,15 @@ void søgeSkærmSetup() {
   float bredde1=(580*width/1440)/4;
   float bredde2=(580*width/1440)/2;
   float bredde3=(580*width/1440)/4*3;
-  Switch KvinderSwitch = new Switch(bredde1, højde+75, 30*width/1440-camY, "Kvinder", false);
-  Switch MændSwitch = new Switch(bredde2, højde+75, 30*width/1440-camY, "Mænd", false);
+  Switch KvindeSwitch = new Switch(bredde1, højde+75, 30*width/1440-camY, "Kvinde", false);
+  Switch MandSwitch = new Switch(bredde2, højde+75, 30*width/1440-camY, "Mand", false);
   Switch BabySwitch = new Switch(bredde3, højde+75, 30*width/1440-camY, "Baby (0-4 år)", false);
   Switch BarnSwitch = new Switch(bredde1, 585*height/982-10, 30*width/1440-camY, "Børn (2-14 år)", false);
   Switch HjemSwitch = new Switch(bredde2, 585*height/982-10, 30*width/1440-camY, "Hjem", false);
 
   //Tilføjer kategori switchesne til en gruppe
-  kategoriGroup.addSwitch(KvinderSwitch);
-  kategoriGroup.addSwitch(MændSwitch);
+  kategoriGroup.addSwitch(KvindeSwitch);
+  kategoriGroup.addSwitch(MandSwitch);
   kategoriGroup.addSwitch(BabySwitch);
   kategoriGroup.addSwitch(BarnSwitch);
   kategoriGroup.addSwitch(HjemSwitch);
@@ -122,6 +122,34 @@ void søgeSkærmSetup() {
   textfields.add(new Textfield(35*width/1440, height/9*2+height/40, 440*width/1440, 67*height/982, color(71, 92, 108), color(247, 239, 210), color(247, 239, 210), color(247, 239, 210), 30*width/1440, "Søgefelt", "", 0, søgeSkærm, false));
 }
 
+void opdaterFiltreretListe() {
+  visteOpskrifter.clear();
+
+  // Få navnet på den valgte switch (kategori)
+  String valgtKategori = kategoriGroup.getSelectedTitle();
+  
+  // Få navnet på den valgte switch (Produkttype)
+  String valgtproduktType = produktTypeGroup.getSelectedTitle();
+
+ for (Opskrift o : alleOpskrifter) {
+    boolean match = true;
+
+    if (!valgtKategori.equals("") && !o.kategori.equals(valgtKategori)) {
+      match = false;
+    }
+
+    if (!valgtproduktType.equals("") && !o.produktType.equals(valgtproduktType)) {
+      match = false;
+    }
+
+
+    if (match) {
+      visteOpskrifter.add(o);
+    }
+  }
+}
+
+
 void søgeSkærmKnapper() {
   if (søgeSkærmTilbageKnap.mouseOver()) {
     skærm=startSkærm;
@@ -131,6 +159,10 @@ void søgeSkærmKnapper() {
   kategoriGroup.checkMouse();
   produktTypeGroup.checkMouse();
   udfraGarnGroup.checkMouse();
+  
+    // Opdater visning baseret på valgte filtre
+  opdaterFiltreretListe();
+  
 }
 
 

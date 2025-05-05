@@ -483,7 +483,7 @@ boolean erSwitchAktiv(String navn) {
 
 }
 
-// Dropdowns itil at vælge det garn man har
+// Dropdowns til at vælge det garn man har
 class Dropdown {
   float posX, posY, sizeX, sizeY;
   //Holder garnet

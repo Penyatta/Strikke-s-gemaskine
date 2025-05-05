@@ -80,6 +80,7 @@ void hentOpskrifterFraServer(String kilde) {
   if (maxScroll < 0) {
     maxScroll = 0;
   }
+  
 }
 
 void hentBillederThread() {
