@@ -1,8 +1,5 @@
-<<<<<<< HEAD
 
 
-=======
->>>>>>> parent of 94e23a6 (Merge branch 'Opret-opskrifter' of https://github.com/Penyatta/Strikke-s-gemaskine into Opret-opskrifter)
 // Liste med opskrifter
 ArrayList<Opskrift> opskrifter = new ArrayList<Opskrift>();
 
@@ -43,19 +40,26 @@ String sværhedsgrad = jsonOpskrift.getString("sværhedsgrad"); // korrekt stave
 String produktType = jsonOpskrift.getString("produkttype"); // korrekt stavet
 
       // Load billede
-      PImage billede = null;
-      if (jsonOpskrift.hasKey("billedePath")) {
-        String billedePath = jsonOpskrift.getString("billedePath");
-        billede = loadImage(billedePath);
+      String imagePath = null;
+      if (jsonOpskrift.hasKey("image")) {
+         imagePath = jsonOpskrift.getString("image");
+        
+       // billede = loadImage(billedePath);
+        
         // Hvis billedet ikke kan loades, bruges et standardbillede
-        if (billede == null) {
-          println("Kunne ikke loade billede for: " + titel);
-          billede = createImage(100, 100, RGB); // Anvender et standardbillede
+       // if (billede == null) {
+       //   println("Kunne ikke loade billede for: " + titel);
+        //  billede = createImage(100, 100, RGB); // Anvender et standardbillede
         }
-      }
+      
 
       // Laver opskrift objektet
-      Opskrift nyOpskrift = new Opskrift(titel, link, sværhedsgrad, produktType, billede);
+      Opskrift nyOpskrift = new Opskrift(titel, link, sværhedsgrad, produktType, null);
+      
+      nyOpskrift.imageUrl = imagePath;
+      nyOpskrift.billedeHentes = true;
+      opskrifter.add(nyOpskrift);
+
 
       // Tilføj garn
       if (jsonOpskrift.hasKey("kraevneGarn")) {
@@ -82,12 +86,12 @@ String produktType = jsonOpskrift.getString("produkttype"); // korrekt stavet
 
   // Debugging: Tjek indholdet af opskrifter listen
   println("Opskrifter listen indeholder " + opskrifter.size() + " opskrifter.");
-<<<<<<< HEAD
+
 
   thread("hentBillederThread");
   
   // Beregn max scroll baseret på antal opskrifter og layout
-int antal = opskrifter.size();
+float antal = opskrifter.size();
 float højde = height / 4;
 float spacing = height / 32;
 maxScroll = (højde + spacing) * antal - (height - height / 5 * 2);
@@ -114,11 +118,8 @@ void hentBillederThread() {
   }
 }
 
-=======
-}
 
-// Replace your existing displayOpskrifter function with this version
->>>>>>> parent of 94e23a6 (Merge branch 'Opret-opskrifter' of https://github.com/Penyatta/Strikke-s-gemaskine into Opret-opskrifter)
+
 void displayOpskrifter(Opskrift opskrifter[]) {
   //Værdier der bestemmer position og størrelse af viste opskrifter
   float posY = height/5*2;
