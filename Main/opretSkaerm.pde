@@ -1,5 +1,7 @@
 
 
+
+
 void opretSkærm(){
   background(255);
   overskriftBjælke("Tilføj din egen opskrift");
