@@ -1,5 +1,6 @@
 
 
+
 // Liste med opskrifter
 ArrayList<Opskrift> opskrifter = new ArrayList<Opskrift>();
 
@@ -34,31 +35,25 @@ void hentOpskrifterFraServer(String kilde) {
     for (int i = 0; i < jsonOpskrifter.size(); i++) {
       JSONObject jsonOpskrift = jsonOpskrifter.getJSONObject(i);
 
-      String titel = jsonOpskrift.getString("titel");
-      String kategori = jsonOpskrift.getString("kategori"); 
-      String link = jsonOpskrift.getString("url"); // ændret fra "link"
-      
-      String produktType = jsonOpskrift.getString("produkttype"); 
+   String titel = jsonOpskrift.getString("titel");
+String link = jsonOpskrift.getString("url"); // ændret fra "link"
+String sværhedsgrad = jsonOpskrift.getString("sværhedsgrad"); // korrekt stavet
+String produktType = jsonOpskrift.getString("produkttype"); // korrekt stavet
 
       // Load billede
-      String imagePath = null;
-      if (jsonOpskrift.hasKey("image")) {
-         imagePath = jsonOpskrift.getString("image");
-        
-       // billede = loadImage(billedePath);
-        
+      PImage billede = null;
+      if (jsonOpskrift.hasKey("billedePath")) {
+        String billedePath = jsonOpskrift.getString("billedePath");
+        billede = loadImage(billedePath);
         // Hvis billedet ikke kan loades, bruges et standardbillede
-       // if (billede == null) {
-       //   println("Kunne ikke loade billede for: " + titel);
-        //  billede = createImage(100, 100, RGB); // Anvender et standardbillede
+        if (billede == null) {
+          println("Kunne ikke loade billede for: " + titel);
+          billede = createImage(100, 100, RGB); // Anvender et standardbillede
         }
-      
+      }
 
-      Opskrift nyOpskrift = new Opskrift(titel, kategori, link, produktType, null);
-      nyOpskrift.imageUrl = imagePath;
-      nyOpskrift.billedeHentes = true;
-      opskrifter.add(nyOpskrift);
-
+      // Laver opskrift objektet
+      Opskrift nyOpskrift = new Opskrift(titel, link, sværhedsgrad, produktType, billede);
 
       // Tilføj garn
       if (jsonOpskrift.hasKey("kraevneGarn")) {
@@ -83,10 +78,14 @@ void hentOpskrifterFraServer(String kilde) {
     println("⚠️ Fejl: Kunne ikke hente opskrifter fra serveren");
   }
 
+  // Debugging: Tjek indholdet af opskrifter listen
+  println("Opskrifter listen indeholder " + opskrifter.size() + " opskrifter.");
+
+
   thread("hentBillederThread");
   
   // Beregn max scroll baseret på antal opskrifter og layout
-float antal = opskrifter.size();
+int antal = opskrifter.size();
 float højde = height / 4;
 float spacing = height / 32;
 maxScroll = (højde + spacing) * antal - (height - height / 5 * 2);
@@ -99,22 +98,24 @@ if (maxScroll < 0) {
 }
 
 
-void hentBillederThread() {
-  for (Opskrift o : opskrifter) {
-    if (o.billedeHentes && o.imageUrl != null && o.billede == null) {
+//void hentBillederThread() {
+//  for (Opskrift o : opskrifter) {
+//    if (o.billedeHentes && o.imageUrl != null && o.billede == null) {
 
-      PImage img = loadImage(o.imageUrl);
-      if (img != null) {
-        o.billede = img;
+//      PImage img = loadImage(o.imageUrl);
+//      if (img != null) {
+//        o.billede = img;
 
-        o.billedeHentes = false;
-      }
-    }
-  }
-}
-
+//        o.billedeHentes = false;
+//      }
+//    }
+//  }
 
 
+//}
+
+
+// Replace your existing displayOpskrifter function with this version
 void displayOpskrifter(Opskrift opskrifter[]) {
   //Værdier der bestemmer position og størrelse af viste opskrifter
   float posY = height/5*2;
@@ -141,12 +142,12 @@ void displayOpskrifter(Opskrift opskrifter[]) {
       textAlign(CORNER);
       textSize(30);
       text(opskrift.titel, posX + width/100, posY - camY + width/50);
-
-      //skriver kategorien
+      
+      //skriver sværhedsgraden
       textFont(generalFont);
       textSize(20);
-      text("Kategori: " + opskrift.kategori, posX + width/100, posY - camY + højde/4 + width/50);
-
+      text("Sværhedsgrad: " + opskrift.sværhedsgrad, posX + width/100, posY - camY + højde/4 + width/50);
+      
       //Skriver produkttypen
       text("produkttype: " + opskrift.produktType, posX + width/100, posY - camY + højde/4*2 + width/50);
       
