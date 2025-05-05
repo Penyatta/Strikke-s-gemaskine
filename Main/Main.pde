@@ -33,7 +33,7 @@ void setup() {
   mitSkærmSetup();
   opretSkærmSetup();
   //loadOpskrifter("opskrifter.json");
-  
+
   // Initialize lastY for drag scrolling
   lastMouseY = mouseY; // Initialize lastMouseY
 }
@@ -56,7 +56,6 @@ void draw() {
     hjælpSkærm();
   } else {
     println("error - skærm ikke defineret rigtigt");
-
   }
 
   //tegner knapper
@@ -97,9 +96,13 @@ void mouseDragged() {
 void mousePressed() {
   //kører knap funktionerne der tjekker om knapperne tilhørende de forskellige skærme er blevet trykket på
   startSkærmKnapper();
-  søgeSkærmKnapper();
+  if (skærm==søgeSkærm) {
+    søgeSkærmKnapper();
+  }
   hjælpSkærmKnapper();
-  mitSkærmKnapper();
+  if (skærm==mitSkærm) {
+    mitSkærmKnapper();
+  }
   opretSkærmKnapper();
 
   for (Textfield field : textfields) {

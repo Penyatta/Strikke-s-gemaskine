@@ -5,7 +5,7 @@ ArrayList<Opskrift> opskrifter = new ArrayList<Opskrift>();
 
 // Funktion til at hente opskrifter fra serveren (nu med parameter for at vælge kilde)
 void hentOpskrifterFraServer(String kilde) {
-  
+
   opskrifter.clear();  // Tømmer eksisterende opskrifter, før vi henter nye
 
   String url = "";
@@ -24,7 +24,7 @@ void hentOpskrifterFraServer(String kilde) {
   String json = get.getContent();
   // Debugging: Udskriv serverens svar (JSON-data)
   println("Server svar: " + json);
-  
+
   if (json != null && json.length() > 0) {
     JSONArray jsonOpskrifter = parseJSONArray(json);
 
@@ -34,28 +34,28 @@ void hentOpskrifterFraServer(String kilde) {
     for (int i = 0; i < jsonOpskrifter.size(); i++) {
       JSONObject jsonOpskrift = jsonOpskrifter.getJSONObject(i);
 
-   String titel = jsonOpskrift.getString("titel");
-String link = jsonOpskrift.getString("url"); // ændret fra "link"
-String sværhedsgrad = jsonOpskrift.getString("sværhedsgrad"); // korrekt stavet
-String produktType = jsonOpskrift.getString("produkttype"); // korrekt stavet
+      String titel = jsonOpskrift.getString("titel");
+      String link = jsonOpskrift.getString("url"); // ændret fra "link"
+      String sværhedsgrad = jsonOpskrift.getString("sværhedsgrad"); // korrekt stavet
+      String produktType = jsonOpskrift.getString("produkttype"); // korrekt stavet
 
       // Load billede
       String imagePath = null;
       if (jsonOpskrift.hasKey("image")) {
-         imagePath = jsonOpskrift.getString("image");
-        
-       // billede = loadImage(billedePath);
-        
+        imagePath = jsonOpskrift.getString("image");
+
+        // billede = loadImage(billedePath);
+
         // Hvis billedet ikke kan loades, bruges et standardbillede
-       // if (billede == null) {
-       //   println("Kunne ikke loade billede for: " + titel);
+        // if (billede == null) {
+        //   println("Kunne ikke loade billede for: " + titel);
         //  billede = createImage(100, 100, RGB); // Anvender et standardbillede
-        }
-      
+      }
+
 
       // Laver opskrift objektet
       Opskrift nyOpskrift = new Opskrift(titel, link, sværhedsgrad, produktType, null);
-      
+
       nyOpskrift.imageUrl = imagePath;
       nyOpskrift.billedeHentes = true;
       opskrifter.add(nyOpskrift);
@@ -89,18 +89,17 @@ String produktType = jsonOpskrift.getString("produkttype"); // korrekt stavet
 
 
   thread("hentBillederThread");
-  
+
   // Beregn max scroll baseret på antal opskrifter og layout
-float antal = opskrifter.size();
-float højde = height / 4;
-float spacing = height / 32;
-maxScroll = (højde + spacing) * antal - (height - height / 5 * 2);
+  float antal = opskrifter.size();
+  float højde = height / 4;
+  float spacing = height / 32;
+  maxScroll = (højde + spacing) * antal - (height - height / 5 * 2);
 
-// Sørg for det ikke bliver negativt
-if (maxScroll < 0) {
-  maxScroll = 0;
-}
-
+  // Sørg for det ikke bliver negativt
+  if (maxScroll < 0) {
+    maxScroll = 0;
+  }
 }
 
 
@@ -138,23 +137,31 @@ void displayOpskrifter(Opskrift opskrifter[]) {
       //tegner selve kassen
       fill(247, 239, 210);
       rect(posX, posY - camY, bredde, højde);
-      skyggeImplement(posX, posY-camY+højde-1, bredde,true);
-      
+      skyggeImplement(posX, posY-camY+højde-1, bredde, true);
+      boolean gemt = false;
+      for (Opskrift gemtOpskrift : gemteOpskrifter) {
+        if (opskrift.titel.equals(gemtOpskrift.titel)) {
+          gemt = true;
+          break;
+        }
+      }
+      tegnStjerne(posX+bredde/24*14, posY+højde/9-camY, gemt);
+
       //skriver titlen
       fill(0);
       textFont(boldFont);
       textAlign(CORNER);
       textSize(30);
       text(opskrift.titel, posX + width/100, posY - camY + width/50);
-      
+
       //skriver sværhedsgraden
       textFont(generalFont);
       textSize(20);
       text("Sværhedsgrad: " + opskrift.sværhedsgrad, posX + width/100, posY - camY + højde/4 + width/50);
-      
+
       //Skriver produkttypen
       text("produkttype: " + opskrift.produktType, posX + width/100, posY - camY + højde/4*2 + width/50);
-      
+
       //skriver garntyperne og tilføjer tegn imellem hvis der er flere
       String garnInfo = "Garntyper: ";
       for (int i = 0; i < opskrift.krævneGarn.size(); i++) {
@@ -166,8 +173,8 @@ void displayOpskrifter(Opskrift opskrifter[]) {
         }
       }
       text(garnInfo, posX + width/100, posY - camY + højde/4*3 + width/50);
-      
-      //Viser billedet 
+
+      //Viser billedet
       if (opskrift.billede == null) {
         fill(200);
         rect(posX + bredde/24*17, posY - camY + højde/10, bredde/24*5, højde/10*8);
@@ -182,7 +189,6 @@ void displayOpskrifter(Opskrift opskrifter[]) {
       strokeWeight(10);
       line(posX + bredde/24*15, posY - camY - 1, posX + bredde/24*15, posY - camY + højde);
     }
-    
     posY += spacing + højde;
   }
 }
