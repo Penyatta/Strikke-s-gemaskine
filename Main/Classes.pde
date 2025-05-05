@@ -108,9 +108,9 @@ class Knap {
       }
       //Tegner selve knappen
       if (knapSkærm==søgeSkærm) {
-        rect(posX, posY, sizeX, sizeY, rundhed);
+        rect(posX, posY-camY, sizeX, sizeY, rundhed);
       } else {
-        rect(posX, posY, sizeX, sizeY, rundhed);
+        rect(posX, posY-camY, sizeX, sizeY, rundhed);
       }
       //Sørger for at tekst tegnes med udgangspunkt i centrum af knappen
       textAlign(CENTER, CENTER);
