@@ -1,11 +1,17 @@
 class Opskrift {
+  
+  // Billede og hentestatus
+  String imageUrl;
+  boolean billedeHentes = false;
+  PImage billede = null;
+  
   String titel;
   String link;
   ArrayList<String> krævneGarn = new ArrayList<String>();
   int garntyper;
   String sværhedsgrad;
   String produktType;
-  PImage billede;
+ // PImage billede;
   Opskrift(String TITEL, String LINK, String SVÆRHEDSGRAD, String PRODUKTTYPE, PImage BILLEDE) {
     titel=TITEL;
     link=LINK;
@@ -648,4 +654,3 @@ class Dropdown {
       dropdownScreen == skærm;
   }
 }
-
