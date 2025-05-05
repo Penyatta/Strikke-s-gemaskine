@@ -1,8 +1,4 @@
-
-
-//Library til at lave tekstfelter
-import controlP5.*;
-ControlP5 cp5;
+import java.util.Arrays;
 
 PFont generalFont;
 PFont boldFont;
@@ -27,7 +23,6 @@ int lastMouseY;
 
 void setup() {
   fullScreen();
-  cp5=new ControlP5(this);
   //funktioner der kører de dele der kræves i setup for hver skærm
   startSkærmSetup();
   hjælpSkærmSetup();
@@ -41,6 +36,10 @@ void setup() {
   lastMouseY = mouseY; // Initialize lastMouseY
 }
 void draw() {
+  println("");
+  for (int i=0; i<mitGarn.size(); i++) {
+    print(mitGarn.get(i)+", ");
+  }
   background(100);
   // Skærmfordeling via state machine
   if (skærm == startSkærm) {
@@ -70,7 +69,7 @@ void draw() {
 // Replace your mouseDragged function with this version
 void mouseDragged() {
   // Only scroll in screens that need scrolling
-  if (skærm == søgeSkærm || skærm == opretSkærm) {
+  if (skærm == søgeSkærm || skærm == opretSkærm || skærm == mitSkærm) {
     // Calculate difference from last position
     int diff = mouseY - lastMouseY;
 
@@ -100,7 +99,7 @@ void mousePressed() {
   hjælpSkærmKnapper();
   mitSkærmKnapper();
   opretSkærmKnapper();
-  
+
   for (Textfield field : textfields) {
     if (field.mouseOver()) {
       if (activeField != null) {
@@ -117,7 +116,7 @@ void mousePressed() {
 }
 
 void mouseWheel(MouseEvent event) {
-  if (skærm == søgeSkærm || skærm == opretSkærm) {
+  if (skærm == søgeSkærm || skærm == opretSkærm || skærm == mitSkærm) {
     // Using mouse wheel for scrolling (positive = scroll down, negative = scroll up)
     float e = event.getCount();
 
