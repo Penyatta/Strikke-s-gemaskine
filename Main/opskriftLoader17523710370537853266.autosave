@@ -1,5 +1,6 @@
 
 
+
 // Liste med opskrifter
 ArrayList<Opskrift> opskrifter = new ArrayList<Opskrift>();
 
@@ -40,26 +41,19 @@ String sværhedsgrad = jsonOpskrift.getString("sværhedsgrad"); // korrekt stave
 String produktType = jsonOpskrift.getString("produkttype"); // korrekt stavet
 
       // Load billede
-      String imagePath = null;
-      if (jsonOpskrift.hasKey("image")) {
-         imagePath = jsonOpskrift.getString("image");
-        
-       // billede = loadImage(billedePath);
-        
+      PImage billede = null;
+      if (jsonOpskrift.hasKey("billedePath")) {
+        String billedePath = jsonOpskrift.getString("billedePath");
+        billede = loadImage(billedePath);
         // Hvis billedet ikke kan loades, bruges et standardbillede
-       // if (billede == null) {
-       //   println("Kunne ikke loade billede for: " + titel);
-        //  billede = createImage(100, 100, RGB); // Anvender et standardbillede
+        if (billede == null) {
+          println("Kunne ikke loade billede for: " + titel);
+          billede = createImage(100, 100, RGB); // Anvender et standardbillede
         }
-      
+      }
 
       // Laver opskrift objektet
-      Opskrift nyOpskrift = new Opskrift(titel, link, sværhedsgrad, produktType, null);
-      
-      nyOpskrift.imageUrl = imagePath;
-      nyOpskrift.billedeHentes = true;
-      opskrifter.add(nyOpskrift);
-
+      Opskrift nyOpskrift = new Opskrift(titel, link, sværhedsgrad, produktType, billede);
 
       // Tilføj garn
       if (jsonOpskrift.hasKey("kraevneGarn")) {
@@ -91,7 +85,7 @@ String produktType = jsonOpskrift.getString("produkttype"); // korrekt stavet
   thread("hentBillederThread");
   
   // Beregn max scroll baseret på antal opskrifter og layout
-float antal = opskrifter.size();
+int antal = opskrifter.size();
 float højde = height / 4;
 float spacing = height / 32;
 maxScroll = (højde + spacing) * antal - (height - height / 5 * 2);
@@ -104,22 +98,24 @@ if (maxScroll < 0) {
 }
 
 
-void hentBillederThread() {
-  for (Opskrift o : opskrifter) {
-    if (o.billedeHentes && o.imageUrl != null && o.billede == null) {
+//void hentBillederThread() {
+//  for (Opskrift o : opskrifter) {
+//    if (o.billedeHentes && o.imageUrl != null && o.billede == null) {
 
-      PImage img = loadImage(o.imageUrl);
-      if (img != null) {
-        o.billede = img;
+//      PImage img = loadImage(o.imageUrl);
+//      if (img != null) {
+//        o.billede = img;
 
-        o.billedeHentes = false;
-      }
-    }
-  }
-}
-
+//        o.billedeHentes = false;
+//      }
+//    }
+//  }
 
 
+//}
+
+
+// Replace your existing displayOpskrifter function with this version
 void displayOpskrifter(Opskrift opskrifter[]) {
   //Værdier der bestemmer position og størrelse af viste opskrifter
   float posY = height/5*2;

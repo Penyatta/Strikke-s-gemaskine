@@ -1,5 +1,6 @@
 import java.util.Arrays;
 
+
 PFont generalFont;
 PFont boldFont;
 
@@ -15,10 +16,10 @@ int hjælpSkærm=4;
 int skærm=startSkærm;
 
 //Værdi der bruges til at display når der scrolles
-int camY=0;
+float camY=0;
 int lastY; // To track mouse movement
 int scrollSpeed = 10; // You can adjust this value
-int maxScroll = 2000; // Maximum scroll limit (adjust based on your content)
+float maxScroll = 2000; // Maximum scroll limit (adjust based on your content)
 int lastMouseY;
 
 void setup() {

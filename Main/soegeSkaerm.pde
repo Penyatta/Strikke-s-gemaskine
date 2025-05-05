@@ -60,8 +60,8 @@ SwitchGroup udfraGarnGroup;
 
 void søgeSkærmSetup() {
 
-  hentOpskrifterFraServer();
 
+  hentOpskrifterFraServer();
 
   sværhedsgradsGroup = new SwitchGroup();
   produktTypeGroup =new SwitchGroup();
@@ -69,9 +69,6 @@ void søgeSkærmSetup() {
   
   // Laver alle switchesne
 
-  Switch begynderSwitch = new Switch((580*width/1440)/4, 456*height/982, 30*width/1440, "Let", false);
-  Switch øvetSwitch = new Switch((580*width/1440)/2, 456*height/982, 30*width/1440, "Mellem", false);
-  Switch ekspertSwitch = new Switch((580*width/1440)/4*3, 456*height/982, 30*width/1440, "Svær", false);
 
   float højde=410*height/982;
   float bredde1=(580*width/1440)/4;
@@ -89,28 +86,28 @@ void søgeSkærmSetup() {
   
   // Laver alle switchesne
 
-  Switch sweatersSwitch = new Switch((580*width/1440)/4, 607*height/982, 30*width/1440, "Sweaters", false);
-  Switch cardigansSwitch = new Switch((580*width/1440)/2, 607*height/982, 30*width/1440, "Cardigans", false);
-  Switch huerSwitch = new Switch((580*width/1440)/4*3, 607*height/982, 30*width/1440, "Huer", false);
-  Switch vanterSwitch = new Switch((580*width/1440)/4, 698*height/982, 30*width/1440, "Vanter", false);
-  Switch vesteSwitch = new Switch((580*width/1440)/2, 698*height/982, 30*width/1440, "Veste", false);
-  Switch toppeSwitch = new Switch((580*width/1440)/4*3, 698*height/982, 30*width/1440, "Toppe", false);
-  Switch halstørklæderSwitch = new Switch((580*width/1440)/4*3, 607*height/982, 30*width/1440, "Halstørklæder", false);
-  Switch tæpperSwitch = new Switch((580*width/1440)/4, 698*height/982, 30*width/1440, "Tæpper", false);
-  Switch karkludeSwitch = new Switch((580*width/1440)/2, 698*height/982, 30*width/1440, "Karklude", false);
-  Switch kjolerSwitch = new Switch((580*width/1440)/4*3, 698*height/982, 30*width/1440, "Kjoler", false);
+  //Switch sweatersSwitch = new Switch((580*width/1440)/4, 607*height/982, 30*width/1440, "Sweaters", false);
+  //Switch cardigansSwitch = new Switch((580*width/1440)/2, 607*height/982, 30*width/1440, "Cardigans", false);
+  //Switch huerSwitch = new Switch((580*width/1440)/4*3, 607*height/982, 30*width/1440, "Huer", false);
+  //Switch vanterSwitch = new Switch((580*width/1440)/4, 698*height/982, 30*width/1440, "Vanter", false);
+  //Switch vesteSwitch = new Switch((580*width/1440)/2, 698*height/982, 30*width/1440, "Veste", false);
+  //Switch toppeSwitch = new Switch((580*width/1440)/4*3, 698*height/982, 30*width/1440, "Toppe", false);
+  //Switch halstørklæderSwitch = new Switch((580*width/1440)/4*3, 607*height/982, 30*width/1440, "Halstørklæder", false);
+  //Switch tæpperSwitch = new Switch((580*width/1440)/4, 698*height/982, 30*width/1440, "Tæpper", false);
+  //Switch karkludeSwitch = new Switch((580*width/1440)/2, 698*height/982, 30*width/1440, "Karklude", false);
+  //Switch kjolerSwitch = new Switch((580*width/1440)/4*3, 698*height/982, 30*width/1440, "Kjoler", false);
   
   // Tilføjer alle switchesne til en gruppe
-  produktTypeGroup.addSwitch(sweatersSwitch);
-  produktTypeGroup.addSwitch(cardigansSwitch);
-  produktTypeGroup.addSwitch(huerSwitch);
-  produktTypeGroup.addSwitch(vanterSwitch);
-  produktTypeGroup.addSwitch(vesteSwitch);
-  produktTypeGroup.addSwitch(toppeSwitch);
-   produktTypeGroup.addSwitch(halstørklæderSwitch);
-  produktTypeGroup.addSwitch(tæpperSwitch);
-  produktTypeGroup.addSwitch(karkludeSwitch);
-  produktTypeGroup.addSwitch(kjolerSwitch);
+  //produktTypeGroup.addSwitch(sweatersSwitch);
+  //produktTypeGroup.addSwitch(cardigansSwitch);
+  //produktTypeGroup.addSwitch(huerSwitch);
+  //produktTypeGroup.addSwitch(vanterSwitch);
+  //produktTypeGroup.addSwitch(vesteSwitch);
+  //produktTypeGroup.addSwitch(toppeSwitch);
+  // produktTypeGroup.addSwitch(halstørklæderSwitch);
+  //produktTypeGroup.addSwitch(tæpperSwitch);
+  //produktTypeGroup.addSwitch(karkludeSwitch);
+  //produktTypeGroup.addSwitch(kjolerSwitch);
   
   Switch jaSwitch = new Switch((580*width/1440)/4, 845*height/982, 30*width/1440, "Ja", false);
   udfraGarnGroup.addSwitch(jaSwitch);
@@ -148,7 +145,7 @@ void søgeSkærmSetup() {
   produktTypeGroup.addSwitch(strømperSwitch);
   produktTypeGroup.addSwitch(nederdelSwitch);
   
-  Switch jaSwitch = new Switch(bredde1, 850*height/982, 30*width/1440, "Ja", false);
+  //Switch jaSwitch = new Switch(bredde1, 850*height/982, 30*width/1440, "Ja", false);
   udfraGarnGroup.addSwitch(jaSwitch);
   
   // Laver tilbageknappen til søgeskærmen
