@@ -29,8 +29,9 @@ void hentOpskrifterFraServer(String kilde) {
       JSONObject jsonOpskrift = jsonOpskrifter.getJSONObject(i);
 
       String titel = jsonOpskrift.getString("titel");
+      String kategori = jsonOpskrift.getString("kategori"); 
       String link = jsonOpskrift.getString("url"); // ændret fra "link"
-      String køn = jsonOpskrift.getString("køn"); 
+      
       String produktType = jsonOpskrift.getString("produkttype"); 
 
       // Load billede
@@ -40,7 +41,7 @@ void hentOpskrifterFraServer(String kilde) {
         imagePath = jsonOpskrift.getString("image");
       }
 
-      Opskrift nyOpskrift = new Opskrift(titel, køn, link, produktType, null);
+      Opskrift nyOpskrift = new Opskrift(titel, kategori, link, produktType, null);
       nyOpskrift.imageUrl = imagePath;
       nyOpskrift.billedeHentes = true;
       opskrifter.add(nyOpskrift);
@@ -62,9 +63,6 @@ void hentOpskrifterFraServer(String kilde) {
   } else {
     println("⚠️ Fejl: Kunne ikke hente opskrifter fra serveren");
   }
-
-  // Debugging: Tjek indholdet af opskrifter listen
-  println("Opskrifter listen indeholder " + opskrifter.size() + " opskrifter.");
 
   thread("hentBillederThread");
   
@@ -125,10 +123,10 @@ void displayOpskrifter(Opskrift opskrifter[]) {
       textSize(30);
       text(opskrift.titel, posX + width/100, posY - camY + width/50);
 
-      //skriver sværhedsgraden
+      //skriver kategorien
       textFont(generalFont);
       textSize(20);
-      text("Sværhedsgrad: " + opskrift.sværhedsgrad, posX + width/100, posY - camY + højde/4 + width/50);
+      text("Kategori: " + opskrift.kategori, posX + width/100, posY - camY + højde/4 + width/50);
 
       //Skriver produkttypen
       text("produkttype: " + opskrift.produktType, posX + width/100, posY - camY + højde/4*2 + width/50);
