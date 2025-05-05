@@ -34,10 +34,11 @@ void hentOpskrifterFraServer(String kilde) {
     for (int i = 0; i < jsonOpskrifter.size(); i++) {
       JSONObject jsonOpskrift = jsonOpskrifter.getJSONObject(i);
 
-   String titel = jsonOpskrift.getString("titel");
-String link = jsonOpskrift.getString("url"); // ændret fra "link"
-String sværhedsgrad = jsonOpskrift.getString("sværhedsgrad"); // korrekt stavet
-String produktType = jsonOpskrift.getString("produkttype"); // korrekt stavet
+      String titel = jsonOpskrift.getString("titel");
+      String kategori = jsonOpskrift.getString("kategori"); 
+      String link = jsonOpskrift.getString("url"); // ændret fra "link"
+      
+      String produktType = jsonOpskrift.getString("produkttype"); 
 
       // Load billede
       String imagePath = null;
@@ -53,9 +54,7 @@ String produktType = jsonOpskrift.getString("produkttype"); // korrekt stavet
         }
       
 
-      // Laver opskrift objektet
-      Opskrift nyOpskrift = new Opskrift(titel, link, sværhedsgrad, produktType, null);
-      
+      Opskrift nyOpskrift = new Opskrift(titel, kategori, link, produktType, null);
       nyOpskrift.imageUrl = imagePath;
       nyOpskrift.billedeHentes = true;
       opskrifter.add(nyOpskrift);
@@ -83,10 +82,6 @@ String produktType = jsonOpskrift.getString("produkttype"); // korrekt stavet
   } else {
     println("⚠️ Fejl: Kunne ikke hente opskrifter fra serveren");
   }
-
-  // Debugging: Tjek indholdet af opskrifter listen
-  println("Opskrifter listen indeholder " + opskrifter.size() + " opskrifter.");
-
 
   thread("hentBillederThread");
   
@@ -146,12 +141,12 @@ void displayOpskrifter(Opskrift opskrifter[]) {
       textAlign(CORNER);
       textSize(30);
       text(opskrift.titel, posX + width/100, posY - camY + width/50);
-      
-      //skriver sværhedsgraden
+
+      //skriver kategorien
       textFont(generalFont);
       textSize(20);
-      text("Sværhedsgrad: " + opskrift.sværhedsgrad, posX + width/100, posY - camY + højde/4 + width/50);
-      
+      text("Kategori: " + opskrift.kategori, posX + width/100, posY - camY + højde/4 + width/50);
+
       //Skriver produkttypen
       text("produkttype: " + opskrift.produktType, posX + width/100, posY - camY + højde/4*2 + width/50);
       

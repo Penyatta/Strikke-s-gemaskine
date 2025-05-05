@@ -37,8 +37,7 @@ void søgeSkærm() {
   textAlign(CORNER,CORNER);
   text("Filtrer - kryds af",45*width/1440,370*height/982);
   textSize(30*width/1440);
-  text("Sværhedsgrad",45*width/1440,425*height/982);
-  text("Produkttype",45*width/1440,563*height/982);
+  text("Produkttype",45*width/1440,420*height/982);
   text("Søg udfra mit garn",45*width/1440,814*height/982);
 
   textSize(30*width/1440);
@@ -49,12 +48,10 @@ void søgeSkærm() {
   text("Søg udfra mit garn",105*width/1440,820*height/982);
 
   
-  sværhedsgradsGroup.tegnAlle();
   produktTypeGroup.tegnAlle();
   udfraGarnGroup.tegnAlle();
 }
 
-SwitchGroup sværhedsgradsGroup;
 SwitchGroup produktTypeGroup;
 SwitchGroup udfraGarnGroup;
 
@@ -63,9 +60,14 @@ void søgeSkærmSetup() {
 
   hentOpskrifterFraServer();
 
-  sværhedsgradsGroup = new SwitchGroup();
   produktTypeGroup =new SwitchGroup();
   udfraGarnGroup = new SwitchGroup();
+
+  // Laver alle produkttype switchesne
+  Switch sweatersSwitch = new Switch((80*width/1440), 460*height/982, 30*width/1440, "Sweaters", false);
+  Switch cardigansSwitch = new Switch((200*width/1440), 460*height/982, 30*width/1440, "Cardigans", false);
+  Switch huerSwitch = new Switch((350*width/1440), 460*height/982, 30*width/1440, "Huer", false);
+  Switch vanterSwitch = new Switch((500*width/1440), 460*height/982, 30*width/1440, "Vanter", false);
   
   // Laver alle switchesne
 
@@ -79,10 +81,10 @@ void søgeSkærmSetup() {
   Switch ekspertSwitch = new Switch(bredde3, højde, 30*width/1440, "Svær", false);
 
   
-  // Tilføjer alle switchesne til en gruppe
-  sværhedsgradsGroup.addSwitch(begynderSwitch);
-  sværhedsgradsGroup.addSwitch(øvetSwitch);
-  sværhedsgradsGroup.addSwitch(ekspertSwitch);
+  Switch vesteSwitch = new Switch((80*width/1440), 560*height/982, 30*width/1440, "Veste", false);
+  Switch toppeSwitch = new Switch((200*width/1440), 560*height/982, 30*width/1440, "Toppe", false);
+  Switch halstørklæderSwitch = new Switch((350*width/1440), 560*height/982, 30*width/1440, "Halstørklæder", false);
+  Switch tæpperSwitch = new Switch((500*width/1440), 560*height/982, 30*width/1440, "Tæpper", false);
   
   // Laver alle switchesne
 
@@ -166,7 +168,7 @@ void søgeSkærmKnapper() {
     // Reset scroll position when leaving the screen
     camY = 0;
   }
-  sværhedsgradsGroup.checkMouse();
+
   produktTypeGroup.checkMouse();
   udfraGarnGroup.checkMouse();
 }
