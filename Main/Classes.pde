@@ -1,10 +1,10 @@
 class Opskrift {
-  
+
   // Billede og hentestatus
   String imageUrl;
   boolean billedeHentes = false;
   PImage billede = null;
-  
+
   String titel;
   String link;
   ArrayList<String> krævneGarn = new ArrayList<String>();
@@ -13,13 +13,12 @@ class Opskrift {
   String produktType;
 
   // Constructor
-  Opskrift(String TITEL,  String KATEGORI, String LINK, String PRODUKTTYPE, PImage BILLEDE) {
+  Opskrift(String TITEL, String KATEGORI, String LINK, String PRODUKTTYPE, PImage BILLEDE) {
     titel = TITEL;
     kategori = KATEGORI;
     link = LINK;
     produktType = PRODUKTTYPE;
     billede = BILLEDE;
-    
   }
   void tilfoejGarntype(String garn) {
     krævneGarn.add(garn);
@@ -247,66 +246,75 @@ class Textfield {
     this.tekst = tekst;
     this.rundhed = rundhed;
     this.textfieldSkærm = textfieldSkærm;
-    this.active = active;
-    textfields.add(this);
+    this.active = active;    
   }
   void tegnPåSkærm() {
-    pushMatrix();
-    resetMatrix();
-    if (textfieldSkærm == skærm) { // Tjekker skærm
-      rectMode(CORNER);
-      // Sætte den rigtige farve ud fra om det er active
-      if (active) {
-        fill(activeFarve);
-      } else {
-        fill(baggrundsFarve);
-      }
-      noStroke();
-      rect(posX+15, posY-camY, sizeX-15, sizeY, rundhed);
-      for (int i=1; i<skyggeAfstand+1; i++) {
-        stroke(0, (skyggeAfstand-i)*7.5);
-        strokeWeight(1);
-        line(posX+15, posY+i+sizeY-1-camY, posX+sizeX-1, posY+i+sizeY-1-camY);
-      }
-      noStroke();
+  if (textfieldSkærm == skærm) { // Tjekker skærm
+    rectMode(CORNER);
+    
+    // Calculate adjusted Y position for scrollable screens
+    float adjustedY = posY;
+    if (textfieldSkærm == søgeSkærm || textfieldSkærm == opretSkærm || textfieldSkærm == mitSkærm) {
+      adjustedY -= camY;
+    }
+    
+    // Sætte den rigtige farve ud fra om det er active
+    if (active) {
+      fill(activeFarve);
+    } else {
+      fill(baggrundsFarve);
+    }
+    noStroke();
+    rect(posX, adjustedY, sizeX, sizeY, rundhed);
+    skyggeImplement(posX,posY+sizeY-1-camY,sizeX,true);
+    noStroke();
 
-      //skyggeImplement(posX, posY+sizeY-1, sizeX, true);
-      textAlign(CORNER, CENTER);
-      fill(tekstFarve);
-      textSize(tekstSize-10);
-      // Teksten som står i feltet
-      String displayedText;
-      if (active) {
-        displayedText = tekst;
+    textAlign(CORNER, CENTER);
+    fill(tekstFarve);
+    textSize(tekstSize);
+    // Teksten som står i feltet
+    String displayedText;
+    if (active) {
+      displayedText = tekst;
+    } else {
+      if (tekst.isEmpty()) {
+        displayedText = startTekst;
       } else {
-        if (tekst.isEmpty()) {
-          displayedText = startTekst;
-        } else {
-          displayedText = tekst;
-        }
-      }
-      float maxTextWidth = sizeX - width/100 * 2;
-      while (textWidth(displayedText) > maxTextWidth && displayedText.length() > 0) {
-        displayedText = displayedText.substring(1);
-      }
-      text(displayedText, posX + width/100+15, posY + sizeY / 2-camY);
-      if (active) {
-        timer++;
-        if (timer>60) {
-          cursor=!cursor;
-          timer=0;
-        }
-        if (cursor) {
-          rect(posX+width/100+textWidth(displayedText)+2, posY+sizeY/2-tekstSize/2, 2, tekstSize);
-        }
+        displayedText = tekst;
       }
     }
-    popMatrix();
+    float maxTextWidth = sizeX - width/100 * 2;
+    while (textWidth(displayedText) > maxTextWidth && displayedText.length() > 0) {
+      displayedText = displayedText.substring(1);
+    }
+    text(displayedText, posX + width/100, adjustedY + sizeY / 2);
+    if (active) {
+      timer++;
+      if (timer>60) {
+        cursor=!cursor;
+        timer=0;
+      }
+      if (cursor) {
+        rect(posX+width/100+textWidth(displayedText)+2, adjustedY+sizeY/2-tekstSize/2, 2, tekstSize);
+      }
+    }
   }
+}
 
   // Tjekker om mus er over knap
   boolean mouseOver() {
-    return mouseX > posX && mouseX < posX + sizeX && mouseY > posY && mouseY < posY + sizeY;
+    // Account for scrolling with camY
+    float adjustedY = posY;
+
+    // If this textfield is on a scrollable screen, adjust for camY
+    if (textfieldSkærm == søgeSkærm || textfieldSkærm == opretSkærm || textfieldSkærm == mitSkærm) {
+      adjustedY -= camY;
+    }
+
+    // Check if mouse is over the textfield with adjusted position
+    return mouseX > posX && mouseX < posX + sizeX &&
+      mouseY > adjustedY && mouseY < adjustedY + sizeY &&
+      textfieldSkærm == skærm; // Only active on current screen
   }
 
   // Activate funktion
@@ -364,8 +372,8 @@ class Switch {
   boolean mouseOver() {
 
     // Check om musen er over switchen
-    
-    float distance = dist(mouseX, mouseY, posX, posY);
+
+    float distance = dist(mouseX, mouseY, posX, posY-camY);
     return distance <= diameter/2;
   }
 
@@ -381,6 +389,7 @@ class Switch {
     return titel;
   }
 }
+
 
 // Klasse til at holde styr på flere switches
 class SwitchGroup {
@@ -419,7 +428,7 @@ class SwitchGroup {
           s.setState(false);
           selectedIndex = -1; // ingen switch valgt
         }
-        // hvis den some er trykket på er slukket
+        // hvis den som er trykket på er slukket
         else {
           // Sluk alle switches
           for (Switch sw : switches) {
@@ -469,6 +478,32 @@ class SwitchGroup {
   // Get the index of the selected switch
   int getSelectedIndex() {
     return selectedIndex;
+  }
+}
+
+class SwitchGroupA extends SwitchGroup {
+  SwitchGroupA() {
+    super();
+  }
+  @Override
+  void checkMouse() {
+    for (int i = 0; i < switches.size(); i++) {
+      Switch s = switches.get(i);
+      if (s.mouseOver()) {
+        // Hvis denne er tændt sluk den
+        if (s.getState()) {
+          s.setState(false);
+          selectedIndex = -1; // ingen switch valgt
+        }
+        // hvis den som er trykket på er slukket
+        else {
+         // Tænd denne switch
+          s.setState(true);
+          selectedIndex = i;
+        }
+        break; // Slut efter den rigtige knap er blevet fundet og behandlet
+      }
+    }
   }
 }
 
@@ -650,7 +685,7 @@ class Dropdown {
       }
     }
   }
-//tjekker om musen er over options området
+  //tjekker om musen er over options området
   boolean mouseOverOptionsArea() {
     return mouseX > posX && mouseX < posX + sizeX &&
       mouseY > posY-camY && mouseY < posY + sizeY + (isOpen ? options.length * sizeY : 0)-camY &&

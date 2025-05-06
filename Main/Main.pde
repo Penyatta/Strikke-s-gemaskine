@@ -49,6 +49,7 @@ void setup() {
   //scrollBarX = width - scrollBarW - 10; // 10 px fra højre kant
 
 }
+
 void draw() {
   background(100);
   // Skærmfordeling via state machine
@@ -66,12 +67,17 @@ void draw() {
     println("error - skærm ikke defineret rigtigt");
   }
 
-  //tegner knapper
+  for (Textfield field : textfields) {
+    field.tegnPåSkærm();
+  }
+   //tegner knapper
   for (Knap k : knapper) {
     k.tegn();
   }
-  for (Textfield field : textfields) {
-    field.tegnPåSkærm();
+  if (skærm==opretSkærm){
+    overskriftBjælke("Tilføj din egen opskrift");
+    opretSkærmTilbageKnap.tegn();
+    hjælpKnap.tegn();
   }
   
   //hvis man er inde på søgeskærmen eller opretskærm så skal søgefeltene forsvinde under overskriftbjælken, men ikke tilbageknap og hjælpknap
