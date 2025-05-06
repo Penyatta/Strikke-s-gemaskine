@@ -1,4 +1,4 @@
-Knap Besøg;
+
 
 // Liste med opskrifter
 ArrayList<Opskrift> opskrifter = new ArrayList<Opskrift>();
@@ -6,10 +6,18 @@ ArrayList<Opskrift> opskrifter = new ArrayList<Opskrift>();
 //ArrayList<Knap> besøgKnapper = new ArrayList<Knap>();
 ArrayList<KlikOmråde> klikOmråder = new ArrayList<KlikOmråde>();
 
-// Funktion til at hente opskrifter fra serveren (nu med parameter for at vælge kilde)
+
+// Indeholder alle opskrifter hentet fra serveren – ændres ikke ved filtrering
+ArrayList<Opskrift> alleOpskrifter = new ArrayList<Opskrift>();
+
+// Indeholder de opskrifter der vises på skærmen – opdateres når man filtrerer
+ArrayList<Opskrift> visteOpskrifter = new ArrayList<Opskrift>();
+
+// Funktion til at hente opskrifter fra serveren 
 void hentOpskrifterFraServer(String kilde) {
 
-  opskrifter.clear();  // Tømmer eksisterende opskrifter, før vi henter nye
+  alleOpskrifter.clear();     // Ryd hele listen først
+  visteOpskrifter.clear();    // Start med at vise alle opskrifter
 
   String url = "";
 
@@ -25,13 +33,13 @@ void hentOpskrifterFraServer(String kilde) {
   get.send();
 
   String json = get.getContent();
-  
+
+ 
   // Debugging: Udskriv serverens svar (JSON-data)
   println("Server svar: " + json);
 
   if (json != null && json.length() > 0) {
     JSONArray jsonOpskrifter = parseJSONArray(json);
-
 
     for (int i = 0; i < jsonOpskrifter.size(); i++) {
       JSONObject jsonOpskrift = jsonOpskrifter.getJSONObject(i);
@@ -51,17 +59,14 @@ void hentOpskrifterFraServer(String kilde) {
         imagePath = jsonOpskrift.getString("image");
       }
 
-
       Opskrift nyOpskrift = new Opskrift(titel, kategori, link, produktType, null);
       
       println("URL i opskrift: " + nyOpskrift.link);  // Test om link er korrekt
       nyOpskrift.imageUrl = imagePath;
       nyOpskrift.billedeHentes = true;
-      opskrifter.add(nyOpskrift);
-
 
       // Tilføj garn
-      if (jsonOpskrift.hasKey("kraevneGarn")) {
+      if (jsonOpskrift.hasKey("garn")) {
         JSONArray garnTyper = jsonOpskrift.getJSONArray("garn"); // ikke "kraevneGarn"
 
         for (int j = 0; j < garnTyper.size(); j++) {
@@ -70,12 +75,13 @@ void hentOpskrifterFraServer(String kilde) {
         }
       }
 
-      // Tilføjer opskriften til opskriftslisten
-      opskrifter.add(nyOpskrift);
+        // Tilføj opskriften til begge lister
+    alleOpskrifter.add(nyOpskrift);
+    visteOpskrifter.add(nyOpskrift);
     }
 
     // Debugging: Bekræft hvor mange opskrifter der er blevet tilføjet
-    println("✅ Hentede " + opskrifter.size() + " opskrifter fra serveren");
+    println("✅ Hentede " + alleOpskrifter.size() + " opskrifter fra serveren");
   } else {
     println("⚠️ Fejl: Kunne ikke hente opskrifter fra serveren");
   }
@@ -83,7 +89,7 @@ void hentOpskrifterFraServer(String kilde) {
   thread("hentBillederThread");
 
   // Beregn max scroll baseret på antal opskrifter og layout
-  float antal = opskrifter.size();
+  float antal = alleOpskrifter.size();
   float højde = height / 4;
   float spacing = height / 32;
   maxScroll = (højde + spacing) * antal - (height - height / 5 * 2);
@@ -92,10 +98,11 @@ void hentOpskrifterFraServer(String kilde) {
   if (maxScroll < 0) {
     maxScroll = 0;
   }
+  
 }
 
 void hentBillederThread() {
-  for (Opskrift o : opskrifter) {
+  for (Opskrift o : alleOpskrifter) {
     if (o.billedeHentes && o.imageUrl != null && o.billede == null) {
 
       PImage img = loadImage(o.imageUrl);
@@ -122,7 +129,7 @@ klikOmråder.clear();
 
   //Går igennem de opskrifter der er i arrayet som funktionen modtager
   for (Opskrift opskrift : opskrifter) {
-
+    
     // Only draw recipes that would be visible on screen (optimization)
     if (posY - camY < height + højde && posY - camY + højde > 0) {
       noStroke();

@@ -97,7 +97,7 @@ class Knap {
       //Sørger for at det er det øverste venstre hjørne som knappen tegnes fra
       rectMode(CORNER);
       //skygge til "søg" knap
-      if (knapSkærm==søgeSkærm) {
+      if (knapSkærm==søgeSkærm || knapSkærm==opretSkærm) {
         skyggeImplement(posX, posY+sizeY-1-camY, sizeX, true);
       } else {
         skyggeImplement(posX, posY+sizeY-1-camY, sizeX, false);
@@ -246,60 +246,60 @@ class Textfield {
     this.tekst = tekst;
     this.rundhed = rundhed;
     this.textfieldSkærm = textfieldSkærm;
-    this.active = active;    
+    this.active = active;
   }
   void tegnPåSkærm() {
-  if (textfieldSkærm == skærm) { // Tjekker skærm
-    rectMode(CORNER);
-    
-    // Calculate adjusted Y position for scrollable screens
-    float adjustedY = posY;
-    if (textfieldSkærm == søgeSkærm || textfieldSkærm == opretSkærm || textfieldSkærm == mitSkærm) {
-      adjustedY -= camY;
-    }
-    
-    // Sætte den rigtige farve ud fra om det er active
-    if (active) {
-      fill(activeFarve);
-    } else {
-      fill(baggrundsFarve);
-    }
-    noStroke();
-    rect(posX, adjustedY, sizeX, sizeY, rundhed);
-    skyggeImplement(posX,posY+sizeY-1-camY,sizeX,true);
-    noStroke();
+    if (textfieldSkærm == skærm) { // Tjekker skærm
+      rectMode(CORNER);
 
-    textAlign(CORNER, CENTER);
-    fill(tekstFarve);
-    textSize(tekstSize);
-    // Teksten som står i feltet
-    String displayedText;
-    if (active) {
-      displayedText = tekst;
-    } else {
-      if (tekst.isEmpty()) {
-        displayedText = startTekst;
+      // Calculate adjusted Y position for scrollable screens
+      float adjustedY = posY;
+      if (textfieldSkærm == søgeSkærm || textfieldSkærm == opretSkærm || textfieldSkærm == mitSkærm) {
+        adjustedY -= camY;
+      }
+
+      // Sætte den rigtige farve ud fra om det er active
+      if (active) {
+        fill(activeFarve);
       } else {
+        fill(baggrundsFarve);
+      }
+      noStroke();
+      rect(posX, adjustedY, sizeX, sizeY, rundhed);
+      skyggeImplement(posX, posY+sizeY-1-camY, sizeX, true);
+      noStroke();
+
+      textAlign(CORNER, CENTER);
+      fill(tekstFarve);
+      textSize(tekstSize);
+      // Teksten som står i feltet
+      String displayedText;
+      if (active) {
         displayedText = tekst;
+      } else {
+        if (tekst.isEmpty()) {
+          displayedText = startTekst;
+        } else {
+          displayedText = tekst;
+        }
       }
-    }
-    float maxTextWidth = sizeX - width/100 * 2;
-    while (textWidth(displayedText) > maxTextWidth && displayedText.length() > 0) {
-      displayedText = displayedText.substring(1);
-    }
-    text(displayedText, posX + width/100, adjustedY + sizeY / 2);
-    if (active) {
-      timer++;
-      if (timer>60) {
-        cursor=!cursor;
-        timer=0;
+      float maxTextWidth = sizeX - width/100 * 2;
+      while (textWidth(displayedText) > maxTextWidth && displayedText.length() > 0) {
+        displayedText = displayedText.substring(1);
       }
-      if (cursor) {
-        rect(posX+width/100+textWidth(displayedText)+2, adjustedY+sizeY/2-tekstSize/2, 2, tekstSize);
+      text(displayedText, posX + width/100, adjustedY + sizeY / 2);
+      if (active) {
+        timer++;
+        if (timer>60) {
+          cursor=!cursor;
+          timer=0;
+        }
+        if (cursor) {
+          rect(posX+width/100+textWidth(displayedText)+2, adjustedY+sizeY/2-tekstSize/2, 2, tekstSize);
+        }
       }
     }
   }
-}
 
   // Tjekker om mus er over knap
   boolean mouseOver() {
@@ -393,6 +393,11 @@ class Switch {
 
 // Klasse til at holde styr på flere switches
 class SwitchGroup {
+
+  void clear() {
+  switches.clear();
+}
+
   ArrayList<Switch> switches;
   int selectedIndex = -1; // Index på den valgte switch
 
@@ -423,6 +428,7 @@ class SwitchGroup {
     for (int i = 0; i < switches.size(); i++) {
       Switch s = switches.get(i);
       if (s.mouseOver()) {
+
         // Hvis denne er tændt sluk den
         if (s.getState()) {
           s.setState(false);
@@ -479,232 +485,239 @@ class SwitchGroup {
   int getSelectedIndex() {
     return selectedIndex;
   }
-}
 
-class SwitchGroupA extends SwitchGroup {
-  SwitchGroupA() {
-    super();
-  }
-  @Override
-  void checkMouse() {
-    for (int i = 0; i < switches.size(); i++) {
-      Switch s = switches.get(i);
-      if (s.mouseOver()) {
-        // Hvis denne er tændt sluk den
-        if (s.getState()) {
-          s.setState(false);
-          selectedIndex = -1; // ingen switch valgt
-        }
-        // hvis den som er trykket på er slukket
-        else {
-         // Tænd denne switch
-          s.setState(true);
-          selectedIndex = i;
-        }
-        break; // Slut efter den rigtige knap er blevet fundet og behandlet
+  // Tjekker om en switch med et bestemt navn er aktiv (tændt)
+  boolean erSwitchAktiv(String navn) {
+    for (Switch s : switches) {
+      if (s.getTitel().equals(navn) && s.getState()) {
+        return true;
       }
     }
+    return false;
+  }
+  boolean switchValgt(){
+    boolean enValgt=false;
+    for(Switch switchs : switches){
+      if(switchs.getState()){
+       enValgt=true; 
+       break;
+      }
+    }
+    return enValgt;
   }
 }
-
-// Dropdowns itil at vælge det garn man har
-class Dropdown {
-  float posX, posY, sizeX, sizeY;
-  //Holder garnet
-  String[] options;
-  //Titel når intet valgt
-  String placeholder;
-  //Det der vises når noget er valgt
-  String chosen="";
-  //Holder styr på om denne dropdown er åben
-  boolean isOpen = false;
-  // skærmen som dropdownen er på
-  int dropdownScreen;
-  //Index på denne dropdown i arraylisten med dropdowns
-  int dropdownIndex;
-
-  Dropdown(float posX, float posY, float sizeX, float sizeY, String[] options, String placeholder, int dropdownScreen, int dropdownIndex) {
-    this.posX = posX;
-    this.posY = posY;
-    this.sizeX = sizeX;
-    this.sizeY = sizeY;
-    this.options = options;
-    this.placeholder = placeholder;
-    this.dropdownScreen = dropdownScreen;
-    this.dropdownIndex = dropdownIndex;
-  }
-
-  void tegn() {
-    if (dropdownScreen == skærm) {
-      // tegner boksen til dropdownen
-      rectMode(CORNER);
-      noStroke();
-
-      // tegner skyggen
-      skyggeImplement(posX, posY + sizeY - 1-camY, sizeX, true);
-
-      // Draw hovedkassen
-      if (mouseOverMain()) {
-        fill(220, 180, 150); // farve ved mouseOver
-      } else {
-        fill(247, 239, 210); // Normal farbe
-      }
-      rect(posX, posY-camY, sizeX, sizeY);
-
-      // Tegner texten til dropdown
-      fill(71, 92, 108);
-      textAlign(LEFT, CENTER);
-      textSize(30*width/1440);
-      String displayText;
-      if (chosen=="") {
-        displayText = placeholder;
-      } else {
-        displayText = chosen;
-      }
-      text(displayText, posX + 12*width/1440, posY + sizeY/2-camY);
-
-      // DTegner dropdown pilen
-      triangle(
-        posX + sizeX - 48*width/1440, posY + sizeY/3-camY,
-        posX + sizeX - 22*width/1440, posY + sizeY/3-camY,
-        posX + sizeX - 35*width/1440, posY + sizeY*2/3-camY
-        );
-
-      // Hvis åben tegner mulighederne
-      if (isOpen) {
-        for (int i = 0; i < options.length; i++) {
-          float optionY = posY + sizeY + i * sizeY;
-
-          // Tegner baggrunden til dropdown options
-          if (mouseOverOption(i)) {
-            fill(220, 180, 150); // mouseOver farve
-          } else {
-            fill(247, 239, 210); // Normal farve
+  class SwitchGroupA extends SwitchGroup {
+    SwitchGroupA() {
+      super();
+    }
+    @Override
+      void checkMouse() {
+      for (int i = 0; i < switches.size(); i++) {
+        Switch s = switches.get(i);
+        if (s.mouseOver()) {
+          // Hvis denne er tændt sluk den
+          if (s.getState()) {
+            s.setState(false);
+            selectedIndex = -1; // ingen switch valgt
           }
-          rect(posX, optionY-camY, sizeX, sizeY);
-
-          // Tegn options text
-          fill(71, 92, 108);
-          textAlign(LEFT, CENTER);
-          text(options[i], posX + 15, optionY + sizeY/2-camY);
+          // hvis den som er trykket på er slukket
+          else {
+            // Tænd denne switch
+            s.setState(true);
+            selectedIndex = i;
+          }
+          break; // Slut efter den rigtige knap er blevet fundet og behandlet
         }
-
-        // Tegner skyggen til hele options holderen
-        skyggeImplement(posX, posY + sizeY + options.length * sizeY - 1-camY, sizeX, true);
       }
     }
   }
 
-  // fortæller om musen er over titel delen af dropdown options
-  boolean mouseOverMain() {
-    return mouseX > posX && mouseX < posX + sizeX &&
-      mouseY > posY-camY && mouseY < posY + sizeY-camY &&
-      dropdownScreen == skærm;
-  }
+  // Dropdowns itil at vælge det garn man har
+  class Dropdown {
+    float posX, posY, sizeX, sizeY;
+    //Holder garnet
+    String[] options;
+    //Titel når intet valgt
+    String placeholder;
+    //Det der vises når noget er valgt
+    String chosen="";
+    //Holder styr på om denne dropdown er åben
+    boolean isOpen = false;
+    // skærmen som dropdownen er på
+    int dropdownScreen;
+    //Index på denne dropdown i arraylisten med dropdowns
+    int dropdownIndex;
 
-  // fortæller om musen  er over en specifik option
-  boolean mouseOverOption(int index) {
-    float optionY = posY + sizeY + index * sizeY;
-    return mouseX > posX && mouseX < posX + sizeX &&
-      mouseY > optionY-camY && mouseY < optionY + sizeY-camY &&
-      dropdownScreen == skærm;
-  }
+    Dropdown(float posX, float posY, float sizeX, float sizeY, String[] options, String placeholder, int dropdownScreen, int dropdownIndex) {
+      this.posX = posX;
+      this.posY = posY;
+      this.sizeX = sizeX;
+      this.sizeY = sizeY;
+      this.options = options;
+      this.placeholder = placeholder;
+      this.dropdownScreen = dropdownScreen;
+      this.dropdownIndex = dropdownIndex;
+    }
 
-  void checkMouse() {
-    if (mouseOverMain()) {
-      // Lukker alle de andre dropdowns
-      for (int i = 0; i < garnDropdowns.size(); i++) {
-        Dropdown dropdown = garnDropdowns.get(i);
-        if (dropdown != this) {
-          dropdown.isOpen = false;
+    void tegn() {
+      if (dropdownScreen == skærm) {
+        // tegner boksen til dropdownen
+        rectMode(CORNER);
+        noStroke();
+
+        // tegner skyggen
+        skyggeImplement(posX, posY + sizeY - 1-camY, sizeX, true);
+
+        // Draw hovedkassen
+        if (mouseOverMain()) {
+          fill(220, 180, 150); // farve ved mouseOver
+        } else {
+          fill(247, 239, 210); // Normal farbe
+        }
+        rect(posX, posY-camY, sizeX, sizeY);
+
+        // Tegner texten til dropdown
+        fill(71, 92, 108);
+        textAlign(LEFT, CENTER);
+        textSize(30*width/1440);
+        String displayText;
+        if (chosen=="") {
+          displayText = placeholder;
+        } else {
+          displayText = chosen;
+        }
+        text(displayText, posX + 12*width/1440, posY + sizeY/2-camY);
+
+        // DTegner dropdown pilen
+        triangle(
+          posX + sizeX - 48*width/1440, posY + sizeY/3-camY,
+          posX + sizeX - 22*width/1440, posY + sizeY/3-camY,
+          posX + sizeX - 35*width/1440, posY + sizeY*2/3-camY
+          );
+
+        // Hvis åben tegner mulighederne
+        if (isOpen) {
+          for (int i = 0; i < options.length; i++) {
+            float optionY = posY + sizeY + i * sizeY;
+
+            // Tegner baggrunden til dropdown options
+            if (mouseOverOption(i)) {
+              fill(220, 180, 150); // mouseOver farve
+            } else {
+              fill(247, 239, 210); // Normal farve
+            }
+            rect(posX, optionY-camY, sizeX, sizeY);
+
+            // Tegn options text
+            fill(71, 92, 108);
+            textAlign(LEFT, CENTER);
+            text(options[i], posX + 15, optionY + sizeY/2-camY);
+          }
+
+          // Tegner skyggen til hele options holderen
+          skyggeImplement(posX, posY + sizeY + options.length * sizeY - 1-camY, sizeX, true);
         }
       }
-      isOpen = !isOpen;
-      if (isOpen) {
-        openDropdown=dropdownIndex;
-      } else {
-      }
-    } else if (isOpen) {
-      for (int i = 0; i < options.length; i++) {
-        if (mouseOverOption(i)) {
-          // Hvis man ikke har valgt ingen muligheden
-          if (options[i]!="Ingen") {
-            //hvis denne allerede har en valgt garntype erstattes
-            //denne i arrayet med garn typer man har
-            if (dropdownIndex < mitGarn.size()) {
-              mitGarn.set(dropdownIndex, options[i]);
-            } else {
-              //Hvis man ikke har valgt en til denne tilføjes denne til arrayet med garn man har
-              mitGarn.add(options[i]);
-            }
-            //opdatere det der vises i toppen a dropdownen
-            chosen=options[i];
-          } else {
-            // hvis man har valgt intet tjekker den om man kan fjerne den nuværende garntype fra arrayet
-            if (dropdownIndex >= 0 && dropdownIndex < mitGarn.size()) {
-              mitGarn.remove(dropdownIndex);
-            }
+    }
 
-            /*
+    // fortæller om musen er over titel delen af dropdown options
+    boolean mouseOverMain() {
+      return mouseX > posX && mouseX < posX + sizeX &&
+        mouseY > posY-camY && mouseY < posY + sizeY-camY &&
+        dropdownScreen == skærm;
+    }
+
+    // fortæller om musen  er over en specifik option
+    boolean mouseOverOption(int index) {
+      float optionY = posY + sizeY + index * sizeY;
+      return mouseX > posX && mouseX < posX + sizeX &&
+        mouseY > optionY-camY && mouseY < optionY + sizeY-camY &&
+        dropdownScreen == skærm;
+    }
+
+    void checkMouse() {
+      if (mouseOverMain()) {
+        // Lukker alle de andre dropdowns
+        for (int i = 0; i < garnDropdowns.size(); i++) {
+          Dropdown dropdown = garnDropdowns.get(i);
+          if (dropdown != this) {
+            dropdown.isOpen = false;
+          }
+        }
+        isOpen = !isOpen;
+        if (isOpen) {
+          openDropdown=dropdownIndex;
+        } else {
+        }
+      } else if (isOpen) {
+        for (int i = 0; i < options.length; i++) {
+          if (mouseOverOption(i)) {
+            // Hvis man ikke har valgt ingen muligheden
+            if (options[i]!="Ingen") {
+              //hvis denne allerede har en valgt garntype erstattes
+              //denne i arrayet med garn typer man har
+              if (dropdownIndex < mitGarn.size()) {
+                mitGarn.set(dropdownIndex, options[i]);
+              } else {
+                //Hvis man ikke har valgt en til denne tilføjes denne til arrayet med garn man har
+                mitGarn.add(options[i]);
+              }
+              //opdatere det der vises i toppen a dropdownen
+              chosen=options[i];
+            } else {
+              // hvis man har valgt intet tjekker den om man kan fjerne den nuværende garntype fra arrayet
+              if (dropdownIndex >= 0 && dropdownIndex < mitGarn.size()) {
+                mitGarn.remove(dropdownIndex);
+              }
+
+              /*
             Laver en arraylist med de dropdown som skal opdateres så det kan gøres senere
-             Det bliver gjort på denne måde fordi check mouse funktionen bliver kaldet mens
-             garnDropdowns bliver kørt igennem, hvilket ville give en fejl hvis vi ændrede i det herinde
-             */
-            ArrayList<Dropdown> dropdownsToUpdate = new ArrayList<Dropdown>();
-            for (int j = 0; j < garnDropdowns.size(); j++) {
-              Dropdown dropdown = garnDropdowns.get(j);
-              //opdatere kun placeringen af dropdownsne som kommer bagefter
-              if (dropdown.dropdownIndex > dropdownIndex) {
-                dropdownsToUpdate.add(dropdown);
+               Det bliver gjort på denne måde fordi check mouse funktionen bliver kaldet mens
+               garnDropdowns bliver kørt igennem, hvilket ville give en fejl hvis vi ændrede i det herinde
+               */
+              ArrayList<Dropdown> dropdownsToUpdate = new ArrayList<Dropdown>();
+              for (int j = 0; j < garnDropdowns.size(); j++) {
+                Dropdown dropdown = garnDropdowns.get(j);
+                //opdatere kun placeringen af dropdownsne som kommer bagefter
+                if (dropdown.dropdownIndex > dropdownIndex) {
+                  dropdownsToUpdate.add(dropdown);
+                }
+              }
+
+              // Opdatere de dropdown som blev gemt lige før fordi de nu bliver kørt igennem en anden arraylist sker der ikke fejl
+              for (Dropdown dropdown : dropdownsToUpdate) {
+                //ændre indeks
+                dropdown.dropdownIndex--;
+                //ændre placering
+                dropdown.posY = dropdown.posY - (height/14 + 15*width/1440);
+              }
+              //Hvis dette ikke er det sidste dropdown skal det fjernes når der trykkes på intet
+              if (garnDropdowns.size()>=2) {
+                needRemove=true;
+                needRemoved=dropdownIndex;
               }
             }
-
-            // Opdatere de dropdown som blev gemt lige før fordi de nu bliver kørt igennem en anden arraylist sker der ikke fejl
-            for (Dropdown dropdown : dropdownsToUpdate) {
-              //ændre indeks
-              dropdown.dropdownIndex--;
-              //ændre placering
-              dropdown.posY = dropdown.posY - (height/14 + 15*width/1440);
-            }
-            //Hvis dette ikke er det sidste dropdown skal det fjernes når der trykkes på intet
-            if (garnDropdowns.size()>=2) {
-              needRemove=true;
-              needRemoved=dropdownIndex;
-            }
+            //lukker den nuværende dropdown og tjekker om der skal tilføjes et
+            isOpen = false;
+            checkAddNewDropdown();
+            break;
           }
-          //lukker den nuværende dropdown og tjekker om der skal tilføjes et
+        }
+
+        // Lukker dropdown hvis man trykker udenfor
+        if (!mouseOverOptionsArea()) {
           isOpen = false;
-          checkAddNewDropdown();
-          break;
         }
       }
-
-      // Lukker dropdown hvis man trykker udenfor
-      if (!mouseOverOptionsArea()) {
-        isOpen = false;
-      }
+    }
+    //tjekker om musen er over options området
+    boolean mouseOverOptionsArea() {
+      return mouseX > posX && mouseX < posX + sizeX &&
+        mouseY > posY-camY && mouseY < posY + sizeY + (isOpen ? options.length * sizeY : 0)-camY &&
+        dropdownScreen == skærm;
     }
   }
-  //tjekker om musen er over options området
-  boolean mouseOverOptionsArea() {
-    return mouseX > posX && mouseX < posX + sizeX &&
-      mouseY > posY-camY && mouseY < posY + sizeY + (isOpen ? options.length * sizeY : 0)-camY &&
-      dropdownScreen == skærm;
-  }
-}
 
-//class KlikOmråde {
-//  float x, y, bredde, højde;
-//  String url;
-
-//  KlikOmråde(float x, float y, float b, float h, String u) {
-//    x = x; y = y; bredde = b; højde = h; url = u;
-//  }
-
-//  boolean indeIPunkt(float mx, float my) {
-//    return mx >= x && mx <= x + bredde && my >= y && my <= y + højde;
-//  }
-//}
 
 class KlikOmråde {
   float x, y, w, h;

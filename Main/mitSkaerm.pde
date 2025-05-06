@@ -1,3 +1,4 @@
+
 ArrayList<String> mitGarn = new ArrayList<String>();
 int openDropdown=-1;
 boolean allowOpen;
@@ -5,27 +6,23 @@ boolean needRemove=false;
 int needRemoved;
 ArrayList<Opskrift> gemteOpskrifter = new ArrayList<Opskrift>();
 
-
 void mitSkærm() {
   background(255);
   // Viser titlen til mit garn
   fill(71, 92, 108);
   textAlign(CENTER);
   textSize(35*width/1440);
-  text("Mit Garn", 290*width/1440, height/3 -height/30-camY);
-  //text("Gemte opskrifter", 1020*width/1440,height/3-height/30-camY);
+
   textFont(generalFont);
   textSize(80);
   fill(71, 92, 108);
   textAlign(CENTER);
-  text("Opskrifter", width / 7 * 3 + width / 4, height / 3 - camY);
+
 
   if (!gemteOpskrifter.isEmpty()) {
     Opskrift[] opskriftArray = gemteOpskrifter.toArray(new Opskrift[0]);
     displayOpskrifter(opskriftArray);
   }
-
-
 
   // Tegner alle dropdowns starter med den nederste så hvis man åbner en længere oppe vises den ikke under dem som kommer senere
   for (int i = garnDropdowns.size() - 1; i >= 0; i--) {
@@ -42,6 +39,8 @@ void mitSkærm() {
   overskriftBjælke("Min profil");
   rect(580*width/1440, 202*width/1440, 18*width/1440, 780*width/1440);
   fill(#475C6C);
+  text("Mit Garn", 290*width/1440, height/3 -height/30-camY);
+  text("Gemte opskrifter", 1020*width/1440, height/3-height/30-camY);
 }
 
 Knap mitSkærmTilbageKnap;
@@ -59,6 +58,11 @@ void mitSkærmSetup() {
   checkRecipeFile();
   // Load saved recipes from file
   loadSavedRecipes();
+
+  // Initialize scrollbar variables
+  scrollBarEndY=height;
+  scrollBarStartY=height/9*2;
+  scrollBarVisibleHeight = scrollBarEndY - scrollBarStartY;
 }
 
 void mitSkærmKnapper() {
@@ -99,7 +103,7 @@ void mitSkærmKnapper() {
     checkAddNewDropdown();
   }
   //Fjerner gemte opskrifter hvis der trykkes på stjernen
-  if (mouseY>height/9*2 && mouseX>580*width/1440 && !opskrifter.isEmpty()) {
+  if (mouseY>height/9*2 && mouseX>580*width/1440 && !alleOpskrifter.isEmpty()) {
     float posY = height/5*2;
     float posX = 653*width/1440;
     float bredde = width/31*16;
@@ -130,7 +134,7 @@ void mitSkærmKnapper() {
 // Function to add a new yarn dropdown
 void addGarnDropdown() {
   // Calculate position for the new dropdown
-  float dropdownY = height/3 + (garnDropdowns.size() * (height/14 + 15*width/1440));
+  float dropdownY = height/3+20 + (garnDropdowns.size() * (height/14 + 15*width/1440));
 
   // Create dropdown menu for yarn types
   String[] garnTyper = {"alpaka", "bomuld", "hør", "merino", "mohair", "silke", "uld"};
@@ -200,10 +204,10 @@ void removeDropdown(int index) {
 void tegnStjerne(float posX, float posY, boolean fyldt) {
   pushMatrix();
   translate(posX, posY);
-  stroke(0);
+  stroke(#CD8B62);
   if (fyldt) {
-    fill(230, 214, 2);
-    stroke(0);
+    fill(#CD8B62);
+    noStroke();
   } else {
     fill(255, 0);
   }
