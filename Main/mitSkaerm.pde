@@ -183,3 +183,93 @@ void removeDropdown(int index) {
   // Check if we need to add a new dropdown
   checkAddNewDropdown();
 }
+
+// Function to check if the JSON file exists and create it if needed
+void checkRecipeFile() {
+  File f = new File(dataPath("savedRecipes.json"));
+  if (!f.exists()) {
+    // Create an empty JSON array and save it
+    JSONArray emptyArray = new JSONArray();
+    saveJSONArray(emptyArray, "data/savedRecipes.json");
+    println("Created new savedRecipes.json file");
+  }
+}
+
+// Function to load saved recipes from JSON file
+void loadSavedRecipes() {
+  try {
+    JSONArray savedRecipesJSON = loadJSONArray("data/savedRecipes.json");
+    gemteOpskrifter.clear();
+
+    for (int i = 0; i < savedRecipesJSON.size(); i++) {
+      JSONObject recipeJSON = savedRecipesJSON.getJSONObject(i);
+
+      // Extract recipe data
+      String titel = recipeJSON.getString("titel");
+      String link = recipeJSON.getString("link", "");
+      String svaerhedsgrad = recipeJSON.getString("svaerhedsgrad", "");
+      String produktType = recipeJSON.getString("produktType", "");
+
+      // Create new recipe object
+      Opskrift savedRecipe = new Opskrift(titel, link, svaerhedsgrad, produktType, null);
+
+      // Add yarn types if they exist
+      if (recipeJSON.hasKey("garn")) {
+        JSONArray garnArray = recipeJSON.getJSONArray("garn");
+        for (int j = 0; j < garnArray.size(); j++) {
+          savedRecipe.tilfoejGarntype(garnArray.getString(j));
+        }
+      }
+
+      // Set image URL if it exists - use "image" key to match hentOpskrifterFraServer
+      if (recipeJSON.hasKey("image")) {
+        savedRecipe.imageUrl = recipeJSON.getString("image");
+        savedRecipe.billedeHentes = true;
+      }
+
+      gemteOpskrifter.add(savedRecipe);
+    }
+    println("Loaded " + gemteOpskrifter.size() + " saved recipes");
+
+    // Start a thread to load images for saved recipes
+    thread("hentGemteOpskrifterBilleder");
+  }
+  catch (Exception e) {
+    println("Error loading saved recipes: " + e.getMessage());
+    // If there's an error, create a new file
+    checkRecipeFile();
+  }
+}
+
+// Function to save recipes to JSON file
+void saveRecipesToFile() {
+  JSONArray savedRecipesJSON = new JSONArray();
+
+  for (int i = 0; i < gemteOpskrifter.size(); i++) {
+    Opskrift recipe = gemteOpskrifter.get(i);
+    JSONObject recipeJSON = new JSONObject();
+
+    // Save basic recipe information
+    recipeJSON.setString("titel", recipe.titel);
+    recipeJSON.setString("link", recipe.link);
+    recipeJSON.setString("kategori", recipe.kategori);
+    recipeJSON.setString("produktType", recipe.produktType);
+
+    // Save image URL with the same key name as in hentOpskrifterFraServer
+    if (recipe.imageUrl != null) {
+      recipeJSON.setString("image", recipe.imageUrl);
+    }
+
+    // Save yarn types
+    JSONArray garnArray = new JSONArray();
+    for (int j = 0; j < recipe.krævneGarn.size(); j++) {
+      garnArray.setString(j, recipe.krævneGarn.get(j));
+    }
+    recipeJSON.setJSONArray("garn", garnArray);
+
+    savedRecipesJSON.setJSONObject(i, recipeJSON);
+  }
+
+  saveJSONArray(savedRecipesJSON, "data/savedRecipes.json");
+  println("Saved " + gemteOpskrifter.size() + " recipes to file");
+}
