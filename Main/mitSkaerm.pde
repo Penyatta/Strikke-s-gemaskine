@@ -52,6 +52,10 @@ void mitSkærmKnapper() {
     skærm=startSkærm;
     // sætter scroll til nul når man går ud af skærmen
     camY = 0;
+    openDropdown=-1;
+    for (Dropdown dropdown : garnDropdowns) {
+      dropdown.isOpen=false;
+    }
   }
   //holder styr på om man skal kunne åben en ny dropdown
   if (openDropdown==-1) {
@@ -61,14 +65,16 @@ void mitSkærmKnapper() {
   }
 
   // Checker om der skal ske noget med nogen af dropdownsne
-  for (Dropdown dropdown : garnDropdowns) {
-    if (allowOpen) {
-      dropdown.checkMouse();
-    } else if (openDropdown==dropdown.dropdownIndex) {
-      dropdown.checkMouse();
+  if (skærm==mitSkærm) {
+    for (Dropdown dropdown : garnDropdowns) {
+      if (allowOpen) {
+        dropdown.checkMouse();
+      } else if (openDropdown==dropdown.dropdownIndex) {
+        dropdown.checkMouse();
+      }
     }
   }
-//Hvis man kan trykke en menu vil alle handlinger lukke denne menu og dermed gøre det muligt at åbne en ny
+  //Hvis man kan trykke en menu vil alle handlinger lukke denne menu og dermed gøre det muligt at åbne en ny
   if (!allowOpen) {
     openDropdown=-1;
   }
@@ -78,33 +84,35 @@ void mitSkærmKnapper() {
     needRemove = false;
     checkAddNewDropdown();
   }
+  //Fjerner gemte opskrifter hvis der trykkes på stjernen
+  if (mouseY>height/9*2 && mouseX>580*width/1440 && !alleOpskrifter.isEmpty()) {
+    float posY = height/5*2;
+    float posX = 653*width/1440;
+    float bredde = width/31*16;
+    float højde = height/4;
+    float spacing = height/32;
+    int gemtIndex=-1;
+    boolean fjern=false;
+    for (Opskrift opskrift : gemteOpskrifter) {
+      if (mouseX>posX+bredde/31*17 && mouseX<posX+bredde/31*17+bredde/15 && mouseY>posY-camY && mouseY<posY+højde/5-camY) {
+        fjern=true;
+        for (int i = 0; i < gemteOpskrifter.size(); i++) {
+          if (opskrift.titel.equals(gemteOpskrifter.get(i).titel)) {
+            gemtIndex = i;
+            break;
+          }
+        }
+      }
+    }
+    if (fjern) {
+      if (gemtIndex!=-1) {
+        gemteOpskrifter.remove(gemtIndex);
+        saveRecipesToFile();
+      }
+    }
+  }
 }
 
-void tegnStjerne(float posX, float posY, boolean fyldt) {
-  pushMatrix();
-  translate(posX, posY);
-  stroke(0);
-  if (fyldt) {
-    fill(230, 214, 2);
-    stroke(0);
-  } else {
-    fill(255, 0);
-  }
-  strokeWeight(2);
-  beginShape();
-  vertex(0*width/1920, -25*width/1920);
-  vertex(7*width/1920, -10*width/1920);
-  vertex(23.5*width/1920, -7.5*width/1920);
-  vertex(11.5*width/1920, 3.5*width/1920);
-  vertex(14.5*width/1920, 20*width/1920);
-  vertex(0*width/1920, 12.5*width/1920);
-  vertex(-14.5*width/1920, 20*width/1920);
-  vertex(-11.5*width/1920, 3.5*width/1920);
-  vertex(-23.5*width/1920, -7.5*width/1920);
-  vertex(-7*width/1920, -10*width/1920);
-  endShape(CLOSE);
-  popMatrix();
-}
 
 // Function to add a new yarn dropdown
 void addGarnDropdown() {
