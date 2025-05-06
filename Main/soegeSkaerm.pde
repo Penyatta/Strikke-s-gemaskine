@@ -189,6 +189,8 @@ void søgeSkærmKnapper() {
   produktTypeGroup.checkMouse();
   udfraGarnGroup.checkMouse();
 
+
+
   // Opdater visning baseret på valgte filtre
   opdaterFiltreretListe();
 }
