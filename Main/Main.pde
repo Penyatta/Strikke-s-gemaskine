@@ -172,7 +172,22 @@ void mousePressed() {
       return;
     }
   }
-  
+
+  for (Textfield tf : textfields) {
+    if (skærm == tf.textfieldSkærm && overField(tf)) {
+      activeField = tf;
+      tf.active = true;
+
+      // Hvis det ligner et link, og brugeren klikker på det – åbn det
+      if (tf.tekst.startsWith("http")) {
+        link(tf.tekst);
+      }
+
+    } else {
+      tf.active = false;
+    }
+  }
+
   // Hvis musen er over scrollbaren, aktiver scrollbar
   if (skærm == søgeSkærm || skærm == opretSkærm || skærm == mitSkærm) {
     if (mouseX > scrollBarX && mouseX < scrollBarX + scrollBarW &&
@@ -181,6 +196,11 @@ void mousePressed() {
       scrollOffsetY = mouseY - (scrollBarY+scrollBarYOffset);
     }
   }
+}
+// Hjælpefunktion til at tjekke om musen er over et tekstfelt
+boolean overField(Textfield tf) {
+  return mouseX > tf.posX && mouseX < tf.posX + tf.sizeX &&
+         mouseY > tf.posY && mouseY < tf.posY + tf.sizeY;
 }
 
 void mouseReleased() {

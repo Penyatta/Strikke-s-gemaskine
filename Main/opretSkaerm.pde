@@ -1,6 +1,11 @@
 
 PImage uploadedImage; // Variabel til at gemme det uploadede billede
 
+float linkRectX, linkRectY, linkRectW, linkRectH;
+String aktivtLink = "";
+
+String placeholder = "Indtast link her";
+
 void opretSkærm(){
   background(255);
   overskriftBjælke("Tilføj din egen opskrift");
@@ -25,13 +30,50 @@ void opretSkærm(){
 
   // Hvis et billede er uploadet, vis det
   float posY = height/6*2;
-  float posX = 400*width/1440;
+  float posX = 250*width/1440;
   float bredde = (width/31*16);
   float højde = (height/4);
+  
+  //billedramme
+stroke(0);
+noFill();
+rect(posX + bredde/24*17, posY - camY + højde/10, bredde/24*5, højde/10*8);
   
   if (uploadedImage != null) {
     image(uploadedImage, posX + bredde/24*17, posY - camY + højde/10, bredde/24*5, højde/10*8); // Placér billede
   }
+ 
+ // Hent teksten fra link-textfield
+String brugerLink = "";
+for (Textfield tf : textfields) {
+  if (skærm == opretSkærm && tf.startTekst.equals("Indsæt link til opskrift (https://...)")) {
+    brugerLink = tf.tekst;
+    break;
+  }
+}
+
+// Hvis der står noget i feltet, så gør teksten klikbar
+if (brugerLink.length() > 0) {
+ 
+  fill(0); // blå tekst som et link
+  textSize(24);
+  textAlign(LEFT, TOP);
+  float linkX = width-100;
+  float linkY = height/4+35;
+  text("Åbn", linkX, linkY);
+ 
+  // Gem positionen, så vi kan bruge den ved klik
+  linkRectX = linkX;
+  linkRectY = linkY;
+  linkRectW = textWidth("Åbn");
+  linkRectH = 30;
+  aktivtLink = brugerLink;
+  
+    // Udskriv URL'en for at kontrollere, at den er korrekt
+  //  println("Aktivt link: " + aktivtLink);
+}
+
+ 
 }
 
 // Funktion til at vælge billede
@@ -132,6 +174,11 @@ void opretSkærmSetup(){
   billedeKnap = new Knap (1000,320, 200*width/1440, 50, color(247, 239, 210), "Vælg billede", 30*width/1440, color(71, 92, 108), color(205, 139, 98), 10, opretSkærm);
   knapper.add(billedeKnap);
 
+// Tilføj Textfield til link
+textfields.add(new Textfield(200*width/1440+1000, 320, (width/3)-100, 50, 
+  color(71, 92, 108), color(247, 239, 210), color(247, 239, 210), color(247, 239, 210),
+  30*width/1440, "Indsæt link til opskrift (https://...)", "", 10, opretSkærm, false));
+
 }
 
 void opretSkærmKnapper(){
@@ -144,6 +191,16 @@ void opretSkærmKnapper(){
   if (knapper.get(knapper.size()-1).mouseOver()) {
     selectImage();  // Kald funktionen til at vælge billede
   }
+  // Hvis der er et aktivt link og det klikkes
   
+ if (aktivtLink.length() > 0 &&
+    mousePressed &&
+    mouseX > linkRectX && mouseX < linkRectX + linkRectW &&
+    mouseY > linkRectY && mouseY < linkRectY + linkRectH) {
+  //println("Linket er blevet klikket, åbner: " + aktivtLink);
+  link(aktivtLink);
+}
+ 
    garnTypeGroup.checkMouse();
+
 }
