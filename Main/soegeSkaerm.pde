@@ -139,6 +139,9 @@ void søgeSkærmSetup() {
 
 void opdaterFiltreretListe() {
   visteOpskrifter.clear();
+  
+ println("Mit garn: " + mitGarn);
+
 
   // Få navnet på den valgte switch (kategori)
   String valgtKategori = kategoriGroup.getSelectedTitle();
@@ -157,19 +160,23 @@ void opdaterFiltreretListe() {
       match = false;
     }
 
-  // Filtrér på mitGarn, hvis "Brug mit garn" switchen er aktiv
-    if (udfraGarnGroup.erSwitchAktiv("Ja")) {
-      boolean harMatchendeGarn = false;
-      for (String garn : o.krævneGarn) {
-        if (mitGarn.contains(garn)) {
-          harMatchendeGarn = true;
+if (udfraGarnGroup.erSwitchAktiv("Ja")) {
+  if (!o.krævneGarn.isEmpty()) {
+    for (String krævetGarn : o.krævneGarn) {
+      boolean fundet = false;
+      for (String mit : mitGarn) {
+        if (mit.trim().equalsIgnoreCase(krævetGarn.trim())) {
+          fundet = true;
           break;
         }
       }
-      if (!harMatchendeGarn) {
+      if (!fundet) {
         match = false;
+        break;
       }
     }
+  }
+}
 
 
     if (match) {
