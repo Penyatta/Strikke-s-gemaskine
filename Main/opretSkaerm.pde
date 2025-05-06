@@ -1,4 +1,3 @@
-
 PImage uploadedImage; // Variabel til at gemme det uploadede billede
 
 float linkRectX, linkRectY, linkRectW, linkRectH;
@@ -255,10 +254,10 @@ void opretSkærmKnapper() {
   if (opretSkærmOpretKnap.mouseOver() ) {
     //Tjekker om alle de nødvændige ting er udfyldt
     if (!TitelTextfelt.tekst.isEmpty() && opretKategorierGroup.getSelectedSwitch() != null
-      && true && opretProduktTypeGroup.getSelectedSwitch() != null && garnTypeGroup.switchValgt()) {
+      && uploadedImage != null && opretProduktTypeGroup.getSelectedSwitch() != null && garnTypeGroup.switchValgt()) {
       // kommer den nye opskrift i gemte opskrifter
       gemteOpskrifter.add(new Opskrift(TitelTextfelt.tekst, opretKategorierGroup.getSelectedSwitch().getTitel(),
-        "", opretKategorierGroup.getSelectedSwitch().getTitel(), null));
+        "", opretKategorierGroup.getSelectedSwitch().getTitel(), uploadedImage));
       int index=gemteOpskrifter.size();
       for (Switch switchs : garnTypeGroup.switches) {
         if (switchs.getState()) {
@@ -269,6 +268,7 @@ void opretSkærmKnapper() {
         opretProduktTypeGroup.getSelectedSwitch().tændt=false;
         opretKategorierGroup.getSelectedSwitch().tændt=false;
         opskriftCreationFeedback=1;
+        uploadedImage=null;
         opskriftTimer=millis();
         saveRecipesToFile();
       }

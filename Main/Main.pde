@@ -29,7 +29,11 @@ float scrollBarW = 25;
 float scrollBarH;
 boolean scrollbarAktiv = false;
 float scrollOffsetY;
-float scrollBarYOffset = 300;
+// Scrollbar position variables
+float scrollBarStartY; // Top position of scrollbar (adjust as needed)
+float scrollBarEndY; // Bottom position of scrollbar (adjust as needed)
+float scrollBarVisibleHeight; // Will store the visible height of the scrollbar area
+//float scrollBarYOffset = 300;
 
 void setup() {
   fullScreen();
@@ -95,7 +99,6 @@ void draw() {
 
 
 void tegnScrollbar() {
-
   float scrollContentHeight = 2000; // total højde af indhold, justér evt.
 
   // Dynamisk opdatering af maxScroll afhængig af antal opskrifter
@@ -103,18 +106,22 @@ void tegnScrollbar() {
     scrollContentHeight = maxScroll + height;
   }
 
+  // Calculate ratio and height based on visible area
+  float scrollRatio = (float) scrollBarVisibleHeight / scrollContentHeight;
+  scrollBarH = constrain(scrollContentHeight * scrollRatio, 30*width/1920, scrollBarVisibleHeight);
 
-  float scrollRatio = (float) height / scrollContentHeight;
-  scrollBarH = constrain(height * scrollRatio, 30, height);  // Dynamisk justering af højden
-  scrollBarY = map(camY, 0, maxScroll, 0, height - scrollBarH);
+  // Calculate scrollBarY based on camY, but constrained to our custom range
+  scrollBarY = map(camY, 0, maxScroll, scrollBarStartY, scrollBarEndY - scrollBarH);
 
-
-  // Tegn selve scrollbaren
+  // Draw scrollbar background (only in the visible area)
   noStroke();
   fill(200);
-  rect(width - 25, 0, scrollBarW, height*2-100); // Baggrund
+  rectMode(CORNER);
+  rect(width - scrollBarW - 10, scrollBarStartY, scrollBarW, scrollBarVisibleHeight); // Background
+
+  // Draw the scrollbar handle
   fill(100);
-  rect(width - 25, scrollBarY+scrollBarYOffset, scrollBarW, scrollBarH); // Positioner scrollbar korrekt
+  rect(width - scrollBarW - 10, scrollBarY, scrollBarW-8*width/1920, scrollBarH, 10*width/1920); // Scrollbar
 }
 
 
@@ -135,7 +142,7 @@ void mouseDragged() {
 
     if (skærm == søgeSkærm && !alleOpskrifter.isEmpty()) {
       // Calculate based on number of recipes
-      maxScroll = int((height/5*2 + (height/4 + height/32) * alleOpskrifter.size()) - height + 100);
+      maxScroll = int((height/5*2 + (height/4 + height/32) * alleOpskrifter.size()) - height + 100*width/1920);
     }
 
     // Begræns scrolling
@@ -195,12 +202,11 @@ void mousePressed() {
     }
   }
 
-  // Hvis musen er over scrollbaren, aktiver scrollbar
   if (skærm == søgeSkærm || skærm == opretSkærm || skærm == mitSkærm) {
     if (mouseX > scrollBarX && mouseX < scrollBarX + scrollBarW &&
-      mouseY > scrollBarY+scrollBarYOffset && mouseY < scrollBarY+scrollBarYOffset + scrollBarH) {
+      mouseY > scrollBarY && mouseY < scrollBarY + scrollBarH) {
       scrollbarAktiv = true;
-      scrollOffsetY = mouseY - (scrollBarY+scrollBarYOffset);
+      scrollOffsetY = mouseY - scrollBarY;
     }
   }
 }

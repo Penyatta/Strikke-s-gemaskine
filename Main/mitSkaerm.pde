@@ -39,9 +39,8 @@ void mitSkærm() {
   overskriftBjælke("Min profil");
   rect(580*width/1440, 202*width/1440, 18*width/1440, 780*width/1440);
   fill(#475C6C);
-   text("Mit Garn", 290*width/1440, height/3 -height/30-camY);
-  text("Gemte opskrifter", 1020*width/1440,height/3-height/30-camY);
-
+  text("Mit Garn", 290*width/1440, height/3 -height/30-camY);
+  text("Gemte opskrifter", 1020*width/1440, height/3-height/30-camY);
 }
 
 Knap mitSkærmTilbageKnap;
@@ -58,6 +57,11 @@ void mitSkærmSetup() {
   checkRecipeFile();
   // Load saved recipes from file
   loadSavedRecipes();
+
+  // Initialize scrollbar variables
+  scrollBarEndY=height;
+  scrollBarStartY=height/9*2;
+  scrollBarVisibleHeight = scrollBarEndY - scrollBarStartY;
 }
 
 void mitSkærmKnapper() {

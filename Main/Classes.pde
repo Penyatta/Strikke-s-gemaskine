@@ -97,7 +97,7 @@ class Knap {
       //Sørger for at det er det øverste venstre hjørne som knappen tegnes fra
       rectMode(CORNER);
       //skygge til "søg" knap
-      if (knapSkærm==søgeSkærm) {
+      if (knapSkærm==søgeSkærm || knapSkærm==opretSkærm) {
         skyggeImplement(posX, posY+sizeY-1-camY, sizeX, true);
       } else {
         skyggeImplement(posX, posY+sizeY-1-camY, sizeX, false);
