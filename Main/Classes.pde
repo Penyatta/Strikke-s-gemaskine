@@ -505,6 +505,16 @@ class SwitchGroupA extends SwitchGroup {
       }
     }
   }
+  boolean switchValgt(){
+    boolean enValgt=false;
+    for(Switch switchs : switches){
+      if(switchs.getState()){
+       enValgt=true; 
+       break;
+      }
+    }
+    return enValgt;
+  }
 }
 
 // Dropdowns itil at vælge det garn man har
