@@ -179,8 +179,9 @@ void søgeSkærmKnapper() {
     }
   }
 }
+}
 
-void overskriftBjælke(String tekst) {
+void overskriftBjælke (String tekst) {
   rectMode(CORNER);
   fill(71, 92, 108);
   rect(0, 0, width, height/9*2);
