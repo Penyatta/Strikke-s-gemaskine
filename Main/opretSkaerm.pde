@@ -211,10 +211,7 @@ void opretSkærmSetup() {
   billedeKnap = new Knap (1000, 320, 200*width/1440, 50, color(247, 239, 210), "Vælg billede", 30*width/1440, color(71, 92, 108), color(205, 139, 98), 10, opretSkærm);
   knapper.add(billedeKnap);
 
-  // Tilføj Textfield til link
-  textfields.add(new Textfield(200*width/1440+1000, 320, (width/3)-100, 50,
-    color(71, 92, 108), color(247, 239, 210), color(247, 239, 210), color(247, 239, 210),
-    30*width/1440, "Indsæt link til opskrift (https://...)", "", 10, opretSkærm, false));
+
 }
 
 void opretSkærmKnapper() {

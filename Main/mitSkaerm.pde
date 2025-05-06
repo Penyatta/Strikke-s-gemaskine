@@ -51,6 +51,7 @@ void mitSkærmSetup() {
   //laver knapperne
   mitSkærmTilbageKnap = new TilbageKnap(height/9-height/15, height/9-height/17, height/15*2, height/17*2, color(0), "tilbage", 10, color(205, 139, 98), color(247, 239, 210), 10, mitSkærm);
   knapper.add(mitSkærmTilbageKnap);
+ 
   // laver den første dropdown menu
   addGarnDropdown();
   // Check if saved recipes file exists and create it if needed

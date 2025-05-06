@@ -1,7 +1,9 @@
 import http.requests.*;
 
+
 // Definer sammenhænge mellem kategori og produkttyper
 HashMap<String, ArrayList<String>> kategoriTilProdukter = new HashMap<String, ArrayList<String>>();
+
 
 // Declare the back button for the search screen
 Knap søgeSkærmTilbageKnap;
