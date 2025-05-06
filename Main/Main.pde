@@ -26,7 +26,7 @@ int lastMouseY;
 float scrollBarX;
 float scrollBarY;
 float scrollBarW = 25;
-float scrollBarH;
+float scrollBarH = 0; // Bruges til at beregne højde på scrollbar
 boolean scrollbarAktiv = false;
 float scrollOffsetY;
 float scrollBarYOffset = 300;
@@ -97,41 +97,34 @@ void draw() {
 
 
 void tegnScrollbar() {
-  // Dynamisk opdatering af indholdshøjde afhængig af skærm
-  if (skærm == søgeSkærm && !alleOpskrifter.isEmpty()) {
+if (skærm == søgeSkærm && !alleOpskrifter.isEmpty()) {
     scrollContentHeight = height/5*2 + (height/4 + height/32) * alleOpskrifter.size();
   } else {
-    scrollContentHeight = 3000; // fallback
+    scrollContentHeight = 3000;
   }
 
-  // Opdater maxScroll baseret på indhold
   maxScroll = scrollContentHeight - height;
   if (maxScroll < 0) maxScroll = 0;
 
   float scrollRatio = (float) height / scrollContentHeight;
-  scrollBarH = constrain(height * scrollRatio, 30, height);  // Minimum højde
+  scrollBarH = constrain(height * scrollRatio, 30, height);
 
   scrollBarY = map(camY, 0, maxScroll, 0, height - scrollBarH);
 
-  // Tegn scrollbar-baggrund og håndtag
   noStroke();
   fill(200);
-  rect(scrollBarX, 0, scrollBarW, height);
+  rect(scrollBarX, 0, scrollBarW, height); // scrollbar baggrund
   fill(100);
-  rect(scrollBarX, scrollBarY, scrollBarW, scrollBarH);
-}
+  rect(scrollBarX, scrollBarY, scrollBarW, scrollBarH); // håndtaget
 
 
 
-float scrollRatio = (float) height / scrollContentHeight;
-scrollBarH = constrain(height * scrollRatio, 30, height);  // Minimum højde på scrollbar
-scrollBarY = map(camY, 0, maxScroll, 0, height - scrollBarH);
 
 
 // Tegn selve scrollbaren
 noStroke();
 fill(200);
-rect(width - 25, 0, scrollBarW, height*2-100); // Baggrund
+rect(width - 25, 0, scrollBarW, height*2); // Baggrund
 fill(100);
 rect(width - 25, scrollBarY, scrollBarW, scrollBarH); // Positioner scrollbar korrekt
 }
