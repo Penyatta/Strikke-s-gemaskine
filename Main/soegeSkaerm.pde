@@ -190,13 +190,13 @@ void søgeSkærmKnapper() {
   udfraGarnGroup.checkMouse();
 
 //gemmer opskrifter hvis man trykker på stjernen
-  if (mouseY>height/9*2 && mouseX>580*width/1440 && !opskrifter.isEmpty()) {
+  if (mouseY>height/9*2 && mouseX>580*width/1440 && !alleOpskrifter.isEmpty()) {
     float posY = height/5*2;
     float posX = 653*width/1440;
     float bredde = width/31*16;
     float højde = height/4;
     float spacing = height/32;
-    for (Opskrift opskrift : opskrifter) {
+    for (Opskrift opskrift : alleOpskrifter) {
       if (mouseX>posX+bredde/31*17 && mouseX<posX+bredde/31*17+bredde/15 && mouseY>posY-camY && mouseY<posY+højde/5-camY) {
         boolean gemt=false;
         int gemtIndex = -1;
