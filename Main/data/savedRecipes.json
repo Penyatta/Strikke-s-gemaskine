@@ -1,1 +1,69 @@
-[]
+[
+  {
+    "image": "https://www.garnstudio.com/drops/mag/258/30/30-2.jpg",
+    "titel": "Lemon Fizz Cardigan",
+    "garn": [
+      "Silke",
+      "Uld"
+    ],
+    "link": "",
+    "kategori": "https://www.garnstudio.com/pattern.php?id=12147&cid=19",
+    "produktType": "Cardigans"
+  },
+  {
+    "image": "https://www.garnstudio.com/drops/mag/251/9/9-2.jpg",
+    "titel": "Glacier Whisper",
+    "garn": ["Uld"],
+    "link": "https://www.garnstudio.com/pattern.php?id=12239&cid=19",
+    "kategori": "Mand",
+    "produktType": "Sweater"
+  },
+  {
+    "image": "https://www.garnstudio.com/drops/mag/0/1657/1657-2.jpg",
+    "titel": "Braided Bloom",
+    "garn": ["Uld"],
+    "link": "https://www.garnstudio.com/pattern.php?id=12235&cid=19",
+    "kategori": "Hjem",
+    "produktType": "Påske"
+  },
+  {
+    "image": "https://www.garnstudio.com/drops/mag/s49/3/3-2.jpg",
+    "titel": "Sunshine Sprout",
+    "garn": ["Uld"],
+    "link": "https://www.garnstudio.com/pattern.php?id=12244&cid=19",
+    "kategori": "Børn (2-14 år)",
+    "produktType": "Veste & Toppe"
+  },
+  {
+    "image": "https://www.garnstudio.com/drops/mag/259/1/1-2.jpg",
+    "titel": "April Snow",
+    "garn": ["Uld"],
+    "link": "https://www.garnstudio.com/pattern.php?id=12116&cid=19",
+    "kategori": "Kvinde",
+    "produktType": "Sweater"
+  },
+  {
+    "image": "https://www.garnstudio.com/drops/mag/210/4/4-2.jpg",
+    "titel": "Mountain Moraine",
+    "garn": ["Uld"],
+    "link": "https://www.garnstudio.com/pattern.php?id=9603&cid=19",
+    "kategori": "Kvinde",
+    "produktType": "Veste"
+  },
+  {
+    "image": "https://www.garnstudio.com/drops/mag/b18/16/16-2.jpg",
+    "titel": "Petit Prince",
+    "garn": ["Uld"],
+    "link": "https://www.garnstudio.com/pattern.php?id=3961&cid=19",
+    "kategori": "Baby (0-4 år)",
+    "produktType": "Babytæpper"
+  },
+  {
+    "image": "https://www.garnstudio.com/drops/mag/240/24/24-2.jpg",
+    "titel": "Sun Dream Tee",
+    "garn": ["Bomuld"],
+    "link": "https://www.garnstudio.com/pattern.php?id=11358&cid=19",
+    "kategori": "Kvinde",
+    "produktType": "Toppe"
+  }
+]
