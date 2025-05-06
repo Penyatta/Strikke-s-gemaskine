@@ -11,7 +11,7 @@ void mitSkærm() {
   fill(71, 92, 108);
   textAlign(CENTER);
   textSize(35*width/1440);
-  text("Mit Garn", 290*width/1440, height/3 - 40-camY);
+  //text("Mit Garn", 290*width/1440, height/3 - 40-camY);
 
 
 
@@ -30,7 +30,7 @@ void mitSkærm() {
   overskriftBjælke("Min profil");
   rect(580*width/1440,202*width/1440,18*width/1440,780*width/1440);
   fill(#475C6C);
-  text("Mit garn", 280,260);
+  text("Mit garn", 285*width/1440, height/3 - 40-camY);
   text("Gemte opskrifter", 1020,260);
 
 }
@@ -83,7 +83,7 @@ void mitSkærmKnapper() {
 // Function to add a new yarn dropdown
 void addGarnDropdown() {
   // Calculate position for the new dropdown
-  float dropdownY = height/3 + (garnDropdowns.size() * (height/14 + 15*width/1440));
+  float dropdownY = height/3+20 + (garnDropdowns.size() * (height/14 + 15*width/1440));
 
   // Create dropdown menu for yarn types
   String[] garnTyper = {"Uld", "Bomuld", "Akryl", "Alpaka", "Hør", "Silke", "Mohair", "Merino", "Bambus"};

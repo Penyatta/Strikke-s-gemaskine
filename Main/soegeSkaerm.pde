@@ -4,6 +4,8 @@ import http.requests.*;
 Knap søgeSkærmTilbageKnap;
 Knap søgeSkærmSøgKnap;
 
+SwitchGroup garnFilterGroup;
+
 void søgeSkærm() {
   background(255);
 
@@ -13,19 +15,22 @@ void søgeSkærm() {
     // Konverterer opskrifter til et array og viser dem
     Opskrift[] visteOpskriftArray = visteOpskrifter.toArray(new Opskrift[0]);
 
-    // Add the "Opskrifter" title text with proper camY offset
+    displayOpskrifter(visteOpskriftArray);
+    
+  }
+  // Add the "Opskrifter" title text with proper camY offset
     textFont(generalFont);
     textSize(80);
     fill(71, 92, 108);
     textAlign(CENTER);
     text("Opskrifter", width / 7 * 3 + width / 4, height / 3 - camY);
-
-    displayOpskrifter(visteOpskriftArray);
-  }
-  noStroke();
-  fill(247, 239, 210);
-  rect(580*width/1440, 150*width/1440, 18*width/1440, 780*width/1440);
-
+    
+   // den lige bjælke der opdeler skærmen
+   rectMode(CORNER);
+    noStroke();
+    fill(247, 239, 210);
+    rect(585*width/1440, 150*height/900, 18*width/1440, 780*height/900);
+    
   textSize(40*width/1440);
   fill(71, 92, 108);
   textAlign(CORNER, CORNER);
@@ -33,7 +38,7 @@ void søgeSkærm() {
   textSize(30*width/1440);
   text("Kategorier", 45*width/1440, 425*height/982-camY);
   text("Produkttype", 45*width/1440, 690*height/982-camY);
-  text("Søg udfra mit garn", 52*width/1440, 1050*height/982-camY);
+  text("Søg udfra mit garn", 52*width/1440, 1125*height/982-camY);
 
   kategoriGroup.tegnAlle();
   produktTypeGroup.tegnAlle();
@@ -74,7 +79,7 @@ void søgeSkærmSetup() {
   kategoriGroup.addSwitch(HjemSwitch);
 
   // laver udfra garn switch
-  Switch jaSwitch = new Switch((580*width/1440)/4, 1110*height/982, 30*width/1440, "Ja", false);
+  Switch jaSwitch = new Switch((580*width/1440)/4, 1170*height/982, 30*width/1440, "Ja", false);
   udfraGarnGroup.addSwitch(jaSwitch);
 
   // Laver tilbageknappen til søgeskærmen
@@ -89,16 +94,22 @@ void søgeSkærmSetup() {
   // laver produkttype switchesne
   højde=750*height/982-camY;
   Switch sweaterSwitch = new Switch(bredde1, højde, 30*width/1440, "Sweater", false);
-  Switch cardiganSwitch = new Switch(bredde2, højde, 30*width/1440, "Cardigan", false);
-  Switch hueSwitch = new Switch(bredde3, højde, 30*width/1440, "Hue", false);
+  Switch cardiganSwitch = new Switch(bredde2, højde, 30*width/1440, "Cardigans", false);
+  Switch hueSwitch = new Switch(bredde3, højde, 30*width/1440, "Huer", false);
   højde=840*height/982-camY;
-  Switch vanterSwitch = new Switch(bredde1, højde, 30*width/1440, "Vanter", false);
-  Switch vestSwitch = new Switch(bredde2, højde, 30*width/1440, "Vest", false);
-  Switch topSwitch = new Switch(bredde3, højde, 30*width/1440, "Top", false);
+  Switch vanterSwitch = new Switch(bredde1, højde, 30*width/1440, "Veste & Toppe", false);
+  Switch vestSwitch = new Switch(bredde2, højde, 30*width/1440, "Veste", false);
+  Switch topSwitch = new Switch(bredde3, højde, 30*width/1440, "Toppe", false);
   højde=930*height/982-camY;
-  Switch shortsSwitch = new Switch(bredde1, højde, 30*width/1440, "Shorts", false);
+  Switch shortsSwitch = new Switch(bredde1, højde, 30*width/1440, "Babytæpper", false);
   Switch strømperSwitch = new Switch(bredde2, højde, 30*width/1440, "Strømper", false);
-  Switch nederdelSwitch = new Switch(bredde3, højde, 30*width/1440, "Nederdel", false);
+  Switch nederdelSwitch = new Switch(bredde3, højde, 30*width/1440, "Børneværelse", false);
+
+  højde=1020*height/982-camY;
+  Switch kjolerSwitch = new Switch(bredde1, højde, 30*width/1440, "Kjoler og Tunikaer", false);
+  Switch shawlsSwitch = new Switch(bredde2, højde, 30*width/1440, "Shawls", false);
+  Switch påskeSwitch = new Switch(bredde3, højde, 30*width/1440, "Påske", false);
+
 
   // Tilføjer produkttype switchesne til en gruppe
   produktTypeGroup.addSwitch(sweaterSwitch);
@@ -110,6 +121,9 @@ void søgeSkærmSetup() {
   produktTypeGroup.addSwitch(shortsSwitch);
   produktTypeGroup.addSwitch(strømperSwitch);
   produktTypeGroup.addSwitch(nederdelSwitch);
+  produktTypeGroup.addSwitch(kjolerSwitch);
+  produktTypeGroup.addSwitch(shawlsSwitch);
+    produktTypeGroup.addSwitch(påskeSwitch);
 
   // tilføjer ud fra garn switch
   udfraGarnGroup.addSwitch(jaSwitch);
@@ -127,11 +141,11 @@ void opdaterFiltreretListe() {
 
   // Få navnet på den valgte switch (kategori)
   String valgtKategori = kategoriGroup.getSelectedTitle();
-  
+
   // Få navnet på den valgte switch (Produkttype)
   String valgtproduktType = produktTypeGroup.getSelectedTitle();
 
- for (Opskrift o : alleOpskrifter) {
+  for (Opskrift o : alleOpskrifter) {
     boolean match = true;
 
     if (!valgtKategori.equals("") && !o.kategori.equals(valgtKategori)) {
@@ -141,6 +155,21 @@ void opdaterFiltreretListe() {
     if (!valgtproduktType.equals("") && !o.produktType.equals(valgtproduktType)) {
       match = false;
     }
+
+  // Filtrér på mitGarn, hvis "Brug mit garn" switchen er aktiv
+    if (udfraGarnGroup.erSwitchAktiv("Ja")) {
+      boolean harMatchendeGarn = false;
+      for (String garn : o.krævneGarn) {
+        if (mitGarn.contains(garn)) {
+          harMatchendeGarn = true;
+          break;
+        }
+      }
+      if (!harMatchendeGarn) {
+        match = false;
+      }
+    }
+
 
 
     if (match) {
@@ -159,10 +188,9 @@ void søgeSkærmKnapper() {
   kategoriGroup.checkMouse();
   produktTypeGroup.checkMouse();
   udfraGarnGroup.checkMouse();
-  
-    // Opdater visning baseret på valgte filtre
+
+  // Opdater visning baseret på valgte filtre
   opdaterFiltreretListe();
-  
 }
 
 

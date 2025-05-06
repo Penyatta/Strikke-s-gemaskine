@@ -83,7 +83,9 @@ void mouseDragged() {
     int diff = mouseY - lastMouseY;
 
     // Update camY (move opposite to drag direction for natural scrolling)
-    camY -= diff;
+   if (abs(diff) > 1) {
+  camY -= diff;
+}
 
     // Calculate maximum scroll based on content amount
     int maxScroll = 1000; // Default value
@@ -102,6 +104,9 @@ void mouseDragged() {
   lastMouseY = mouseY;
 }
 void mousePressed() {
+  
+  lastMouseY = mouseY;
+
   //kører knap funktionerne der tjekker om knapperne tilhørende de forskellige skærme er blevet trykket på
   startSkærmKnapper();
   søgeSkærmKnapper();

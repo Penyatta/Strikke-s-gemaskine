@@ -383,6 +383,7 @@ class Switch {
 
 // Klasse til at holde styr på flere switches
 class SwitchGroup {
+    
   ArrayList<Switch> switches;
   int selectedIndex = -1; // Index på den valgte switch
 
