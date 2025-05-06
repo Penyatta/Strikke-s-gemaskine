@@ -333,3 +333,23 @@ void opretOpskriftFeedback() {
     }
   }
 }
+
+void lavSwitches(SwitchGroup switchGroup,String[] liste,float startY){
+  float højde=startY;
+  float size=30*width/1440;
+  float bredde1=(580*width/1440)/4;
+  float bredde2=(580*width/1440)/2;
+  float bredde3=(580*width/1440)/4*3;
+  float bredde4=(580*width/1440)/4*4;
+  float[] bredder = {bredde1,bredde2,bredde3,bredde4};
+  int counter=0;
+  boolean stop=false;
+  while(!stop){
+    for(int i=0;i<4;i++){
+      switchGroup.addSwitch(new Switch(bredder[i],højde,size,liste[counter],false));
+      counter++;
+    }
+    højde+=90*height/982;
+  }
+  
+}
