@@ -1,3 +1,4 @@
+
 ArrayList<String> mitGarn = new ArrayList<String>();
 int openDropdown=-1;
 boolean allowOpen;
@@ -11,13 +12,12 @@ void mitSkærm() {
   fill(71, 92, 108);
   textAlign(CENTER);
   textSize(35*width/1440);
-  text("Mit Garn", 290*width/1440, height/3 -height/30-camY);
-  //text("Gemte opskrifter", 1020*width/1440,height/3-height/30-camY);
+
   textFont(generalFont);
   textSize(80);
   fill(71, 92, 108);
   textAlign(CENTER);
-  text("Opskrifter", width / 7 * 3 + width / 4, height / 3 - camY);
+
 
   if (!gemteOpskrifter.isEmpty()) {
     Opskrift[] opskriftArray = gemteOpskrifter.toArray(new Opskrift[0]);
@@ -39,8 +39,8 @@ void mitSkærm() {
   overskriftBjælke("Min profil");
   rect(580*width/1440, 202*width/1440, 18*width/1440, 780*width/1440);
   fill(#475C6C);
-  text("Mit garn", 285*width/1440, height/3 - 40-camY);
-  text("Gemte opskrifter", 1020,260);
+   text("Mit Garn", 290*width/1440, height/3 -height/30-camY);
+  text("Gemte opskrifter", 1020*width/1440,height/3-height/30-camY);
 
 }
 
