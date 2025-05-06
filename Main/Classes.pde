@@ -19,6 +19,7 @@ class Opskrift {
     link = LINK;
     produktType = PRODUKTTYPE;
     billede = BILLEDE;
+    
   }
   void tilfoejGarntype(String garn) {
     krævneGarn.add(garn);
@@ -372,7 +373,7 @@ class Switch {
   boolean mouseOver() {
 
     // Check om musen er over switchen
-
+    
     float distance = dist(mouseX, mouseY, posX, posY-camY);
     return distance <= diameter/2;
   }
@@ -393,6 +394,7 @@ class Switch {
 
 // Klasse til at holde styr på flere switches
 class SwitchGroup {
+    
   ArrayList<Switch> switches;
   int selectedIndex = -1; // Index på den valgte switch
 
@@ -423,6 +425,7 @@ class SwitchGroup {
     for (int i = 0; i < switches.size(); i++) {
       Switch s = switches.get(i);
       if (s.mouseOver()) {
+        
         // Hvis denne er tændt sluk den
         if (s.getState()) {
           s.setState(false);
@@ -479,6 +482,15 @@ class SwitchGroup {
   int getSelectedIndex() {
     return selectedIndex;
   }
+  
+  // Tjekker om en switch med et bestemt navn er aktiv (tændt)
+boolean erSwitchAktiv(String navn) {
+  for (Switch s : switches) {
+    if (s.getTitel().equals(navn) && s.getState()) {
+      return true;
+    }
+  }
+  return false;
 }
 
 class SwitchGroupA extends SwitchGroup {

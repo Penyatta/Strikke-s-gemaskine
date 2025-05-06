@@ -129,14 +129,17 @@ void mouseDragged() {
     // Beregn forskel i musebevægelse
     int diff = mouseY - lastMouseY;
 
-    // Opdater camY (scrollen), der bevæger sig modsat musebevægelsen for naturlig scrolling
-    camY -= diff;
+    // Update camY (move opposite to drag direction for natural scrolling)
+   if (abs(diff) > 1) {
+  camY -= diff;
+}
 
     // Juster maxScroll afhængig af indhold
     int maxScroll = 1000;
 
-    if (skærm == søgeSkærm && !opskrifter.isEmpty()) {
-      maxScroll = int((height/5*2 + (height/4 + height/32) * opskrifter.size()) - height + 100);
+    if (skærm == søgeSkærm && !alleOpskrifter.isEmpty()) {
+      // Calculate based on number of recipes
+      maxScroll = int((height/5*2 + (height/4 + height/32) * alleOpskrifter.size()) - height + 100);
     }
 
     // Begræns scrolling
@@ -157,7 +160,10 @@ void mouseDragged() {
 
 
 void mousePressed() {
-  // Kører knap funktionerne der tjekker om knapperne tilhørende de forskellige skærme er blevet trykket på
+  
+  lastMouseY = mouseY;
+
+  //kører knap funktionerne der tjekker om knapperne tilhørende de forskellige skærme er blevet trykket på
   startSkærmKnapper();
   if (skærm==søgeSkærm) {
     søgeSkærmKnapper();
