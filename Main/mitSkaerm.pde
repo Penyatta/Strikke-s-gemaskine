@@ -40,8 +40,7 @@ void mitSkærm() {
   rect(580*width/1440, 202*width/1440, 18*width/1440, 780*width/1440);
   fill(#475C6C);
   text("Mit garn", 285*width/1440, height/3 - 40-camY);
-  text("Gemte opskrifter", 1020,260);
-
+  text("Gemte opskrifter", 1020, 260);
 }
 
 Knap mitSkærmTilbageKnap;

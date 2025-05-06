@@ -1,7 +1,17 @@
-[{
-  "titel": "Glacier Whisper",
-  "garn": ["Uld"],
-  "link": "",
-  "kategori": "",
-  "produktType": "Sweater"
-}]
+[
+  {
+    "titel": "Glacier Whisper",
+    "garn": ["Uld"],
+    "link": "",
+    "kategori": "",
+    "produktType": "Sweater"
+  },
+  {
+    "image": "https://www.garnstudio.com/drops/mag/259/1/1-2.jpg",
+    "titel": "April Snow",
+    "garn": ["Uld"],
+    "link": "https://www.garnstudio.com/pattern.php?id=12116&cid=19",
+    "kategori": "Kvinde",
+    "produktType": "Sweater"
+  }
+]

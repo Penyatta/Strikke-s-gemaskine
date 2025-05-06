@@ -4,8 +4,6 @@ import http.requests.*;
 Knap søgeSkærmTilbageKnap;
 Knap søgeSkærmSøgKnap;
 
-SwitchGroup garnFilterGroup;
-
 void søgeSkærm() {
   background(255);
 
@@ -16,21 +14,21 @@ void søgeSkærm() {
     Opskrift[] visteOpskriftArray = visteOpskrifter.toArray(new Opskrift[0]);
 
     displayOpskrifter(visteOpskriftArray);
-    
   }
+  
   // Add the "Opskrifter" title text with proper camY offset
-    textFont(generalFont);
-    textSize(80);
-    fill(71, 92, 108);
-    textAlign(CENTER);
-    text("Opskrifter", width / 7 * 3 + width / 4, height / 3 - camY);
-    
-   // den lige bjælke der opdeler skærmen
-   rectMode(CORNER);
-    noStroke();
-    fill(247, 239, 210);
-    rect(585*width/1440, 150*height/900, 18*width/1440, 780*height/900);
-    
+  textFont(generalFont);
+  textSize(80);
+  fill(71, 92, 108);
+  textAlign(CENTER);
+  text("Opskrifter", width / 7 * 3 + width / 4, height / 3 - camY);
+
+  // den lige bjælke der opdeler skærmen
+  rectMode(CORNER);
+  noStroke();
+  fill(247, 239, 210);
+  rect(585*width/1440, 150*height/900, 18*width/1440, 780*height/900);
+
   textSize(40*width/1440);
   fill(71, 92, 108);
   textAlign(CORNER, CORNER);
@@ -92,8 +90,6 @@ void søgeSkærmSetup() {
 
   // laver produkttype switchesne
   højde=750*height/982-camY;
-
-
   Switch sweaterSwitch = new Switch(bredde1, højde, 30*width/1440, "Sweater", false);
   Switch cardiganSwitch = new Switch(bredde2, højde, 30*width/1440, "Cardigans", false);
   Switch hueSwitch = new Switch(bredde3, højde, 30*width/1440, "Huer", false);
@@ -124,10 +120,7 @@ void søgeSkærmSetup() {
   produktTypeGroup.addSwitch(nederdelSwitch);
   produktTypeGroup.addSwitch(kjolerSwitch);
   produktTypeGroup.addSwitch(shawlsSwitch);
-    produktTypeGroup.addSwitch(påskeSwitch);
-
-  // tilføjer ud fra garn switch
-  udfraGarnGroup.addSwitch(jaSwitch);
+  produktTypeGroup.addSwitch(påskeSwitch);
 
   // Laver tilbageknappen til søgeskærmen
   søgeSkærmTilbageKnap = new TilbageKnap(height/9-height/15, height/9-height/17, height/15*2, height/17*2, color(0), "tilbage", 10, color(205, 139, 98), color(247, 239, 210), 10, søgeSkærm);
@@ -138,6 +131,9 @@ void søgeSkærmSetup() {
 }
 
 void opdaterFiltreretListe() {
+  
+  println("Mit garn: " + mitGarn);
+
   visteOpskrifter.clear();
 
   // Få navnet på den valgte switch (kategori)
@@ -157,7 +153,7 @@ void opdaterFiltreretListe() {
       match = false;
     }
 
-  // Filtrér på mitGarn, hvis "Brug mit garn" switchen er aktiv
+    // Filtrér på mitGarn, hvis "Brug mit garn" switchen er aktiv
     if (udfraGarnGroup.erSwitchAktiv("Ja")) {
       boolean harMatchendeGarn = false;
       for (String garn : o.krævneGarn) {
@@ -189,7 +185,10 @@ void søgeSkærmKnapper() {
   produktTypeGroup.checkMouse();
   udfraGarnGroup.checkMouse();
 
-//gemmer opskrifter hvis man trykker på stjernen
+  // Opdater visning baseret på valgte filtre
+  opdaterFiltreretListe();
+
+  //gemmer opskrifter hvis man trykker på stjernen
   if (mouseY>height/9*2 && mouseX>580*width/1440 && !visteOpskrifter.isEmpty()) {
     float posY = height/5*2;
     float posX = 653*width/1440;
@@ -221,9 +220,6 @@ void søgeSkærmKnapper() {
       posY += spacing + højde;
     }
   }
-
-  // Opdater visning baseret på valgte filtre
-  opdaterFiltreretListe();
 }
 
 

@@ -2,7 +2,7 @@ PImage startSkærmBaggrund;
 
 void startSkærm() {
   background(255);
-  image(startSkærmBaggrund,0,height/9*2,width,height-height/9*2);
+  image(startSkærmBaggrund, 0, height/9*2, width, height-height/9*2);
   overskriftBjælke("StrikkeGuiden");
 }
 

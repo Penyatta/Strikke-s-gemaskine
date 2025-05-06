@@ -118,7 +118,6 @@ void tegnScrollbar() {
 }
 
 
-
 void mouseDragged() {
   // Kun scroll når vi er på de relevante skærme
   if (skærm == søgeSkærm || skærm == opretSkærm || skærm == mitSkærm) {

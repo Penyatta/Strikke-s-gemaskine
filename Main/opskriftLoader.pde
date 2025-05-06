@@ -5,7 +5,7 @@ ArrayList<Opskrift> alleOpskrifter = new ArrayList<Opskrift>();
 // Indeholder de opskrifter der vises på skærmen – opdateres når man filtrerer
 ArrayList<Opskrift> visteOpskrifter = new ArrayList<Opskrift>();
 
-// Funktion til at hente opskrifter fra serveren 
+// Funktion til at hente opskrifter fra serveren
 void hentOpskrifterFraServer(String kilde) {
 
   alleOpskrifter.clear();     // Ryd hele listen først
@@ -58,9 +58,9 @@ void hentOpskrifterFraServer(String kilde) {
         }
       }
 
-        // Tilføj opskriften til begge lister
-    alleOpskrifter.add(nyOpskrift);
-    visteOpskrifter.add(nyOpskrift);
+      // Tilføj opskriften til begge lister
+      alleOpskrifter.add(nyOpskrift);
+      visteOpskrifter.add(nyOpskrift);
     }
 
     // Debugging: Bekræft hvor mange opskrifter der er blevet tilføjet
@@ -81,7 +81,6 @@ void hentOpskrifterFraServer(String kilde) {
   if (maxScroll < 0) {
     maxScroll = 0;
   }
-  
 }
 
 void hentBillederThread() {
@@ -99,6 +98,7 @@ void hentBillederThread() {
 }
 
 void displayOpskrifter(Opskrift opskrifter[]) {
+  
   //Værdier der bestemmer position og størrelse af viste opskrifter
   float posY = height/5*2;
   float posX = 653*width/1440;
@@ -108,8 +108,8 @@ void displayOpskrifter(Opskrift opskrifter[]) {
   strokeCap(SQUARE);
 
   //Går igennem de opskrifter der er i arrayet som funktionen modtager
-  for (Opskrift opskrift : opskrifter) {
-    
+  for (Opskrift opskrift : alleOpskrifter) {
+
     // Only draw recipes that would be visible on screen (optimization)
     if (posY - camY < height + højde && posY - camY + højde > 0) {
       noStroke();
@@ -133,6 +133,7 @@ void displayOpskrifter(Opskrift opskrifter[]) {
       textAlign(CORNER);
       textSize(30);
       text(opskrift.titel, posX + width/100, posY - camY + width/50);
+      
       //skriver kategorien
       textFont(generalFont);
       textSize(20);
