@@ -389,6 +389,7 @@ class Switch {
   }
 }
 
+
 // Klasse til at holde styr på flere switches
 class SwitchGroup {
   ArrayList<Switch> switches;
@@ -426,7 +427,7 @@ class SwitchGroup {
           s.setState(false);
           selectedIndex = -1; // ingen switch valgt
         }
-        // hvis den some er trykket på er slukket
+        // hvis den som er trykket på er slukket
         else {
           // Sluk alle switches
           for (Switch sw : switches) {
@@ -476,6 +477,32 @@ class SwitchGroup {
   // Get the index of the selected switch
   int getSelectedIndex() {
     return selectedIndex;
+  }
+}
+
+class SwitchGroupA extends SwitchGroup {
+  SwitchGroupA() {
+    super();
+  }
+  @Override
+  void checkMouse() {
+    for (int i = 0; i < switches.size(); i++) {
+      Switch s = switches.get(i);
+      if (s.mouseOver()) {
+        // Hvis denne er tændt sluk den
+        if (s.getState()) {
+          s.setState(false);
+          selectedIndex = -1; // ingen switch valgt
+        }
+        // hvis den som er trykket på er slukket
+        else {
+         // Tænd denne switch
+          s.setState(true);
+          selectedIndex = i;
+        }
+        break; // Slut efter den rigtige knap er blevet fundet og behandlet
+      }
+    }
   }
 }
 

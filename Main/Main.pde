@@ -64,6 +64,8 @@ void draw() {
   }
   if (skærm==opretSkærm){
     overskriftBjælke("Tilføj din egen opskrift");
+    opretSkærmTilbageKnap.tegn();
+    hjælpKnap.tegn();
   }
 }
 

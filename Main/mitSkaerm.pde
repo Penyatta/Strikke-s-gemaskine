@@ -132,7 +132,7 @@ void addGarnDropdown() {
   float dropdownY = height/3 + (garnDropdowns.size() * (height/14 + 15*width/1440));
 
   // Create dropdown menu for yarn types
-  String[] garnTyper = {"Uld", "Bomuld", "Akryl", "Alpaka", "Hør", "Silke", "Mohair", "Merino", "Bambus"};
+  String[] garnTyper = {"alpaka", "bomuld", "hør", "merino", "mohair", "silke", "uld"};
   ArrayList<String> temp = new ArrayList<String>(Arrays.asList(garnTyper));
   temp.removeAll(mitGarn);
   if (temp.size()!=0) {
@@ -147,7 +147,7 @@ void addGarnDropdown() {
 // Check if we need to add a new dropdown
 void checkAddNewDropdown() {
   // Create dropdown menu for yarn types
-  String[] garnTyper = {"Uld", "Bomuld", "Akryl", "Alpaka", "Hør", "Silke", "Mohair", "Merino", "Bambus"};
+  String[] garnTyper = {"alpaka", "bomuld", "hør", "merino", "mohair", "silke", "uld"};
   ArrayList<String> temp = new ArrayList<String>(Arrays.asList(garnTyper));
   temp.removeAll(mitGarn);
 
