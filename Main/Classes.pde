@@ -491,6 +491,16 @@ class SwitchGroup {
     }
     return false;
   }
+  boolean switchValgt(){
+    boolean enValgt=false;
+    for(Switch switchs : switches){
+      if(switchs.getState()){
+       enValgt=true; 
+       break;
+      }
+    }
+    return enValgt;
+  }
 }
   class SwitchGroupA extends SwitchGroup {
     SwitchGroupA() {

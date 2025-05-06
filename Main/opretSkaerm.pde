@@ -5,6 +5,11 @@ float linkRectX, linkRectY, linkRectW, linkRectH;
 String aktivtLink = "";
 
 String placeholder = "Indtast link her";
+// styre feedback når der er blevet lavet en opskrift
+int opskriftCreationFeedback=0;
+// sørger for at denne vises i en kortere periode
+int opskriftTimer;
+int opskriftFeedbackTid=2000;
 
 boolean ugyldigtLink = false;
 boolean visLinkFejl = false;
@@ -14,17 +19,17 @@ void opretSkærm(){
   textSize(30*width/1440);
   fill(71, 92, 108);
   textFont(boldFont);
-  textAlign(CORNER,CORNER);
+  textAlign(CORNER, CORNER);
   //text("Navn:",50*width/1440,300*height/982-camY);
-  text("Vælg kategori",100*width/1440,445*height/982-camY);
-  text("Vælg produkttype",100*width/1440,690*height/982-camY);
-  text("Type af garn:",100*width/1440,1135*height/982-camY);
-   textFont(generalFont);
-  
+  text("Vælg kategori", 100*width/1440, 445*height/982-camY);
+  text("Vælg produkttype", 100*width/1440, 690*height/982-camY);
+  text("Type af garn:", 100*width/1440, 1135*height/982-camY);
+  textFont(generalFont);
+
   noStroke();
   fill(247, 239, 210);
-  rect(700*width/1440,100*width/1440,18*width/1440,height*2);
-  
+  rect(700*width/1440, 100*width/1440, 18*width/1440, height*2);
+
   opretKategorierGroup.tegnAlle();
   opretProduktTypeGroup.tegnAlle();
   garnTypeGroup.tegnAlle();
@@ -34,7 +39,7 @@ void opretSkærm(){
   float posX = 250*width/1440;
   float bredde = (width/31*16);
   float højde = (height/4);
-  
+
   //billedramme
 stroke(0);
 noFill();
@@ -57,7 +62,6 @@ for (Textfield tf : textfields) {
 }
     break;
   }
-}
 
 // Hvis der står noget i feltet, så gør teksten klikbar
 if (brugerLink.length() > 0) {
@@ -120,16 +124,19 @@ SwitchGroup opretProduktTypeGroup;
 SwitchGroupA garnTypeGroup;
 Knap opretSkærmTilbageKnap;
 Knap opretSkærmIndsætKnap;
+Knap opretSkærmOpretKnap;
 Textfield TitelTextfelt;
 Knap billedeKnap;
 
-void opretSkærmSetup(){
+void opretSkærmSetup() {
   //laver knapperne
   opretSkærmTilbageKnap = new TilbageKnap(height/9-height/15, height/9-height/17, height/15*2, height/17*2, color(0), "tilbage", 10, color(205, 139, 98), color(247, 239, 210), 10, opretSkærm);
   knapper.add(opretSkærmTilbageKnap);
   
   opretSkærmIndsætKnap = new Knap(1000*width/1920, 750*width/1920,250*width/1920, 50, color(0), "Indsæt Udklipsfolder", 20*width/1440, color(205, 139, 98), color(247, 239, 210), 0, opretSkærm);
 knapper.add(opretSkærmIndsætKnap);
+opretSkærmOpretKnap = new Knap(width/3+110*width/1440, 300*height/1125, 67*height/982, 67*height/982, color(71, 92, 108), "Opret opskrift", 20*width/1440, color(247, 239, 210), color(247, 239, 210), 0, opretSkærm);
+  knapper.add(opretSkærmOpretKnap);
 
   // Tilføj en knap til at vælge billede
   billedeKnap = new Knap (1000*width/1920,320*width/1920, 250*width/1920, 50, color(247, 239, 210), "Vælg billede", 30*width/1440, color(71, 92, 108), color(205, 139, 98), 10, opretSkærm);
@@ -142,19 +149,20 @@ textfields.add(new Textfield(200*width/1440+1000, 750*width/1920, (width/3)-150,
   
   // Tilføj et tekstfelt til opretSkærm
 
- TitelTextfelt = new Textfield( 100*width/1440, 300*height/1125,width/3, 67*height/982, color(71, 92, 108), color(247, 239, 210), color(247, 239, 210), color(247, 239, 210),
-  30*width/1440, "Indtast opskriftens navn", "", 0, opretSkærm, false);
+  // Tilføj et tekstfelt til opretSkærm
+  TitelTextfelt = new Textfield( 100*width/1440, 300*height/1125, width/3, 67*height/982, color(71, 92, 108), color(247, 239, 210), color(247, 239, 210), color(247, 239, 210),
+    30*width/1440, "Indtast opskriftens navn", "", 0, opretSkærm, false);
   textfields.add(TitelTextfelt);
-  
-   float højde=485*height/982;
+
+  float højde=485*height/982;
   float bredde1=(580*width/1440)/4;
   float bredde2=(580*width/1440)/2;
   float bredde3=(580*width/1440)/4*3;
   float bredde4=(580*width/1440)/4*4;
   float size=30*width/1440;
-  
+
   opretKategorierGroup = new SwitchGroup();
-  
+
   // Opret switches med nye positioner
   opretKategorierGroup.addSwitch(new Switch(bredde1, højde, size, "Kvinder", false));
   opretKategorierGroup.addSwitch(new Switch(bredde2, højde, size, "Mænd", false));
@@ -162,9 +170,9 @@ textfields.add(new Textfield(200*width/1440+1000, 750*width/1920, (width/3)-150,
   opretKategorierGroup.addSwitch(new Switch(bredde4, højde, size, "Barn (2-14 år)", false));
   højde+=90*height/982;
   opretKategorierGroup.addSwitch(new Switch(bredde1, højde, size, "Hjem", false));
-  
+
   opretProduktTypeGroup = new SwitchGroup();
-  
+
   højde+=175*height/982;
 
 
@@ -184,9 +192,9 @@ textfields.add(new Textfield(200*width/1440+1000, 750*width/1920, (width/3)-150,
   opretProduktTypeGroup.addSwitch(new Switch(bredde4, højde, size, "Shawls", false));
   højde+=90*height/982;
   opretProduktTypeGroup.addSwitch(new Switch(bredde1, højde, size, "Unknown", false));
-  
+
   garnTypeGroup = new SwitchGroupA();
-  
+
   højde+=175*height/982;
   // Laver alle switchesne
   garnTypeGroup.addSwitch(new Switch(bredde1, højde, size, "Uld", false));
@@ -198,13 +206,24 @@ textfields.add(new Textfield(200*width/1440+1000, 750*width/1920, (width/3)-150,
   garnTypeGroup.addSwitch(new Switch(bredde2, højde, size, "Strømpegarn", false));
   garnTypeGroup.addSwitch(new Switch(bredde3, højde, size, "Silkegarn", false));
 
+  // Tilføj en knap til at vælge billede
+  billedeKnap = new Knap (1000, 320, 200*width/1440, 50, color(247, 239, 210), "Vælg billede", 30*width/1440, color(71, 92, 108), color(205, 139, 98), 10, opretSkærm);
+  knapper.add(billedeKnap);
+
+  // Tilføj Textfield til link
+  textfields.add(new Textfield(200*width/1440+1000, 320, (width/3)-100, 50,
+    color(71, 92, 108), color(247, 239, 210), color(247, 239, 210), color(247, 239, 210),
+    30*width/1440, "Indsæt link til opskrift (https://...)", "", 10, opretSkærm, false));
 }
 
-void opretSkærmKnapper(){
+void opretSkærmKnapper() {
 
-  if(opretSkærmTilbageKnap.mouseOver()){
-  skærm=startSkærm;
-  camY=0;
+  if (opretSkærmTilbageKnap.mouseOver()) {
+    skærm=startSkærm;
+    camY=0;
+  }
+  if (skærm==opretSkærm) {
+    opskriftCreationFeedback=0;
   }
   opretProduktTypeGroup.checkMouse();
    opretKategorierGroup.checkMouse();
@@ -230,13 +249,39 @@ void opretSkærmKnapper(){
     }
   }
    }
-   // Håndter billede-knap
+  
+  if (opretSkærmOpretKnap.mouseOver() ) {
+    //Tjekker om alle de nødvændige ting er udfyldt
+    if (!TitelTextfelt.tekst.isEmpty() && opretKategorierGroup.getSelectedSwitch() != null
+      && true && opretProduktTypeGroup.getSelectedSwitch() != null && garnTypeGroup.switchValgt()) {
+      // kommer den nye opskrift i gemte opskrifter
+      gemteOpskrifter.add(new Opskrift(TitelTextfelt.tekst, opretKategorierGroup.getSelectedSwitch().getTitel(),
+        "", opretKategorierGroup.getSelectedSwitch().getTitel(), null));
+      int index=gemteOpskrifter.size();
+      for (Switch switchs : garnTypeGroup.switches) {
+        if (switchs.getState()) {
+          gemteOpskrifter.get(index-1).tilfoejGarntype(switchs.getTitel());
+          switchs.tændt=false;
+        }
+        TitelTextfelt.tekst="";
+        opretProduktTypeGroup.getSelectedSwitch().tændt=false;
+        opretKategorierGroup.getSelectedSwitch().tændt=false;
+        opskriftCreationFeedback=1;
+        opskriftTimer=millis();
+        saveRecipesToFile();
+      }
+    } else {
+      opskriftCreationFeedback=2;
+      opskriftTimer=millis();
+    }
+  }
+  // Håndter billede-knap
   if (knapper.get(knapper.size()-1).mouseOver()) {
     selectImage();  // Kald funktionen til at vælge billede
   }
   // Hvis der er et aktivt link og det klikkes
-  
- if (aktivtLink.length() > 0 &&
+
+  if (aktivtLink.length() > 0 &&
     mousePressed &&
     mouseX > linkRectX && mouseX < linkRectX + linkRectW &&
     mouseY > linkRectY && mouseY < linkRectY + linkRectH) {
@@ -262,7 +307,8 @@ String getClipboard() {
     if (hasTransferableText) {
       text = (String) contents.getTransferData(java.awt.datatransfer.DataFlavor.stringFlavor);
     }
-  } catch (Exception e) {
+  }
+  catch (Exception e) {
     e.printStackTrace();
   }
   return text;

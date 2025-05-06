@@ -100,7 +100,7 @@ class HjælpKnap extends Knap {
 
 void hjælpSkærmKnapper() {
   if (hjælpKnap.mouseOver()) {
-    if (skærm==hjælpSkærm) {
+    if (skærm==mitSkærm) {
       openDropdown=-1;
       for (Dropdown dropdown : garnDropdowns) {
         dropdown.isOpen=false;
