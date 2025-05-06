@@ -14,7 +14,7 @@ int opskriftFeedbackTid=2000;
 boolean ugyldigtLink = false;
 boolean visLinkFejl = false;
 
-void opretSkærm(){
+void opretSkærm() {
   background(255);
   textSize(30*width/1440);
   fill(71, 92, 108);
@@ -41,68 +41,70 @@ void opretSkærm(){
   float højde = (height/4);
 
   //billedramme
-stroke(0);
-noFill();
-rectMode(CORNER);
-rect(posX + bredde/24*17*width/1920, posY - camY + højde/10*width/1920, bredde/24*5, højde/10*8);
+  stroke(0);
+  noFill();
+  rectMode(CORNER);
+  rect(posX + bredde/24*17*width/1920, posY - camY + højde/10*width/1920, bredde/24*5, højde/10*8);
 
   if (uploadedImage != null) {
     image(uploadedImage, posX + bredde/24*17*width/1920, posY - camY + højde/10*width/1920, bredde/24*5, højde/10*8); // Placér billede
   }
- 
- // Hent teksten fra link-textfield
-String brugerLink = "";
-for (Textfield tf : textfields) {
-  if (skærm == opretSkærm && tf.startTekst.equals("Indsæt link til opskrift (https://...)")) {
-    brugerLink = tf.tekst;
-    if (brugerLink.trim().length() == 0) {
-  visLinkFejl = false;  // skjul fejl, hvis feltet er tomt
-} else if (brugerLink.startsWith("http://") || brugerLink.startsWith("https://")) {
-  visLinkFejl = false;  // skjul fejl, hvis linket er gyldigt
-}
-    break;
+
+  // Hent teksten fra link-textfield
+  String brugerLink = "";
+  for (Textfield tf : textfields) {
+    if (skærm == opretSkærm && tf.startTekst.equals("Indsæt link til opskrift (https://...)")) {
+      brugerLink = tf.tekst;
+      if (brugerLink.trim().length() == 0) {
+        visLinkFejl = false;  // skjul fejl, hvis feltet er tomt
+      } else if (brugerLink.startsWith("http://") || brugerLink.startsWith("https://")) {
+        visLinkFejl = false;  // skjul fejl, hvis linket er gyldigt
+      }
+      break;
+    }
   }
 
-// Hvis der står noget i feltet, så gør teksten klikbar
-if (brugerLink.length() > 0) {
- 
-   // Valider link her også!
-  if (brugerLink.startsWith("http://") || brugerLink.startsWith("https://")) {
-    ugyldigtLink = false;
-  } else {
-    ugyldigtLink = true;
-  }
-  
-  
-  fill(0); // blå tekst som et link
-  textSize(24);
-  textAlign(LEFT, TOP);
-  float linkX = width-150*width/1920;
-  float linkY = 765*width/1920-camY;
-  text("Åbn", linkX, linkY);
- 
-  // Gem positionen, så vi kan bruge den ved klik
-  linkRectX = linkX;
-  linkRectY = linkY;
-  linkRectW = textWidth("Åbn");
-  linkRectH = 30;
-  aktivtLink = brugerLink;
-  
+  // Hvis der står noget i feltet, så gør teksten klikbar
+  if (brugerLink.length() > 0) {
+
+    // Valider link her også!
+    if (brugerLink.startsWith("http://") || brugerLink.startsWith("https://")) {
+      ugyldigtLink = false;
+    } else {
+      ugyldigtLink = true;
+    }
+
+
+    fill(0); // blå tekst som et link
+    textSize(24);
+    textAlign(LEFT, TOP);
+    float linkX = width-150*width/1920;
+    float linkY = 765*width/1920-camY;
+    text("Åbn", linkX, linkY);
+
+    // Gem positionen, så vi kan bruge den ved klik
+    linkRectX = linkX;
+    linkRectY = linkY;
+    linkRectW = textWidth("Åbn");
+    linkRectH = 30;
+    aktivtLink = brugerLink;
+
     // Udskriv URL'en for at kontrollere, at den er korrekt
-  //  println("Aktivt link: " + aktivtLink);
-}
-if (visLinkFejl) {
-  fill(200, 0, 0); // Rød farve
-  textSize(18);
-  textAlign(LEFT, TOP);
-  text("Ugyldigt link. Skal starte med http:// eller https://", 200*width/1440+1000, 820*width/1920-camY);
+    //  println("Aktivt link: " + aktivtLink);
+  }
+  if (visLinkFejl) {
+    fill(200, 0, 0); // Rød farve
+    textSize(18);
+    textAlign(LEFT, TOP);
+    text("Ugyldigt link. Skal starte med http:// eller https://", 200*width/1440+1000, 820*width/1920-camY);
+  }
+
+  if (brugerLink.startsWith("http://") || brugerLink.startsWith("https://")) {
+    visLinkFejl = false;
+  }
+  opretOpskriftFeedback();
 }
 
-if (brugerLink.startsWith("http://") || brugerLink.startsWith("https://")) {
-  visLinkFejl = false;
-}
- 
-}
 
 // Funktion til at vælge billede
 void selectImage() {
@@ -132,21 +134,21 @@ void opretSkærmSetup() {
   //laver knapperne
   opretSkærmTilbageKnap = new TilbageKnap(height/9-height/15, height/9-height/17, height/15*2, height/17*2, color(0), "tilbage", 10, color(205, 139, 98), color(247, 239, 210), 10, opretSkærm);
   knapper.add(opretSkærmTilbageKnap);
-  
-  opretSkærmIndsætKnap = new Knap(1000*width/1920, 750*width/1920,250*width/1920, 50, color(0), "Indsæt Udklipsfolder", 20*width/1440, color(205, 139, 98), color(247, 239, 210), 0, opretSkærm);
-knapper.add(opretSkærmIndsætKnap);
-opretSkærmOpretKnap = new Knap(width/3+110*width/1440, 300*height/1125, 67*height/982, 67*height/982, color(71, 92, 108), "Opret opskrift", 20*width/1440, color(247, 239, 210), color(247, 239, 210), 0, opretSkærm);
+
+  opretSkærmIndsætKnap = new Knap(1000*width/1920, 750*width/1920, 250*width/1920, 50, color(0), "Indsæt Udklipsfolder", 20*width/1440, color(205, 139, 98), color(247, 239, 210), 0, opretSkærm);
+  knapper.add(opretSkærmIndsætKnap);
+  opretSkærmOpretKnap = new Knap(width/3+110*width/1440, 300*height/1125, 67*height/982, 67*height/982, color(71, 92, 108), "Opret opskrift", 20*width/1440, color(247, 239, 210), color(247, 239, 210), 0, opretSkærm);
   knapper.add(opretSkærmOpretKnap);
 
   // Tilføj en knap til at vælge billede
-  billedeKnap = new Knap (1000*width/1920,320*width/1920, 250*width/1920, 50, color(247, 239, 210), "Vælg billede", 30*width/1440, color(71, 92, 108), color(205, 139, 98), 10, opretSkærm);
+  billedeKnap = new Knap (1000*width/1920, 320*width/1920, 250*width/1920, 50, color(247, 239, 210), "Vælg billede", 30*width/1440, color(71, 92, 108), color(205, 139, 98), 10, opretSkærm);
   knapper.add(billedeKnap);
 
-// Tilføj Textfield til link
-textfields.add(new Textfield(200*width/1440+1000, 750*width/1920, (width/3)-150, 50, 
-  color(71, 92, 108), color(247, 239, 210), color(247, 239, 210), color(247, 239, 210),
-  20*width/1440, "Indsæt link til opskrift (https://...)", "", 10, opretSkærm, false));
-  
+  // Tilføj Textfield til link
+  textfields.add(new Textfield(200*width/1440+1000, 750*width/1920, (width/3)-150, 50,
+    color(71, 92, 108), color(247, 239, 210), color(247, 239, 210), color(247, 239, 210),
+    20*width/1440, "Indsæt link til opskrift (https://...)", "", 10, opretSkærm, false));
+
   // Tilføj et tekstfelt til opretSkærm
 
   // Tilføj et tekstfelt til opretSkærm
@@ -226,30 +228,30 @@ void opretSkærmKnapper() {
     opskriftCreationFeedback=0;
   }
   opretProduktTypeGroup.checkMouse();
-   opretKategorierGroup.checkMouse();
-   garnTypeGroup.checkMouse();
-   
-   
-   if(opretSkærmIndsætKnap.mouseOver()){
-   String clipboardTekst = getClipboard();
+  opretKategorierGroup.checkMouse();
+  garnTypeGroup.checkMouse();
 
-  // Find link-textfieldet og indsæt clipboard-teksten
-  for (Textfield tf : textfields) {
-    if (skærm == opretSkærm && tf.startTekst.equals("Indsæt link til opskrift (https://...)")) {
-      tf.tekst = clipboardTekst;
-      
-       // Tjek om det ligner et gyldigt link
-      if (clipboardTekst.startsWith("http://") || clipboardTekst.startsWith("https://")) {
-        ugyldigtLink = false;
-      } else {
-        ugyldigtLink = true;
+
+  if (opretSkærmIndsætKnap.mouseOver()) {
+    String clipboardTekst = getClipboard();
+
+    // Find link-textfieldet og indsæt clipboard-teksten
+    for (Textfield tf : textfields) {
+      if (skærm == opretSkærm && tf.startTekst.equals("Indsæt link til opskrift (https://...)")) {
+        tf.tekst = clipboardTekst;
+
+        // Tjek om det ligner et gyldigt link
+        if (clipboardTekst.startsWith("http://") || clipboardTekst.startsWith("https://")) {
+          ugyldigtLink = false;
+        } else {
+          ugyldigtLink = true;
+        }
+
+        break;
       }
-      
-      break;
     }
   }
-   }
-  
+
   if (opretSkærmOpretKnap.mouseOver() ) {
     //Tjekker om alle de nødvændige ting er udfyldt
     if (!TitelTextfelt.tekst.isEmpty() && opretKategorierGroup.getSelectedSwitch() != null
@@ -285,15 +287,14 @@ void opretSkærmKnapper() {
     mousePressed &&
     mouseX > linkRectX && mouseX < linkRectX + linkRectW &&
     mouseY > linkRectY && mouseY < linkRectY + linkRectH) {
-  //println("Linket er blevet klikket, åbner: " + aktivtLink);
-  if (aktivtLink.startsWith("http://") || aktivtLink.startsWith("https://")) {
-    link(aktivtLink); // åbner kun hvis link er gyldigt
-    visLinkFejl = false;
-  } else {
-    visLinkFejl = true; // vis fejl hvis ikke gyldigt
+    //println("Linket er blevet klikket, åbner: " + aktivtLink);
+    if (aktivtLink.startsWith("http://") || aktivtLink.startsWith("https://")) {
+      link(aktivtLink); // åbner kun hvis link er gyldigt
+      visLinkFejl = false;
+    } else {
+      visLinkFejl = true; // vis fejl hvis ikke gyldigt
+    }
   }
-}
-
 }
 
 
@@ -312,4 +313,27 @@ String getClipboard() {
     e.printStackTrace();
   }
   return text;
+}
+
+void opretOpskriftFeedback() {
+  //opskrift oprettet feedback
+  if (opskriftCreationFeedback!=0) {
+    rectMode(CENTER);
+    stroke(0);
+    strokeWeight(1);
+    textSize(25*width/1440);
+    textAlign(CENTER, CENTER);
+    fill(255);
+    rect(width/2, height/3*2, 300*width/1440, 150*width/1440);
+    fill(0);
+    if (opskriftCreationFeedback==1) {
+      text("Opskrift oprettet", width/2, height/3*2);
+    } else if (opskriftCreationFeedback==2) {
+      text("Opskrift ikke oprettet", width/2, height/3*2);
+    }
+    rectMode(CORNER);
+    if (millis()-opskriftTimer>=opskriftFeedbackTid+opskriftTimer) {
+      opskriftCreationFeedback=0;
+    }
+  }
 }
