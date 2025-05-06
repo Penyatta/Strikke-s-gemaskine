@@ -95,7 +95,6 @@ void draw() {
     søgeSkærmTilbageKnap.tegn();
     hjælpKnap.tegn();
   }
-
 }
 
 

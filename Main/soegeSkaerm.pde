@@ -65,11 +65,12 @@ void søgeSkærmSetup() {
   float bredde1=(580*width/1440)/4;
   float bredde2=(580*width/1440)/2;
   float bredde3=(580*width/1440)/4*3;
-  Switch KvindeSwitch = new Switch(bredde1, højde+75, 30*width/1440-camY, "Kvinde", false);
-  Switch MandSwitch = new Switch(bredde2, højde+75, 30*width/1440-camY, "Mand", false);
-  Switch BabySwitch = new Switch(bredde3, højde+75, 30*width/1440-camY, "Baby (0-4 år)", false);
-  Switch BarnSwitch = new Switch(bredde1, 585*height/982-10, 30*width/1440-camY, "Børn (2-14 år)", false);
-  Switch HjemSwitch = new Switch(bredde2, 585*height/982-10, 30*width/1440-camY, "Hjem", false);
+  float radius=30*width/1440;
+  Switch KvindeSwitch = new Switch(bredde1, højde+75, radius, "Kvinde", false);
+  Switch MandSwitch = new Switch(bredde2, højde+75, radius, "Mand", false);
+  Switch BabySwitch = new Switch(bredde3, højde+75, radius, "Baby (0-4 år)", false);
+  Switch BarnSwitch = new Switch(bredde1, 585*height/982-10, radius, "Børn (2-14 år)", false);
+  Switch HjemSwitch = new Switch(bredde2, 585*height/982-10, radius, "Hjem", false);
 
   //Tilføjer kategori switchesne til en gruppe
   kategoriGroup.addSwitch(KvindeSwitch);
@@ -79,7 +80,7 @@ void søgeSkærmSetup() {
   kategoriGroup.addSwitch(HjemSwitch);
 
   // laver udfra garn switch
-  Switch jaSwitch = new Switch((580*width/1440)/4, 1170*height/982, 30*width/1440, "Ja", false);
+  Switch jaSwitch = new Switch(bredde1, 1170*height/982, radius, "Ja", false);
   udfraGarnGroup.addSwitch(jaSwitch);
 
   // Laver tilbageknappen til søgeskærmen
@@ -95,22 +96,22 @@ void søgeSkærmSetup() {
   højde=750*height/982-camY;
 
 
-  Switch sweaterSwitch = new Switch(bredde1, højde, 30*width/1440, "Sweater", false);
-  Switch cardiganSwitch = new Switch(bredde2, højde, 30*width/1440, "Cardigans", false);
-  Switch hueSwitch = new Switch(bredde3, højde, 30*width/1440, "Huer", false);
+  Switch sweaterSwitch = new Switch(bredde1, højde, radius, "Sweater", false);
+  Switch cardiganSwitch = new Switch(bredde2, højde, radius, "Cardigans", false);
+  Switch hueSwitch = new Switch(bredde3, højde, radius, "Huer", false);
   højde=840*height/982-camY;
-  Switch vanterSwitch = new Switch(bredde1, højde, 30*width/1440, "Veste & Toppe", false);
-  Switch vestSwitch = new Switch(bredde2, højde, 30*width/1440, "Veste", false);
-  Switch topSwitch = new Switch(bredde3, højde, 30*width/1440, "Toppe", false);
+  Switch vanterSwitch = new Switch(bredde1, højde, radius, "Veste & Toppe", false);
+  Switch vestSwitch = new Switch(bredde2, højde, radius, "Veste", false);
+  Switch topSwitch = new Switch(bredde3, højde, radius, "Toppe", false);
   højde=930*height/982-camY;
-  Switch shortsSwitch = new Switch(bredde1, højde, 30*width/1440, "Babytæpper", false);
-  Switch strømperSwitch = new Switch(bredde2, højde, 30*width/1440, "Strømper", false);
-  Switch nederdelSwitch = new Switch(bredde3, højde, 30*width/1440, "Børneværelse", false);
+  Switch shortsSwitch = new Switch(bredde1, højde, radius, "Babytæpper", false);
+  Switch strømperSwitch = new Switch(bredde2, højde, radius, "Strømper", false);
+  Switch nederdelSwitch = new Switch(bredde3, højde, radius, "Børneværelse", false);
 
   højde=1020*height/982-camY;
-  Switch kjolerSwitch = new Switch(bredde1, højde, 30*width/1440, "Kjoler og Tunikaer", false);
-  Switch shawlsSwitch = new Switch(bredde2, højde, 30*width/1440, "Shawls", false);
-  Switch påskeSwitch = new Switch(bredde3, højde, 30*width/1440, "Påske", false);
+  Switch kjolerSwitch = new Switch(bredde1, højde, radius, "Kjoler og Tunikaer", false);
+  Switch shawlsSwitch = new Switch(bredde2, højde, radius, "Shawls", false);
+  Switch påskeSwitch = new Switch(bredde3, højde, radius, "Påske", false);
 
 
   // Tilføjer produkttype switchesne til en gruppe
