@@ -32,19 +32,19 @@ void søgeSkærm() {
 
   textSize(30*width/1440);
   fill(71, 92, 108);
-  textAlign(CORNER,CORNER);
-  text("Filtrer - kryds af",52*width/1440,370*height/982-camY);
+  textAlign(CORNER, CORNER);
+  text("Filtrer - kryds af", 52*width/1440, 370*height/982-camY);
   textSize(25*width/1440);
-  text("Kategorier",52*width/1440,425*height/982-camY);
-  text("Produkttype",52*width/1440,690*height/982-camY);
-  text("Søg udfra mit garn",52*width/1440,1050*height/982-camY);
- 
- 
+  text("Kategorier", 52*width/1440, 425*height/982-camY);
+  text("Produkttype", 52*width/1440, 690*height/982-camY);
+  text("Søg udfra mit garn", 52*width/1440, 1050*height/982-camY);
+
+
   kategoriGroup.tegnAlle();
   produktTypeGroup.tegnAlle();
   udfraGarnGroup.tegnAlle();
-  
-    overskriftBjælke("Søg efter opskrifter");
+
+  overskriftBjælke("Søg efter opskrifter");
 }
 
 SwitchGroup kategoriGroup;
@@ -71,7 +71,7 @@ void søgeSkærmSetup() {
   Switch BabySwitch = new Switch(bredde3, højde+75, 30*width/1440-camY, "Baby (0-4 år)", false);
   Switch BarnSwitch = new Switch(bredde1, 585*height/982-10, 30*width/1440-camY, "Barn (2-14 år)", false);
   Switch HjemSwitch = new Switch(bredde2, 585*height/982-10, 30*width/1440-camY, "Hjem", false);
-  
+
   //// Tilføjer alle switchesne til en gruppe
   kategoriGroup.addSwitch(KvinderSwitch);
   kategoriGroup.addSwitch(MændSwitch);
@@ -80,7 +80,7 @@ void søgeSkærmSetup() {
   kategoriGroup.addSwitch(HjemSwitch);
   // Laver alle switchesne
 
- 
+
   Switch jaSwitch = new Switch((580*width/1440)/4, 1110*height/982, 30*width/1440, "Ja", false);
 
   udfraGarnGroup.addSwitch(jaSwitch);
@@ -93,8 +93,8 @@ void søgeSkærmSetup() {
   søgeSkærmSøgKnap = new Knap(493*width/1440, height/9*2+height/40-camY, 67*width/1440, 67*height/982, color(71, 92, 108), "Søg", 30, color(247, 239, 210), color(247, 239, 210), 0, søgeSkærm);
   knapper.add(søgeSkærmSøgKnap);
 
-  textfields.add(new Textfield(35*width/1440, height/9*2+height/40, 440*width/1440, 67*height/982, color(71, 92, 108), color(247, 239, 210), color(247, 239, 210), color(247, 239, 210), 30*width/1440, "Søgefelt", "", 0, søgeSkærm,false));
- 
+  textfields.add(new Textfield(35*width/1440, height/9*2+height/40, 440*width/1440, 67*height/982, color(71, 92, 108), color(247, 239, 210), color(247, 239, 210), color(247, 239, 210), 30*width/1440, "Søgefelt", "", 0, søgeSkærm, false));
+
   højde=750*height/982-camY;
 
 
@@ -144,7 +144,7 @@ void søgeSkærmKnapper() {
   kategoriGroup.checkMouse();
   produktTypeGroup.checkMouse();
   udfraGarnGroup.checkMouse();
-  
+
 
   //gemmer opskrifter hvis man trykker på stjernen
   if (mouseY>height/9*2 && mouseX>580*width/1440 && !opskrifter.isEmpty()) {
@@ -177,7 +177,7 @@ void søgeSkærmKnapper() {
       }
       posY += spacing + højde;
     }
-
+  }
 }
 
 void overskriftBjælke(String tekst) {
