@@ -80,6 +80,32 @@ void mitSkærmKnapper() {
   }
 }
 
+void tegnStjerne(float posX, float posY, boolean fyldt) {
+  pushMatrix();
+  translate(posX, posY);
+  stroke(0);
+  if (fyldt) {
+    fill(230, 214, 2);
+    stroke(0);
+  } else {
+    fill(255, 0);
+  }
+  strokeWeight(2);
+  beginShape();
+  vertex(0*width/1920, -25*width/1920);
+  vertex(7*width/1920, -10*width/1920);
+  vertex(23.5*width/1920, -7.5*width/1920);
+  vertex(11.5*width/1920, 3.5*width/1920);
+  vertex(14.5*width/1920, 20*width/1920);
+  vertex(0*width/1920, 12.5*width/1920);
+  vertex(-14.5*width/1920, 20*width/1920);
+  vertex(-11.5*width/1920, 3.5*width/1920);
+  vertex(-23.5*width/1920, -7.5*width/1920);
+  vertex(-7*width/1920, -10*width/1920);
+  endShape(CLOSE);
+  popMatrix();
+}
+
 // Function to add a new yarn dropdown
 void addGarnDropdown() {
   // Calculate position for the new dropdown
