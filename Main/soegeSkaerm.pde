@@ -1,5 +1,7 @@
 import http.requests.*;
 
+
+
 // Declare the back button for the search screen
 Knap søgeSkærmTilbageKnap;
 Knap søgeSkærmSøgKnap;

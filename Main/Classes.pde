@@ -14,12 +14,12 @@ class Opskrift {
 
   // Constructor
   Opskrift(String TITEL, String KATEGORI, String LINK, String PRODUKTTYPE, PImage BILLEDE) {
-    titel = TITEL;
-    kategori = KATEGORI;
-    link = LINK;
-    produktType = PRODUKTTYPE;
-    billede = BILLEDE;
-  }
+    this.titel = TITEL;
+    this.kategori = KATEGORI;
+    this.link = LINK;
+    this.produktType = PRODUKTTYPE;
+    this.billede = BILLEDE;
+}
   void tilfoejGarntype(String garn) {
     krævneGarn.add(garn);
     garntyper++;
@@ -690,5 +690,42 @@ class Dropdown {
     return mouseX > posX && mouseX < posX + sizeX &&
       mouseY > posY-camY && mouseY < posY + sizeY + (isOpen ? options.length * sizeY : 0)-camY &&
       dropdownScreen == skærm;
+  }
+}
+
+//class KlikOmråde {
+//  float x, y, bredde, højde;
+//  String url;
+
+//  KlikOmråde(float x, float y, float b, float h, String u) {
+//    x = x; y = y; bredde = b; højde = h; url = u;
+//  }
+
+//  boolean indeIPunkt(float mx, float my) {
+//    return mx >= x && mx <= x + bredde && my >= y && my <= y + højde;
+//  }
+//}
+
+class KlikOmråde {
+  float x, y, w, h;
+  String url;
+
+  KlikOmråde(float x, float y, float w, float h, String url) {
+    this.x = x;
+    this.y = y;
+    this.w = w;
+    this.h = h;
+    this.url = url;
+  }
+
+  boolean erKlikket(float mx, float my) {
+    return mx >= x && mx <= x + w && my >= y && my <= y + h;
+  }
+
+  void tjekKlik(float mx, float my) {
+    if (erKlikket(mx, my)) {
+      println("Åbner link: " + url);
+      link(url); // <- det der faktisk åbner linket
+    }
   }
 }
