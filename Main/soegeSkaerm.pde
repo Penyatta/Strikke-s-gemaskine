@@ -1,5 +1,6 @@
 import http.requests.*;
 
+
 // Declare the back button for the search screen
 Knap søgeSkærmTilbageKnap;
 Knap søgeSkærmSøgKnap;
@@ -52,7 +53,7 @@ SwitchGroup produktTypeGroup;
 SwitchGroup udfraGarnGroup;
 
 void søgeSkærmSetup() {
-
+  
   hentOpskrifterFraServer("søg");
 
   kategoriGroup = new SwitchGroup();
@@ -135,13 +136,12 @@ void søgeSkærmSetup() {
   søgeSkærmSøgKnap = new Knap(493*width/1440, height/9*2+height/40, 67*width/1440, 67*height/982, color(71, 92, 108), "Søg", 30, color(247, 239, 210), color(247, 239, 210), 0, søgeSkærm);
   knapper.add(søgeSkærmSøgKnap);
   textfields.add(new Textfield(35*width/1440, height/9*2+height/40, 440*width/1440, 67*height/982, color(71, 92, 108), color(247, 239, 210), color(247, 239, 210), color(247, 239, 210), 30*width/1440, "Søgefelt", "", 0, søgeSkærm, false));
+
+
 }
 
 void opdaterFiltreretListe() {
   visteOpskrifter.clear();
-  
- println("Mit garn: " + mitGarn);
-
 
   // Få navnet på den valgte switch (kategori)
   String valgtKategori = kategoriGroup.getSelectedTitle();
@@ -231,6 +231,8 @@ void søgeSkærmKnapper() {
 
   // Opdater visning baseret på valgte filtre
   opdaterFiltreretListe();
+  
+
 }
 
 
