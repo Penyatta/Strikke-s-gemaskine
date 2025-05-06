@@ -391,9 +391,16 @@ class Switch {
 }
 
 
+//Class til alle de cirkler vi har som kan være slået til eller fra
+class Switch {
+  float posX, posY;
+  float diameter;
+  String titel;
+  boolean tændt;
+
 // Klasse til at holde styr på flere switches
 class SwitchGroup {
-
+    
   ArrayList<Switch> switches;
   int selectedIndex = -1; // Index på den valgte switch
 
@@ -424,13 +431,13 @@ class SwitchGroup {
     for (int i = 0; i < switches.size(); i++) {
       Switch s = switches.get(i);
       if (s.mouseOver()) {
-
+        
         // Hvis denne er tændt sluk den
         if (s.getState()) {
           s.setState(false);
           selectedIndex = -1; // ingen switch valgt
         }
-        // hvis den som er trykket på er slukket
+        // hvis den some er trykket på er slukket
         else {
           // Sluk alle switches
           for (Switch sw : switches) {
@@ -481,16 +488,17 @@ class SwitchGroup {
   int getSelectedIndex() {
     return selectedIndex;
   }
-
+  
   // Tjekker om en switch med et bestemt navn er aktiv (tændt)
-  boolean erSwitchAktiv(String navn) {
-    for (Switch s : switches) {
-      if (s.getTitel().equals(navn) && s.getState()) {
-        return true;
-      }
+boolean erSwitchAktiv(String navn) {
+  for (Switch s : switches) {
+    if (s.getTitel().equals(navn) && s.getState()) {
+      return true;
     }
-    return false;
   }
+  return false;
+}
+
 }
 class SwitchGroupA extends SwitchGroup {
   SwitchGroupA() {
