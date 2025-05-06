@@ -100,7 +100,7 @@ class Knap {
       if (knapSkærm==søgeSkærm) {
         skyggeImplement(posX, posY+sizeY-1-camY, sizeX, true);
       } else {
-        skyggeImplement(posX, posY+sizeY-1, sizeX, false);
+        skyggeImplement(posX, posY+sizeY-1-camY, sizeX, false);
       }
       //Skifter farven hvis musen er over knappen
       if (mouseOver()) {
