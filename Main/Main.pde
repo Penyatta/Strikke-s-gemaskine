@@ -26,14 +26,15 @@ int lastMouseY;
 float scrollBarX;
 float scrollBarY;
 float scrollBarW = 25;
-float scrollBarH;
+float scrollBarH = 0; // Bruges til at beregne højde på scrollbar
 boolean scrollbarAktiv = false;
 float scrollOffsetY;
 // Scrollbar position variables
 float scrollBarStartY; // Top position of scrollbar (adjust as needed)
 float scrollBarEndY; // Bottom position of scrollbar (adjust as needed)
 float scrollBarVisibleHeight; // Will store the visible height of the scrollbar area
-//float scrollBarYOffset = 300;
+float scrollContentHeight = 3000; // Initial værdi
+
 
 void setup() {
   fullScreen();
@@ -77,6 +78,11 @@ void draw() {
   for (Knap k : knapper) {
     k.tegn();
   }
+  //hvis man er inde på en af de tre skærme skal den tegnes
+  if (skærm == søgeSkærm || skærm == opretSkærm || skærm == mitSkærm) {
+    scrollBarX = width - scrollBarW;
+    tegnScrollbar();    // tegner scrollbaren i uændret koordinatsystem
+  }
   if (skærm==opretSkærm) {
     overskriftBjælke("Tilføj din egen opskrift");
     opretSkærmTilbageKnap.tegn();
@@ -90,74 +96,52 @@ void draw() {
     hjælpKnap.tegn();
   }
 
-  //hvis man er inde på en af de tre skærme skal den tegnes
-  if (skærm == søgeSkærm || skærm == opretSkærm || skærm == mitSkærm) {
-    scrollBarX = width - scrollBarW - 10;
-    tegnScrollbar();    // tegner scrollbaren i uændret koordinatsystem
-  }
 }
 
 
 void tegnScrollbar() {
-  float scrollContentHeight = 2000; // total højde af indhold, justér evt.
-
-  // Dynamisk opdatering af maxScroll afhængig af antal opskrifter
   if (skærm == søgeSkærm && !alleOpskrifter.isEmpty()) {
-    scrollContentHeight = maxScroll + height;
+    scrollContentHeight = height/5*2 + (height/4 + height/32) * alleOpskrifter.size();
+  } else {
+    scrollContentHeight = 3000;
   }
 
-  // Calculate ratio and height based on visible area
-  float scrollRatio = (float) scrollBarVisibleHeight / scrollContentHeight;
-  scrollBarH = constrain(scrollContentHeight * scrollRatio, 30*width/1920, scrollBarVisibleHeight);
+  maxScroll = scrollContentHeight - height;
+  if (maxScroll < 0) maxScroll = 0;
 
-  // Calculate scrollBarY based on camY, but constrained to our custom range
-  scrollBarY = map(camY, 0, maxScroll, scrollBarStartY, scrollBarEndY - scrollBarH);
+  float scrollRatio = (float) height / scrollContentHeight;
+  scrollBarH = constrain(height * scrollRatio, 30, height);
 
-  // Draw scrollbar background (only in the visible area)
+  scrollBarY = map(camY, 0, maxScroll, height/9*2, height - scrollBarH);
+
   noStroke();
   fill(200);
-  rectMode(CORNER);
-  rect(width - scrollBarW - 10, scrollBarStartY, scrollBarW, scrollBarVisibleHeight); // Background
-
-  // Draw the scrollbar handle
+  // Tegn selve scrollbaren
+  noStroke();
+  fill(200);
+  rect(scrollBarX, height/9*2, scrollBarW, 2*height); // scrollbar baggrund
   fill(100);
-  rect(width - scrollBarW - 10, scrollBarY, scrollBarW-8*width/1920, scrollBarH, 10*width/1920); // Scrollbar
+  rect(scrollBarX+4*width/1920, scrollBarY, scrollBarW-8*width/1920, scrollBarH, scrollBarW/2); // håndtaget
 }
 
 
 
 void mouseDragged() {
-  // Kun scroll når vi er på de relevante skærme
   if (skærm == søgeSkærm || skærm == opretSkærm || skærm == mitSkærm) {
-    // Beregn forskel i musebevægelse
     int diff = mouseY - lastMouseY;
 
-    // Update camY (move opposite to drag direction for natural scrolling)
-    if (abs(diff) > 1) {
+    if (!scrollbarAktiv && abs(diff) > 1) {
       camY -= diff;
+      camY = constrain(camY, 0, maxScroll);
     }
 
-    // Juster maxScroll afhængig af indhold
-    int maxScroll = 1000;
-
-    if (skærm == søgeSkærm && !alleOpskrifter.isEmpty()) {
-      // Calculate based on number of recipes
-      maxScroll = int((height/5*2 + (height/4 + height/32) * alleOpskrifter.size()) - height + 100*width/1920);
+    if (scrollbarAktiv) {
+      scrollBarY = mouseY - scrollOffsetY;
+      scrollBarY = constrain(scrollBarY, height/9*2, height - scrollBarH);
+      camY = map(scrollBarY, height/9*2, height - scrollBarH, 0, maxScroll);
     }
 
-    // Begræns scrolling
-    if (camY < 0) camY = 0;
-    if (camY > maxScroll && maxScroll > 0) camY = maxScroll;
-  }
-
-  // Opdater sidste position
-  lastMouseY = mouseY;
-
-  // Hvis scrollbaren er aktiv, opdater scrollBarY og camY
-  if (scrollbarAktiv) {
-    scrollBarY = mouseY - scrollOffsetY;
-    scrollBarY = constrain(scrollBarY, 0, height - scrollBarH);
-    camY = map(scrollBarY, 0, height - scrollBarH, 0, maxScroll);
+    lastMouseY = mouseY;
   }
 }
 
@@ -206,7 +190,7 @@ void mousePressed() {
     if (mouseX > scrollBarX && mouseX < scrollBarX + scrollBarW &&
       mouseY > scrollBarY && mouseY < scrollBarY + scrollBarH) {
       scrollbarAktiv = true;
-      scrollOffsetY = mouseY - scrollBarY;
+      scrollOffsetY = mouseY - scrollBarY;  // Gem hvor du klikkede inde i scrollbaren
     }
   }
 }
@@ -224,24 +208,13 @@ void mouseWheel(MouseEvent event) {
 
   if (skærm == søgeSkærm || skærm == opretSkærm || skærm == mitSkærm) {
 
-    // Using mouse wheel for scrolling (positive = scroll down, negative = scroll up)
-    float e = event.getCount();
-
-    // Update camY based on mouse wheel direction, constrained to prevent over-scrolling
-    camY += e * scrollSpeed;
-
-    // Prevent scrolling above the top
-    if (camY < 0) {
-      camY = 0;
-    }
-
-    // Prevent scrolling too far down (adjust maxScroll based on your content)
-    if (camY > maxScroll) {
-      camY = maxScroll;
+    if (skærm == søgeSkærm || skærm == opretSkærm || skærm == mitSkærm) {
+      float e = event.getCount();
+      camY += e * scrollSpeed;
+      camY = constrain(camY, 0, maxScroll);
     }
   }
 }
-
 void keyPressed() {
   if (activeField != null) {
     // Tjekker om det er slet man klikker på

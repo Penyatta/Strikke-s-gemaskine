@@ -1,5 +1,6 @@
 import http.requests.*;
 
+
 // Declare the back button for the search screen
 Knap søgeSkærmTilbageKnap;
 Knap søgeSkærmSøgKnap;
@@ -52,7 +53,7 @@ SwitchGroup produktTypeGroup;
 SwitchGroup udfraGarnGroup;
 
 void søgeSkærmSetup() {
-
+  
   hentOpskrifterFraServer("søg");
 
   kategoriGroup = new SwitchGroup();
@@ -135,6 +136,8 @@ void søgeSkærmSetup() {
   søgeSkærmSøgKnap = new Knap(493*width/1440, height/9*2+height/40, 67*width/1440, 67*height/982, color(71, 92, 108), "Søg", 30, color(247, 239, 210), color(247, 239, 210), 0, søgeSkærm);
   knapper.add(søgeSkærmSøgKnap);
   textfields.add(new Textfield(35*width/1440, height/9*2+height/40, 440*width/1440, 67*height/982, color(71, 92, 108), color(247, 239, 210), color(247, 239, 210), color(247, 239, 210), 30*width/1440, "Søgefelt", "", 0, søgeSkærm, false));
+
+
 }
 
 void opdaterFiltreretListe() {
@@ -157,19 +160,23 @@ void opdaterFiltreretListe() {
       match = false;
     }
 
-  // Filtrér på mitGarn, hvis "Brug mit garn" switchen er aktiv
-    if (udfraGarnGroup.erSwitchAktiv("Ja")) {
-      boolean harMatchendeGarn = false;
-      for (String garn : o.krævneGarn) {
-        if (mitGarn.contains(garn)) {
-          harMatchendeGarn = true;
+if (udfraGarnGroup.erSwitchAktiv("Ja")) {
+  if (!o.krævneGarn.isEmpty()) {
+    for (String krævetGarn : o.krævneGarn) {
+      boolean fundet = false;
+      for (String mit : mitGarn) {
+        if (mit.trim().equalsIgnoreCase(krævetGarn.trim())) {
+          fundet = true;
           break;
         }
       }
-      if (!harMatchendeGarn) {
+      if (!fundet) {
         match = false;
+        break;
       }
     }
+  }
+}
 
 
     if (match) {
@@ -224,6 +231,8 @@ void søgeSkærmKnapper() {
 
   // Opdater visning baseret på valgte filtre
   opdaterFiltreretListe();
+  
+
 }
 
 
