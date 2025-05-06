@@ -172,7 +172,6 @@ void opdaterFiltreretListe() {
     }
 
 
-
     if (match) {
       visteOpskrifter.add(o);
     }

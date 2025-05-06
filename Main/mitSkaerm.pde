@@ -24,8 +24,6 @@ void mitSkærm() {
     displayOpskrifter(opskriftArray);
   }
 
-
-
   // Tegner alle dropdowns starter med den nederste så hvis man åbner en længere oppe vises den ikke under dem som kommer senere
   for (int i = garnDropdowns.size() - 1; i >= 0; i--) {
     garnDropdowns.get(i).tegn();
@@ -127,7 +125,6 @@ void mitSkærmKnapper() {
     }
   }
 }
-
 
 // Function to add a new yarn dropdown
 void addGarnDropdown() {

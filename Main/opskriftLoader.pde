@@ -1,4 +1,4 @@
- 
+
 // Indeholder alle opskrifter hentet fra serveren – ændres ikke ved filtrering
 ArrayList<Opskrift> alleOpskrifter = new ArrayList<Opskrift>();
 

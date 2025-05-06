@@ -29,7 +29,7 @@ float scrollBarW = 25;
 float scrollBarH;
 boolean scrollbarAktiv = false;
 float scrollOffsetY;
-float scrollBarYOffset = 300; 
+float scrollBarYOffset = 300;
 
 void setup() {
   fullScreen();
@@ -45,9 +45,8 @@ void setup() {
 
   // Initialize lastY for drag scrolling
   lastMouseY = mouseY; // Initialize lastMouseY
-  
-  //scrollBarX = width - scrollBarW - 10; // 10 px fra højre kant
 
+  //scrollBarX = width - scrollBarW - 10; // 10 px fra højre kant
 }
 
 void draw() {
@@ -70,39 +69,37 @@ void draw() {
   for (Textfield field : textfields) {
     field.tegnPåSkærm();
   }
-   //tegner knapper
+  //tegner knapper
   for (Knap k : knapper) {
     k.tegn();
   }
-  if (skærm==opretSkærm){
+  if (skærm==opretSkærm) {
     overskriftBjælke("Tilføj din egen opskrift");
     opretSkærmTilbageKnap.tegn();
     hjælpKnap.tegn();
   }
-  
+
   //hvis man er inde på søgeskærmen eller opretskærm så skal søgefeltene forsvinde under overskriftbjælken, men ikke tilbageknap og hjælpknap
-  if(skærm == søgeSkærm){
+  if (skærm == søgeSkærm) {
     overskriftBjælke("Søg efter opskrifter");
     søgeSkærmTilbageKnap.tegn();
     hjælpKnap.tegn();
   }
-  
+
   //hvis man er inde på en af de tre skærme skal den tegnes
   if (skærm == søgeSkærm || skærm == opretSkærm || skærm == mitSkærm) {
-    scrollBarX = width - scrollBarW - 10; 
+    scrollBarX = width - scrollBarW - 10;
     tegnScrollbar();    // tegner scrollbaren i uændret koordinatsystem
-
-}
+  }
 }
 
 
 void tegnScrollbar() {
-  
+
   float scrollContentHeight = 2000; // total højde af indhold, justér evt.
 
   // Dynamisk opdatering af maxScroll afhængig af antal opskrifter
-  if (skærm == søgeSkærm && !opskrifter.isEmpty()) {
-    maxScroll = int((height/5*2 + (height/4 + height/32) * opskrifter.size()) - height + 100);
+  if (skærm == søgeSkærm && !alleOpskrifter.isEmpty()) {
     scrollContentHeight = maxScroll + height;
   }
 
@@ -118,11 +115,10 @@ void tegnScrollbar() {
   rect(width - 25, 0, scrollBarW, height*2-100); // Baggrund
   fill(100);
   rect(width - 25, scrollBarY+scrollBarYOffset, scrollBarW, scrollBarH); // Positioner scrollbar korrekt
- 
 }
 
 
- 
+
 void mouseDragged() {
   // Kun scroll når vi er på de relevante skærme
   if (skærm == søgeSkærm || skærm == opretSkærm || skærm == mitSkærm) {
@@ -130,9 +126,9 @@ void mouseDragged() {
     int diff = mouseY - lastMouseY;
 
     // Update camY (move opposite to drag direction for natural scrolling)
-   if (abs(diff) > 1) {
-  camY -= diff;
-}
+    if (abs(diff) > 1) {
+      camY -= diff;
+    }
 
     // Juster maxScroll afhængig af indhold
     int maxScroll = 1000;
@@ -160,7 +156,7 @@ void mouseDragged() {
 
 
 void mousePressed() {
-  
+
   lastMouseY = mouseY;
 
   //kører knap funktionerne der tjekker om knapperne tilhørende de forskellige skærme er blevet trykket på
@@ -194,7 +190,6 @@ void mousePressed() {
       if (tf.tekst.startsWith("http")) {
         link(tf.tekst);
       }
-
     } else {
       tf.active = false;
     }
@@ -203,7 +198,7 @@ void mousePressed() {
   // Hvis musen er over scrollbaren, aktiver scrollbar
   if (skærm == søgeSkærm || skærm == opretSkærm || skærm == mitSkærm) {
     if (mouseX > scrollBarX && mouseX < scrollBarX + scrollBarW &&
-        mouseY > scrollBarY+scrollBarYOffset && mouseY < scrollBarY+scrollBarYOffset + scrollBarH) {
+      mouseY > scrollBarY+scrollBarYOffset && mouseY < scrollBarY+scrollBarYOffset + scrollBarH) {
       scrollbarAktiv = true;
       scrollOffsetY = mouseY - (scrollBarY+scrollBarYOffset);
     }
@@ -212,7 +207,7 @@ void mousePressed() {
 // Hjælpefunktion til at tjekke om musen er over et tekstfelt
 boolean overField(Textfield tf) {
   return mouseX > tf.posX && mouseX < tf.posX + tf.sizeX &&
-         mouseY > tf.posY && mouseY < tf.posY + tf.sizeY;
+    mouseY > tf.posY && mouseY < tf.posY + tf.sizeY;
 }
 
 void mouseReleased() {
