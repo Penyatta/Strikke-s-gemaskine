@@ -3,7 +3,7 @@ int openDropdown=-1;
 boolean allowOpen;
 boolean needRemove=false;
 int needRemoved;
-
+ArrayList<Opskrift> gemteOpskrifter = new ArrayList<Opskrift>();
 
 void mitSkærm() {
   background(255);
