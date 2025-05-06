@@ -179,7 +179,7 @@ void søgeSkærmKnapper() {
     }
   }
 }
-}
+
 
 void overskriftBjælke (String tekst) {
   rectMode(CORNER);

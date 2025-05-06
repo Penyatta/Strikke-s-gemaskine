@@ -56,8 +56,8 @@ if (brugerLink.length() > 0) {
   fill(0); // blå tekst som et link
   textSize(24);
   textAlign(LEFT, TOP);
-  float linkX = width-100;
-  float linkY = height/4+35;
+  float linkX = width-100*width/1920;
+  float linkY = height/4+35*width/1920;
   text("Åbn", linkX, linkY);
  
   // Gem positionen, så vi kan bruge den ved klik
