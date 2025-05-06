@@ -23,13 +23,15 @@ SwitchGroup opretKategorierGroup;
 SwitchGroup opretProduktTypeGroup;
 SwitchGroupA garnTypeGroup;
 Knap opretSkærmTilbageKnap;
+Knap opretSkærmIndsætKnap;
 Textfield TitelTextfelt;
 
 void opretSkærmSetup(){
   //laver knapperne
   opretSkærmTilbageKnap = new TilbageKnap(height/9-height/15, height/9-height/17, height/15*2, height/17*2, color(0), "tilbage", 10, color(205, 139, 98), color(247, 239, 210), 10, opretSkærm);
   knapper.add(opretSkærmTilbageKnap);
-
+  opretSkærmIndsætKnap = new Knap(height/9*8, height/9*2, height/15*2, height/17*2, color(0), "Indsæt Udklipsfolder", 20*width/1440, color(205, 139, 98), color(247, 239, 210), 0, opretSkærm);
+knapper.add(opretSkærmIndsætKnap);
   
   // Tilføj et tekstfelt til opretSkærm
 
@@ -100,4 +102,23 @@ void opretSkærmKnapper(){
   opretProduktTypeGroup.checkMouse();
    garnTypeGroup.checkMouse();
    opretKategorierGroup.checkMouse();
+   if(opretSkærmIndsætKnap.mouseOver()){
+    String ikkeIBrug=getClipboard(); 
+   }
+}
+
+String getClipboard() {
+  String text = "";
+  try {
+    java.awt.datatransfer.Clipboard clipboard = java.awt.Toolkit.getDefaultToolkit().getSystemClipboard();
+    java.awt.datatransfer.Transferable contents = clipboard.getContents(null);
+    boolean hasTransferableText = (contents != null) &&
+      contents.isDataFlavorSupported(java.awt.datatransfer.DataFlavor.stringFlavor);
+    if (hasTransferableText) {
+      text = (String) contents.getTransferData(java.awt.datatransfer.DataFlavor.stringFlavor);
+    }
+  } catch (Exception e) {
+    e.printStackTrace();
+  }
+  return text;
 }
