@@ -131,11 +131,11 @@ void displayOpskrifter(Opskrift opskrifter[]) {
       fill(0);
       textFont(boldFont);
       textAlign(CORNER);
-      textSize(30);
+      textSize(30*width/1440);
       text(opskrift.titel, posX + width/100, posY - camY + width/50);
       //skriver kategorien
       textFont(generalFont);
-      textSize(20);
+      textSize(20*width/1440);
       text("Kategori: " + opskrift.kategori, posX + width/100, posY - camY + højde/4 + width/50);
 
       //Skriver produkttypen
