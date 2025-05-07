@@ -30,7 +30,7 @@ String[] wrapText(String text, float maxWidth, PFont font) {
   String[] words = text.split(" ");
   String currentLine = "";
   ArrayList<String> lines = new ArrayList<String>();
-  
+
   for (String word : words) {
     if (textWidth(currentLine + word) < maxWidth) {
       currentLine += word + " ";
@@ -39,7 +39,7 @@ String[] wrapText(String text, float maxWidth, PFont font) {
       currentLine = word + " ";
     }
   }
-  
+
   if (currentLine.length() > 0) {
     lines.add(currentLine.trim());
   }
@@ -122,29 +122,29 @@ void opretSkærm() {
   if (uploadedImage != null) {
     image(uploadedImage, posX, posY - camY, bredde/24*5, højde/10*8); // Placér billede
   }
-  
- // Hent filens titel og vis det på skærmen
+
+  // Hent filens titel og vis det på skærmen
   if (selectedPdfName != null && !selectedPdfName.isEmpty()) {
-    
+
     // Farveskift og cursor, hvis musen er over filnavn-området
-if (mouseX > linkRectX && mouseX < linkRectX + linkRectW &&
-    mouseY > linkRectY && mouseY < linkRectY + linkRectH) {
-  fill(#3F50FA);  // Farve når musen er over
-  cursor(HAND);   // Cursor ændres til hånd
-} else {
-  fill(0);  // Standardfarve
-  cursor(ARROW);  // Normal cursor
-}
+    if (mouseX > linkRectX && mouseX < linkRectX + linkRectW &&
+      mouseY > linkRectY && mouseY < linkRectY + linkRectH) {
+      fill(#3F50FA);  // Farve når musen er over
+      cursor(HAND);   // Cursor ændres til hånd
+    } else {
+      fill(0);  // Standardfarve
+      cursor(ARROW);  // Normal cursor
+    }
     textSize(27);
-    textAlign(LEFT,TOP);
+    textAlign(LEFT, TOP);
     float fileNameX = 1400*width/1920;
     float fileNameY = 400*width/1920+15 - camY;
-    
+
     // Brug wrapText til at opdele filnavnet, hvis det er for langt
     String[] wrappedText = wrapText(selectedPdfName, 450 * width / 1920, generalFont); // maxWidth er 400
-     float lineHeight = 40;  // Højde per linje
+    float lineHeight = 40;  // Højde per linje
     for (int i = 0; i < wrappedText.length; i++) {
-    text(wrappedText[i], fileNameX, fileNameY + i * lineHeight);
+      text(wrappedText[i], fileNameX, fileNameY + i * lineHeight);
     }
 
     // Gem positionen, så vi kan bruge den ved klik
@@ -152,41 +152,40 @@ if (mouseX > linkRectX && mouseX < linkRectX + linkRectW &&
     linkRectY = fileNameY;
     linkRectW = textWidth(selectedPdfName);
     linkRectH = lineHeight * wrappedText.length;
-  
-   // Vis hjælpetekst hvis det er PDF
-  if (selectedPdfName.toLowerCase().endsWith(".pdf")) {
-    fill(0);
-    textSize(3);
-    textFont(italicFont);
-    text("Klik på filnavnet for at åbne filen", fileNameX, fileNameY + lineHeight * wrappedText.length + 5);
-    textFont(generalFont);
-  } else {
-    fill(200, 0, 0); // Rød fejltekst
-    textSize(3);
-    textFont(italicFont);
-    text("Ugyldig fil. Det skal være en PDF.", fileNameX, fileNameY + lineHeight * wrappedText.length + 5);
-  textFont(generalFont);
-}
 
-// Tegn "X"-krydset
-krydsX = fileNameX + textWidth(wrappedText[0]) + 25;
-krydsY = fileNameY;
+    // Vis hjælpetekst hvis det er PDF
+    if (selectedPdfName.toLowerCase().endsWith(".pdf")) {
+      fill(0);
+      textSize(3);
+      textFont(italicFont);
+      text("Klik på filnavnet for at åbne filen", fileNameX, fileNameY + lineHeight * wrappedText.length + 5);
+      textFont(generalFont);
+    } else {
+      fill(200, 0, 0); // Rød fejltekst
+      textSize(3);
+      textFont(italicFont);
+      text("Ugyldig fil. Det skal være en PDF.", fileNameX, fileNameY + lineHeight * wrappedText.length + 5);
+      textFont(generalFont);
+    }
 
-boolean mouseOverKryds = mouseX > krydsX && mouseX < krydsX + krydsW &&
-                         mouseY > krydsY && mouseY < krydsY + krydsH;
-if (mouseOverKryds) {
-  fill(255, 0, 0); // Rød når musen er over
-  cursor(HAND);
-} else {
-  fill(150);       // Grå ellers
-  cursor(ARROW);
-}
+    // Tegn "X"-krydset
+    krydsX = fileNameX + textWidth(wrappedText[0]) + 25;
+    krydsY = fileNameY;
 
-textSize(30);
-textAlign(LEFT,TOP);
-text("X", krydsX, krydsY);
+    boolean mouseOverKryds = mouseX > krydsX && mouseX < krydsX + krydsW &&
+      mouseY > krydsY && mouseY < krydsY + krydsH;
+    if (mouseOverKryds) {
+      fill(255, 0, 0); // Rød når musen er over
+      cursor(HAND);
+    } else {
+      fill(150);       // Grå ellers
+      cursor(ARROW);
+    }
 
-}
+    textSize(30);
+    textAlign(LEFT, TOP);
+    text("X", krydsX, krydsY);
+  }
 
 
   // Hent teksten fra link-textfield
@@ -267,13 +266,13 @@ void selectPdf() {
 // Funktion der bliver kaldt, når en fil er valgt
 void fileSelectedPdf (File selection) {
   if (selection != null) {
- // Få stien til den valgte fil
+    // Få stien til den valgte fil
     selectedPdfPath = selection.getAbsolutePath();
     // Få kun filnavnet uden stien
     selectedPdfName = selection.getName();
     println("PDF valgt: " + selectedPdfName);
   }
-  }
+}
 
 
 SwitchGroup opretKategorierGroup;
@@ -294,14 +293,14 @@ void opretSkærmSetup() {
 
   opretSkærmIndsætKnap = new Knap(1000*width/1920, 750*width/1920, 250*width/1920, 50*width/1920, color(247, 239, 210), "Indsæt Udklipsfolder", 20*width/1440, color(71, 92, 108), color(205, 139, 98), 0, opretSkærm);
   knapper.add(opretSkærmIndsætKnap);
-  
+
   opretSkærmOpretKnap = new Knap(1000*width/1920, 850*width/1920, 500*width/1920, 100*width/1920, color(247, 239, 210), "Opret opskrift", 40*width/1440, color(71, 92, 108), color(205, 139, 98), 0, opretSkærm);
   knapper.add(opretSkærmOpretKnap);
 
-    // Tilføj en knap til at vælge billede
+  // Tilføj en knap til at vælge billede
   billedeKnap = new Knap (1000*width/1920, 320*width/1920, 200*width/1440, 50, color(247, 239, 210), "Vælg billede", 25*width/1440, color(71, 92, 108), color(205, 139, 98), 0, opretSkærm);
   knapper.add(billedeKnap);
-  
+
   //Tilføj knap til at vælge fil
   filKnap =new Knap (1400*width/1920, 320*width/1920, 250*width/1920, 50, color(247, 239, 210), "Vælg fil", 25*width/1440, color(71, 92, 108), color(205, 139, 98), 0, opretSkærm);
   knapper.add(filKnap);
@@ -310,8 +309,8 @@ void opretSkærmSetup() {
   LinkTextfelt =( new Textfield(200*width/1440+1000, 750*width/1920, (width/3)-150, 50,
     color(71, 92, 108), color(247, 239, 210), color(247, 239, 210), color(247, 239, 210),
     20*width/1440, "Indsæt link til opskrift (https://...)", "", 0, opretSkærm, false));
-    
-     textfields.add(LinkTextfelt);
+
+  textfields.add(LinkTextfelt);
 
   // Tilføj et tekstfelt til opretSkærm
   TitelTextfelt = new Textfield( 100*width/1440, 300*height/1125, width/3, 67*height/982, color(71, 92, 108), color(247, 239, 210), color(247, 239, 210), color(247, 239, 210),
@@ -334,16 +333,16 @@ void opretSkærmSetup() {
   String[] mændProdukttyper = {"Veste", "Sweater", "Andet", "Strømper og Futsko", "Cardigans"};
   højde=lavSwitches4(produkttypeGrupper.get(0), mændProdukttyper, startHøjde);
 
-  String[] kvindeProdukttyper = {"Huer", "Sweater", "Nederdele", "Bukser og shorts", "Veste", "Ponchoer",  "Toppe", "Strømper og Futsko","Bikinier",  "Andet", "Cardigans", "Kjoler og Tunikaer", "Sjaler", "Tørklæder"};
+  String[] kvindeProdukttyper = {"Huer", "Sweater", "Nederdele", "Bukser og shorts", "Veste", "Ponchoer", "Toppe", "Strømper og Futsko", "Bikinier", "Andet", "Cardigans", "Kjoler og Tunikaer", "Sjaler", "Tørklæder"};
   højde=lavSwitches4(produkttypeGrupper.get(1), kvindeProdukttyper, startHøjde);
 
-  String[] babyProdukttyper ={ "Huer", "Cardigans",  "Andet","Kjoler og Tunikaer", "Køreposer", "Babytæpper", "Sweater", "Strømper og Støvler",  "Hentesæt", "Veste og Toppe", "Ponchoer", "Sparkedragter o.lign","Bukser og shorts"};
+  String[] babyProdukttyper ={ "Huer", "Cardigans", "Andet", "Kjoler og Tunikaer", "Køreposer", "Babytæpper", "Sweater", "Strømper og Støvler", "Hentesæt", "Veste og Toppe", "Ponchoer", "Sparkedragter o.lign", "Bukser og shorts"};
   højde=lavSwitches4(produkttypeGrupper.get(2), babyProdukttyper, startHøjde);
 
-  String[] børnProdukttyper ={ "Kjoler og nederdele","Cardigans",  "Andet", "Bukser og Overalls","Veste og Toppe", "Huer", "Sweater", "Strømper og Futsko"};
+  String[] børnProdukttyper ={ "Kjoler og nederdele", "Cardigans", "Andet", "Bukser og Overalls", "Veste og Toppe", "Huer", "Sweater", "Strømper og Futsko"};
   højde=lavSwitches4(produkttypeGrupper.get(3), børnProdukttyper, startHøjde);
 
-  String[] hjemProdukttyper ={"Æggevarmer", "Karklude",  "Påske","Puder og Puffer", "Bogmærker",  "kurve", "Jul", "Dekorative Blomster", "Tæpper", "Børneværelse",  "Betræk","Gryddelapper o.lign.", "Siddeunderlag", "Dekorationer", "Kæledyr","Glasunderlag o.lign."};
+  String[] hjemProdukttyper ={"Æggevarmer", "Karklude", "Påske", "Puder og Puffer", "Bogmærker", "kurve", "Jul", "Dekorative Blomster", "Tæpper", "Børneværelse", "Betræk", "Gryddelapper o.lign.", "Siddeunderlag", "Dekorationer", "Kæledyr", "Glasunderlag o.lign."};
   højde=lavSwitches4(produkttypeGrupper.get(4), hjemProdukttyper, startHøjde);
 
   String[] højtiderProdukttyper ={"Påske", "Jul", "Halloween og Karnival", "Andet"};
@@ -356,7 +355,6 @@ void opretSkærmSetup() {
   // Laver alle switchesne
   String[] garnTyper = {"alpaka", "bomuld", "hør", "merino", "mohair", "silke", "uld"};
   højde=lavSwitches4(garnTypeGroup, garnTyper, højde);
-
 }
 
 
@@ -396,38 +394,39 @@ void opretSkærmKnapper() {
     }
   }
 
-// Hvis filens titel er klikket på, åbn PDF'en
+  // Hvis filens titel er klikket på, åbn PDF'en
   if (selectedPdfName != null && !selectedPdfName.isEmpty() &&
-      mousePressed &&
-      mouseX > linkRectX && mouseX < linkRectX + linkRectW &&
-      mouseY > linkRectY && mouseY < linkRectY + linkRectH) {
-    
- if (selectedPdfPath.toLowerCase().endsWith(".pdf")) {
-  try {
-    File pdfFile = new File(selectedPdfPath);
-    if (pdfFile.exists()) {
-      Desktop.getDesktop().open(pdfFile);
-    } else {
-      println("Filen findes ikke: " + selectedPdfPath);
-    }
-  } catch (Exception e) {
-    println("Fejl ved åbning af PDF: " + e.getMessage());
-  }
-} else {
-  println("Ugyldigt filformat. Kun PDF-filer understøttes.");
-}
-        
-}
+    mousePressed &&
+    mouseX > linkRectX && mouseX < linkRectX + linkRectW &&
+    mouseY > linkRectY && mouseY < linkRectY + linkRectH) {
 
-if (mousePressed &&
+    if (selectedPdfPath.toLowerCase().endsWith(".pdf")) {
+      try {
+        File pdfFile = new File(selectedPdfPath);
+        if (pdfFile.exists()) {
+          // Use our custom file opening function instead of Desktop.open
+          openFile(selectedPdfPath);
+        } else {
+          println("Filen findes ikke: " + selectedPdfPath);
+        }
+      }
+      catch (Exception e) {
+        println("Fejl ved åbning af PDF: " + e.getMessage());
+      }
+    } else {
+      println("Ugyldigt filformat. Kun PDF-filer understøttes.");
+    }
+  }
+
+  if (mousePressed &&
     mouseX > krydsX && mouseX < krydsX + krydsW &&
     mouseY > krydsY && mouseY < krydsY + krydsH) {
 
-  // Ryd PDF-data
-  selectedPdfPath = "";
-  selectedPdfName = "";
-  println("PDF fjernet");
-}
+    // Ryd PDF-data
+    selectedPdfPath = "";
+    selectedPdfName = "";
+    println("PDF fjernet");
+  }
 
   if (opretSkærmIndsætKnap.mouseOver()) {
     String clipboardTekst = getClipboard();
@@ -465,8 +464,52 @@ if (mousePressed &&
     //Tjekker om alle de nødvændige ting er udfyldt
     if (!TitelTextfelt.tekst.isEmpty()&& uploadedImage!=null && selectedSwitch != null && garnTypeGroup.switchValgt() && LinkTextfelt.tekst != null) {
       // kommer den nye opskrift i gemte opskrifter
-      gemteOpskrifter.add(new Opskrift(TitelTextfelt.tekst, opretKategorierGroup.getSelectedSwitch().getTitel(),
-        LinkTextfelt.tekst, produkttype, uploadedImage));
+      Opskrift nyOpskrift = new Opskrift(TitelTextfelt.tekst, opretKategorierGroup.getSelectedSwitch().getTitel(),
+        LinkTextfelt.tekst, produkttype, uploadedImage);
+      
+      // Set the file path if a PDF is selected
+      if (selectedPdfPath != null && !selectedPdfPath.isEmpty()) {
+        // Create directory if it doesn't exist
+        File dir = new File(dataPath("pdf"));
+        if (!dir.exists()) {
+          dir.mkdirs();
+          println("Created directory: " + dir.getAbsolutePath());
+        }
+        
+        // Generate a safe filename
+        String safeFileName = TitelTextfelt.tekst.replaceAll("[^a-zA-Z0-9]", "_") + ".pdf";
+        String fileName = "pdf/" + safeFileName;
+        
+        try {
+          // Copy the file
+          File sourceFile = new File(selectedPdfPath);
+          File destFile = new File(dataPath(fileName));
+          
+          println("Copying from: " + sourceFile.getAbsolutePath());
+          println("Copying to: " + destFile.getAbsolutePath());
+          
+          // Create parent directories if they don't exist
+          if (!destFile.getParentFile().exists()) {
+            destFile.getParentFile().mkdirs();
+          }
+          
+          // Use Java NIO for file copying
+          java.nio.file.Files.copy(
+            sourceFile.toPath(),
+            destFile.toPath(),
+            java.nio.file.StandardCopyOption.REPLACE_EXISTING
+          );
+          
+          // Set the file path in the recipe
+          nyOpskrift.filePath = fileName;
+          println("File copied successfully to: " + fileName);
+        } catch (Exception e) {
+          println("Error copying file: " + e.getMessage());
+          e.printStackTrace();
+        }
+      }
+      
+      gemteOpskrifter.add(nyOpskrift);
       int index=gemteOpskrifter.size();
       for (Switch switchs : garnTypeGroup.switches) {
         if (switchs.getState()) {
@@ -478,6 +521,8 @@ if (mousePressed &&
         opretKategorierGroup.getSelectedSwitch().tændt=false;
         opskriftCreationFeedback=1;
         uploadedImage=null;
+        selectedPdfPath = "";
+        selectedPdfName = "";
         opskriftTimer=millis();
         saveRecipesToFile();
       }
@@ -486,7 +531,7 @@ if (mousePressed &&
       opskriftTimer=millis();
     }
   }
- 
+
   // Hvis der er et aktivt link og det klikkes
   if (aktivtLink.length() > 0 &&
     mousePressed &&
@@ -500,18 +545,16 @@ if (mousePressed &&
       visLinkFejl = true; // vis fejl hvis ikke gyldigt
     }
   }
-  
- // Håndter billede-knap
+
+  // Håndter billede-knap
   if (billedeKnap.mouseOver()) {
-  selectImage();
-}
+    selectImage();
+  }
 
   // Håndter billede-knap
   if (filKnap.mouseOver()) {
     selectPdf();  // Kald funktionen til at vælge billede
   }
-  
-
 }
 
 

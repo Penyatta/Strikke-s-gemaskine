@@ -11,6 +11,7 @@ class Opskrift {
   int garntyper;
   String kategori;
   String produktType;
+  String filePath; // Path to the stored file in the data folder
 
   // Constructor
   Opskrift(String TITEL, String KATEGORI, String LINK, String PRODUKTTYPE, PImage BILLEDE) {
@@ -48,6 +49,13 @@ class Opskrift {
   
   
 String getPrintLink() {
+  // First check if we have a local file path
+  if (filePath != null && !filePath.isEmpty()) {
+    //println("Using local file path: " + filePath);
+    return filePath;
+  }
+  
+  // Otherwise use the online print link
   if (link != null && link.contains("id=") && link.contains("cid=")) {
     String[] parts = link.split("\\?");
     if (parts.length > 1) {
@@ -168,7 +176,7 @@ class Knap {
   }
   //funktion der returnerer sand når musen er over knappen men ellers falsk
   boolean mouseOver() {
-    if (posX < mouseX && mouseX < (posX+sizeX) && posY < mouseY && mouseY < (posY+sizeY) && knapSkærm==skærm) {
+    if (posX < mouseX && mouseX < (posX+sizeX) && posY-camY < mouseY && mouseY < (posY+sizeY)-camY && knapSkærm==skærm) {
       return(true);
     } else {
       return(false);

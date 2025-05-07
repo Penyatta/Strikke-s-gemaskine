@@ -1,5 +1,13 @@
 import java.util.Arrays;
 
+// Add the Desktop import at the top of the file:
+
+import java.awt.Desktop;
+import java.io.File;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+
 
 PFont generalFont;
 PFont boldFont;
@@ -201,13 +209,22 @@ void mousePressed() {
   for (KlikOmråde ko : klikOmråder) {
     if (ko.erKlikket(mouseX, mouseY)) {
       println("Åbner link: " + ko.url);  // Til fejlsøgning
+    
       if (ko.url != null && !ko.url.equals("")) {
-        link(ko.url);  // <- Dette åbner browseren
+        // Check if this is a local file path
+        if (ko.url.startsWith("LOCAL:")) {
+          String filePath = ko.url.substring(6); // Remove the "LOCAL:" prefix
+          println("Opening local file: " + filePath);
+        
+          // Use our custom file opening function
+          openFile(dataPath(filePath));
+        } else {
+          // For regular URLs, use the link function
+          link(ko.url);
+        }
       } else {
         println("❌ URL er null eller tom.");
       }
-
-
       break;
     }
   }
@@ -245,5 +262,71 @@ void keyPressed() {
     else if (key != CODED && key != BACKSPACE && key != ENTER) {
       activeField.tekst += key;
     }
+  }
+}
+
+void openFile(String filePath) {
+  try {
+    File file = new File(filePath);
+    
+    // Check if the file exists
+    if (!file.exists()) {
+      println("File does not exist: " + filePath);
+      return;
+    }
+    
+    // Check if Desktop is supported
+    if (Desktop.isDesktopSupported()) {
+      try {
+        Desktop.getDesktop().open(file);
+        println("Opening file with system default application: " + filePath);
+      } catch (Exception e) {
+        // If opening with default application fails, try to open in browser
+        println("Could not open with default application, trying browser: " + e.getMessage());
+        String fileURL = "file:///" + file.getAbsolutePath().replace("\\", "/");
+        openURL(fileURL);
+      }
+    } else {
+      // If Desktop is not supported, try to open in browser
+      println("Desktop not supported, trying browser");
+      String fileURL = "file:///" + file.getAbsolutePath().replace("\\", "/");
+      openURL(fileURL);
+    }
+  } catch (Exception e) {
+    println("Error opening file: " + e.getMessage());
+    e.printStackTrace();
+  }
+}
+
+// Add this function to open URLs in the browser
+void openURL(String url) {
+  try {
+    if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+      Desktop.getDesktop().browse(new URI(url));
+      println("Opening URL in browser: " + url);
+    } else {
+      // Fallback for platforms where Desktop is not supported
+      String[] browserCmd = new String[0];
+      
+      // Detect operating system and set appropriate browser command
+      String os = System.getProperty("os.name").toLowerCase();
+      if (os.contains("win")) {
+        browserCmd = new String[]{"cmd", "/c", "start", url};
+      } else if (os.contains("mac")) {
+        browserCmd = new String[]{"open", url};
+      } else if (os.contains("nix") || os.contains("nux")) {
+        browserCmd = new String[]{"xdg-open", url};
+      }
+      
+      if (browserCmd.length > 0) {
+        Runtime.getRuntime().exec(browserCmd);
+        println("Opening URL with system command: " + url);
+      } else {
+        println("Could not determine browser command for OS: " + os);
+      }
+    }
+  } catch (Exception e) {
+    println("Error opening URL: " + e.getMessage());
+    e.printStackTrace();
   }
 }

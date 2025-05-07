@@ -1,4 +1,3 @@
-
 // Liste med opskrifter
 ArrayList<Opskrift> opskrifter = new ArrayList<Opskrift>();
 
@@ -58,7 +57,7 @@ void hentOpskrifterFraServer(String kilde) {
 
       Opskrift nyOpskrift = new Opskrift(titel, kategori, link, produktType, null);
       
-      println("Print-link for '" + nyOpskrift.titel + "': " + nyOpskrift.getPrintLink());
+      //println("Print-link for '" + nyOpskrift.titel + "': " + nyOpskrift.getPrintLink());
  //     println("URL i opskrift: " + nyOpskrift.link);  // Test om link er korrekt
       nyOpskrift.imageUrl = imagePath;
       nyOpskrift.billedeHentes = true;
@@ -278,8 +277,18 @@ text("Udskriv", knapX + knapBredde / 2, printY + knapHøjde / 2);
 // Gem som klikområde
  String printLink = opskrift.getPrintLink();
  if (printLink != null) {
- KlikOmråde printKO = new KlikOmråde(knapX, printY, knapBredde, knapHøjde, printLink);
- klikOmråder.add(printKO);
+  // Check if it's a local file path
+  if (printLink.startsWith("data/") || new File(dataPath(printLink)).exists()) {
+    // For local files, we need to handle them differently
+    KlikOmråde printKO = new KlikOmråde(knapX, printY, knapBredde, knapHøjde, "LOCAL:" + printLink);
+    klikOmråder.add(printKO);
+    //println("Added local file click area: " + printLink);
+  } else {
+    // For web URLs, use the normal link function
+    KlikOmråde printKO = new KlikOmråde(knapX, printY, knapBredde, knapHøjde, printLink);
+    klikOmråder.add(printKO);
+    //println("Added web link click area: " + printLink);
+  }
 }
     posY += spacing + højde;
   }

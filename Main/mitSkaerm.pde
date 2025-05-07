@@ -1,4 +1,3 @@
-
 ArrayList<String> mitGarn = new ArrayList<String>();
 int openDropdown=-1;
 boolean allowOpen;
@@ -238,6 +237,8 @@ void checkRecipeFile() {
   }
 }
 
+// Update the loadSavedRecipes function to load the file path when loading recipes
+
 // Function to load saved recipes from JSON file
 void loadSavedRecipes() {
   try {
@@ -269,6 +270,11 @@ void loadSavedRecipes() {
         savedRecipe.imageUrl = recipeJSON.getString("image");
         savedRecipe.billedeHentes = true;
       }
+      
+      // Load file path if it exists
+      if (recipeJSON.hasKey("filePath")) {
+        savedRecipe.filePath = recipeJSON.getString("filePath");
+      }
 
       gemteOpskrifter.add(savedRecipe);
     }
@@ -283,6 +289,8 @@ void loadSavedRecipes() {
     checkRecipeFile();
   }
 }
+
+// Update the saveRecipesToFile function to include the file path when saving recipes
 
 // Function to save recipes to JSON file
 void saveRecipesToFile() {
@@ -301,6 +309,11 @@ void saveRecipesToFile() {
     // Save image URL with the same key name as in hentOpskrifterFraServer
     if (recipe.imageUrl != null) {
       recipeJSON.setString("image", recipe.imageUrl);
+    }
+    
+    // Save file path if it exists
+    if (recipe.filePath != null && !recipe.filePath.isEmpty()) {
+      recipeJSON.setString("filePath", recipe.filePath);
     }
 
     // Save yarn types
