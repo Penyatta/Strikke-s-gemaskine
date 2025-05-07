@@ -131,7 +131,17 @@ if (mouseX > linkRectX && mouseX < linkRectX + linkRectW &&
 // Tegn "X"-krydset
 krydsX = fileNameX + textWidth(wrappedText[0]) + 25;
 krydsY = fileNameY;
-fill(200, 0, 0);
+
+boolean mouseOverKryds = mouseX > krydsX && mouseX < krydsX + krydsW &&
+                         mouseY > krydsY && mouseY < krydsY + krydsH;
+if (mouseOverKryds) {
+  fill(255, 0, 0); // Rød når musen er over
+  cursor(HAND);
+} else {
+  fill(150);       // Grå ellers
+  cursor(ARROW);
+}
+
 textSize(30);
 textAlign(LEFT,TOP);
 text("X", krydsX, krydsY);
@@ -248,7 +258,7 @@ void opretSkærmSetup() {
   knapper.add(opretSkærmOpretKnap);
 
     // Tilføj en knap til at vælge billede
-  billedeKnap = new Knap (1000, 320, 200*width/1440, 50, color(247, 239, 210), "Vælg billede", 25*width/1440, color(71, 92, 108), color(205, 139, 98), 0, opretSkærm);
+  billedeKnap = new Knap (1000*width/1920, 320*width/1920, 200*width/1440, 50, color(247, 239, 210), "Vælg billede", 25*width/1440, color(71, 92, 108), color(205, 139, 98), 0, opretSkærm);
   knapper.add(billedeKnap);
   
   //Tilføj knap til at vælge fil
