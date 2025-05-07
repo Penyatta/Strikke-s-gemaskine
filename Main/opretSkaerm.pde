@@ -292,7 +292,7 @@ void opretSkærmSetup() {
   "tilbage", 10, color(205, 139, 98), color(247, 239, 210), 10, opretSkærm);
   knapper.add(opretSkærmTilbageKnap);
 
-  opretSkærmIndsætKnap = new Knap(1000*width/1920, 750*width/1920, 250*width/1920, 50*width/1920, color(247, 239, 210), 
+  opretSkærmIndsætKnap = new Knap(1000*width/1920, 750*width/1920, 255*width/1920, 50*width/1920, color(247, 239, 210), 
   "Indsæt Udklipsfolder", 30*width/1440, color(71, 92, 108), color(205, 139, 98), 0, opretSkærm);
   knapper.add(opretSkærmIndsætKnap);
 
