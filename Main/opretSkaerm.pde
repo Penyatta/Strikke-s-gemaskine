@@ -167,6 +167,7 @@ Knap opretSkærmTilbageKnap;
 Knap opretSkærmIndsætKnap;
 Knap opretSkærmOpretKnap;
 Textfield TitelTextfelt;
+Textfield LinkTextfelt;
 Knap billedeKnap;
 
 void opretSkærmSetup() {
@@ -184,9 +185,11 @@ void opretSkærmSetup() {
   knapper.add(billedeKnap);
 
   // Tilføj Textfield til link
-  textfields.add(new Textfield(200*width/1440+1000, 750*width/1920, (width/3)-150, 50,
+  LinkTextfelt =( new Textfield(200*width/1440+1000, 750*width/1920, (width/3)-150, 50,
     color(71, 92, 108), color(247, 239, 210), color(247, 239, 210), color(247, 239, 210),
     20*width/1440, "Indsæt link til opskrift (https://...)", "", 0, opretSkærm, false));
+    
+     textfields.add(LinkTextfelt);
 
   // Tilføj et tekstfelt til opretSkærm
 
@@ -310,10 +313,10 @@ void opretSkærmKnapper() {
       }
     }
     //Tjekker om alle de nødvændige ting er udfyldt
-    if (!TitelTextfelt.tekst.isEmpty()&& uploadedImage!=null && selectedSwitch != null && garnTypeGroup.switchValgt()) {
+    if (!TitelTextfelt.tekst.isEmpty()&& uploadedImage!=null && selectedSwitch != null && garnTypeGroup.switchValgt() && LinkTextfelt.tekst != null) {
       // kommer den nye opskrift i gemte opskrifter
       gemteOpskrifter.add(new Opskrift(TitelTextfelt.tekst, opretKategorierGroup.getSelectedSwitch().getTitel(),
-        "", produkttype, uploadedImage));
+        LinkTextfelt.tekst, produkttype, uploadedImage));
       int index=gemteOpskrifter.size();
       for (Switch switchs : garnTypeGroup.switches) {
         if (switchs.getState()) {

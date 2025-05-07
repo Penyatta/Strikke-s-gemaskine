@@ -30,6 +30,7 @@ void startSkærmKnapper() {
   }
   if (startSkærmOpretKnap.mouseOver()) {
     skærm=opretSkærm;
+    
   }
   if (startSkærmMitKnap.mouseOver()) {
     skærm=mitSkærm;
