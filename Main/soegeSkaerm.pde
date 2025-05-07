@@ -42,7 +42,7 @@ void søgeSkærm() {
   textSize(30*width/1440);
   text("Kategorier", 45*width/1440, 425*height/982-camY);
   text("Produkttype", 45*width/1440, 690*height/982-camY);
-  text("Søg udfra mit garn", 52*width/1440, 1125*height/982-camY);
+  text("Søg udfra mit garn", 52*width/1440, 1300*height/982-camY);
 
   kategoriGroup.tegnAlle();
   produktTypeGroup.tegnAlle();
@@ -68,26 +68,26 @@ void søgeSkærmSetup() {
   udfraGarnGroup = new SwitchGroup();
 
   // Laver kategori switchesne
-  float højde=410*height/982;
-  float bredde1=(580*width/1440)/4;
-  float bredde2=(580*width/1440)/2;
+  float højde=400*height/982;
+  float bredde1=(580*width/1440)/4-50;
+  float bredde2=(580*width/1440)/2-30;
   float bredde3=(580*width/1440)/4*3;
   float radius=30*width/1440;
   Switch KvindeSwitch = new Switch(bredde1, højde+75, radius, "Kvinde", false);
-  Switch MandSwitch = new Switch(bredde2, højde+75, radius, "Mand", false);
-  Switch BabySwitch = new Switch(bredde3, højde+75, radius, "Baby (0-4 år)", false);
-  Switch BarnSwitch = new Switch(bredde1, 585*height/982-10, radius, "Børn (2-14 år)", false);
+  Switch BarnSwitch = new Switch(bredde3, højde+75, radius, "Børn (2-14 år)", false);
+  Switch BabySwitch = new Switch(bredde2, højde+75, radius, "Baby (0-4 år)", false);
+  Switch MandSwitch = new Switch(bredde1, 585*height/982-10, radius, "Mand", false);
   Switch HjemSwitch = new Switch(bredde2, 585*height/982-10, radius, "Hjem", false);
 
   //Tilføjer kategori switchesne til en gruppe
   kategoriGroup.addSwitch(KvindeSwitch);
-  kategoriGroup.addSwitch(MandSwitch);
-  kategoriGroup.addSwitch(BabySwitch);
   kategoriGroup.addSwitch(BarnSwitch);
+  kategoriGroup.addSwitch(BabySwitch);
+  kategoriGroup.addSwitch(MandSwitch);
   kategoriGroup.addSwitch(HjemSwitch);
 
   // laver udfra garn switch
-  Switch jaSwitch = new Switch(bredde1, 1170*height/982, radius, "Ja", false);
+  Switch jaSwitch = new Switch(bredde1, 1370*height/982, radius, "Ja", false);
   udfraGarnGroup.addSwitch(jaSwitch);
 
   // Laver tilbageknappen til søgeskærmen
@@ -111,118 +111,56 @@ void søgeSkærmSetup() {
 void initialiserKategoriProdukter() {
   // Opretter ArrayLists for hver kategori
   kategoriTilProdukter.put("Kvinde", new ArrayList<String>());
-  kategoriTilProdukter.put("Mand", new ArrayList<String>());
-  kategoriTilProdukter.put("Baby (0-4 år)", new ArrayList<String>());
   kategoriTilProdukter.put("Børn (2-14 år)", new ArrayList<String>());
+  kategoriTilProdukter.put("Baby (0-4 år)", new ArrayList<String>());
+  kategoriTilProdukter.put("Mand", new ArrayList<String>());
   kategoriTilProdukter.put("Hjem", new ArrayList<String>());
   kategoriTilProdukter.put("Højtider", new ArrayList<String>());
-  
+
   // Tilføj produkttyper til Kvinde
-  kategoriTilProdukter.get("Kvinde").add("Sweater");
-  kategoriTilProdukter.get("Kvinde").add("Cardigans");
-  kategoriTilProdukter.get("Kvinde").add("Huer");
-  kategoriTilProdukter.get("Kvinde").add("Veste & Toppe");
-  kategoriTilProdukter.get("Kvinde").add("Veste");
-  kategoriTilProdukter.get("Kvinde").add("Toppe");
-  kategoriTilProdukter.get("Kvinde").add("Strømper");
-  kategoriTilProdukter.get("Kvinde").add("Kjoler og Tunikaer");
-  kategoriTilProdukter.get("Kvinde").add("Shawls");
+  String[] Kvindeprodukttyper = {"Huer", "Sweater", "Nederdele", "Veste", "Ponchoer", "Bukser og shorts", "Toppe", "Bikinier", "Strømper og Futsko", "Andet", "Cardigans", "Kjoler og Tunikaer", "Sjaler", "Tørklæder"};
+  lavSwitches3(Kvindeprodukttyper, "Kvinde");
+
 
   // Tilføj produkttyper til Mand
-  kategoriTilProdukter.get("Mand").add("Sweater");
-  kategoriTilProdukter.get("Mand").add("Cardigans");
-  kategoriTilProdukter.get("Mand").add("Huer");
-  kategoriTilProdukter.get("Mand").add("Veste");
-  kategoriTilProdukter.get("Mand").add("Strømper");
+  String[] Mandprodukttyper = {"Veste", "Sweater", "Strømper og Futsko", "Andet", "Cardigans"};
+  lavSwitches3(Mandprodukttyper, "Mand");
 
   // Tilføj produkttyper til Baby
-  kategoriTilProdukter.get("Baby (0-4 år)").add("Sweater");
-  kategoriTilProdukter.get("Baby (0-4 år)").add("Cardigans");
-  kategoriTilProdukter.get("Baby (0-4 år)").add("Huer");
-  kategoriTilProdukter.get("Baby (0-4 år)").add("Babytæpper");
-  kategoriTilProdukter.get("Baby (0-4 år)").add("Strømper");
+  String[] Babyprodukttyper = { "Huer", "Cardigans", "Kjoler og Tunikaer", "Andet", "Køreposer", "Strømper og Støvler", "Sweater", "Babytæpper", "Sparkedragter o.lign", "Hentesæt", "Veste og Toppe", "Ponchoer", "Bukser og shorts"};
+  lavSwitches3(Babyprodukttyper, "Baby (0-4 år)");
 
   // Tilføj produkttyper til Børn
-  kategoriTilProdukter.get("Børn (2-14 år)").add("Sweater");
-  kategoriTilProdukter.get("Børn (2-14 år)").add("Cardigans");
-  kategoriTilProdukter.get("Børn (2-14 år)").add("Huer");
-  kategoriTilProdukter.get("Børn (2-14 år)").add("Strømper");
+  String[] Børnprodukttyper = {"Huer", "Cardigans", "Bukser og Overalls", "Andet", "Veste og Toppe", "Kjoler og nederdele", "Sweater", "Strømper og Futsko"};
+  lavSwitches3(Børnprodukttyper, "Børn (2-14 år)");
+
 
   // Tilføj produkttyper til Hjem
-  kategoriTilProdukter.get("Hjem").add("Børneværelse");
-  kategoriTilProdukter.get("Hjem").add("Påske");
+  String[] Hjemprodukttyper = {"Jul", "Karklude", "Puder og Puffer", "Påske", "Bogmærker", "Dekorative Blomster", "kurve", "Æggevarmer", "Gryddelapper o.lign.", "Tæpper", "Børneværelse", "Glasunderlag o.lign.", "Betræk", "Siddeunderlag", "Dekorationer", "Kæledyr"};
+  lavSwitches3(Hjemprodukttyper, "Hjem");
+
+  // Tilføj produkttyper til Højtider
+  String[] Højtiderprodukttyper = {"Påske", "Jul", "Halloween og Karnival", "Andet"};
+  lavSwitches3(Højtiderprodukttyper, "Højtider");
 }
 
 void opdaterProdukttypeVisning() {
   String valgtKategori = kategoriGroup.getSelectedTitle();
-
-  // Ryd den eksisterende produkttype gruppe
   produktTypeGroup.clear();
 
-  // Hvis ingen kategori er valgt, vis ingen produkttyper
-  if (valgtKategori.equals("")) {
-    return;
-  }
+  if (valgtKategori.equals("")) return;
 
-  // Hent listen af produkttyper der er relevante for den valgte kategori
-  ArrayList<String> relevanteProdukter = kategoriTilProdukter.get(valgtKategori);
-  if (relevanteProdukter == null) {
-    return; // Sikkerhedscheck
-  }
+  ArrayList<String> produkttyper = kategoriTilProdukter.get(valgtKategori);
+  if (produkttyper == null || produkttyper.isEmpty()) return;
 
-  // Genopret alle switches, men tilføj kun de relevante til gruppen
-  float højde=750*height/982;
-  float bredde1=(580*width/1440)/4;
-  float bredde2=(580*width/1440)/2;
-  float bredde3=(580*width/1440)/4*3;
+  // Konverter ArrayList til String[]
+  String[] produktArray = produkttyper.toArray(new String[0]);
 
-  // Første række
-  if (relevanteProdukter.contains("Sweater")) {
-    produktTypeGroup.addSwitch(new Switch(bredde1, højde, 30*width/1440, "Sweater", false));
-  }
-  if (relevanteProdukter.contains("Cardigans")) {
-    produktTypeGroup.addSwitch(new Switch(bredde2, højde, 30*width/1440, "Cardigans", false));
-  }
-  if (relevanteProdukter.contains("Huer")) {
-    produktTypeGroup.addSwitch(new Switch(bredde3, højde, 30*width/1440, "Huer", false));
-  }
-
-  // Anden række
-  højde=840*height/982;
-  if (relevanteProdukter.contains("Veste & Toppe")) {
-    produktTypeGroup.addSwitch(new Switch(bredde1, højde, 30*width/1440, "Veste & Toppe", false));
-  }
-  if (relevanteProdukter.contains("Veste")) {
-    produktTypeGroup.addSwitch(new Switch(bredde2, højde, 30*width/1440, "Veste", false));
-  }
-  if (relevanteProdukter.contains("Toppe")) {
-    produktTypeGroup.addSwitch(new Switch(bredde3, højde, 30*width/1440, "Toppe", false));
-  }
-
-  // Tredje række
-  højde=930*height/982;
-  if (relevanteProdukter.contains("Babytæpper")) {
-    produktTypeGroup.addSwitch(new Switch(bredde1, højde, 30*width/1440, "Babytæpper", false));
-  }
-  if (relevanteProdukter.contains("Strømper")) {
-    produktTypeGroup.addSwitch(new Switch(bredde2, højde, 30*width/1440, "Strømper", false));
-  }
-  if (relevanteProdukter.contains("Børneværelse")) {
-    produktTypeGroup.addSwitch(new Switch(bredde3, højde, 30*width/1440, "Børneværelse", false));
-  }
-
-  // Fjerde række
-  højde=1020*height/982;
-  if (relevanteProdukter.contains("Kjoler og Tunikaer")) {
-    produktTypeGroup.addSwitch(new Switch(bredde1, højde, 30*width/1440, "Kjoler og Tunikaer", false));
-  }
-  if (relevanteProdukter.contains("Shawls")) {
-    produktTypeGroup.addSwitch(new Switch(bredde2, højde, 30*width/1440, "Shawls", false));
-  }
-  if (relevanteProdukter.contains("Påske")) {
-    produktTypeGroup.addSwitch(new Switch(bredde3, højde, 30*width/1440, "Påske", false));
-  }
+  // Brug lavSwitches3 til at oprette switches
+  lavSwitches03(produktTypeGroup, produktArray, 750 * height / 982);
 }
+
+
 
 void opdaterFiltreretListe() {
   visteOpskrifter.clear();

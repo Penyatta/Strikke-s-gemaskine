@@ -99,8 +99,8 @@ void draw() {
 
 
 void tegnScrollbar() {
-  if (skærm == søgeSkærm && !alleOpskrifter.isEmpty()) {
-    scrollContentHeight = height/5*2 + (height/4 + height/32) * alleOpskrifter.size();
+  if (skærm == søgeSkærm && !visteOpskrifter.isEmpty()) {
+    scrollContentHeight = height/5*2 + (height/4 + height/32) * visteOpskrifter.size();
   } else {
     scrollContentHeight = 3000;
   }

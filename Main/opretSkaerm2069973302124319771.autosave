@@ -4,8 +4,10 @@ float linkRectX, linkRectY, linkRectW, linkRectH;
 String aktivtLink = "";
 
 String placeholder = "Indtast link her";
+
 // styre feedback når der er blevet lavet en opskrift
 int opskriftCreationFeedback=0;
+
 // sørger for at denne vises i en kortere periode
 int opskriftTimer;
 int opskriftFeedbackTid=30;
@@ -19,7 +21,7 @@ void opretSkærm() {
   fill(71, 92, 108);
   textFont(boldFont);
   textAlign(CORNER, CORNER);
-  //text("Navn:",50*width/1440,300*height/982-camY);
+
   text("Vælg kategori", 100*width/1440, 445*height/982-camY);
   text("Vælg produkttype", 100*width/1440, 690*height/982-camY);
   text("Type af garn:", 100*width/1440, 1135*height/982-camY);
@@ -130,6 +132,7 @@ Textfield TitelTextfelt;
 Knap billedeKnap;
 
 void opretSkærmSetup() {
+  
   //laver knapperne
   opretSkærmTilbageKnap = new TilbageKnap(height/9-height/15, height/9-height/17, height/15*2, height/17*2, color(0), "tilbage", 10, color(205, 139, 98), color(247, 239, 210), 10, opretSkærm);
   knapper.add(opretSkærmTilbageKnap);
@@ -147,8 +150,6 @@ void opretSkærmSetup() {
   textfields.add(new Textfield(200*width/1440+1000, 750*width/1920, (width/3)-150, 50,
     color(71, 92, 108), color(247, 239, 210), color(247, 239, 210), color(247, 239, 210),
     20*width/1440, "Indsæt link til opskrift (https://...)", "", 0, opretSkærm, false));
-
-  // Tilføj et tekstfelt til opretSkærm
 
   // Tilføj et tekstfelt til opretSkærm
   TitelTextfelt = new Textfield( 100*width/1440, 300*height/1125, width/3, 67*height/982, color(71, 92, 108), color(247, 239, 210), color(247, 239, 210), color(247, 239, 210),
@@ -332,7 +333,7 @@ void opretOpskriftFeedback() {
   }
 }
 
-float lavSwitches4(SwitchGroup switchGroup, String[] liste, float startY) {
+void lavSwitches4(SwitchGroup switchGroup, String[] liste, float startY) {
   float højde=startY;
   float size=30*width/1440;
   float bredde1=(580*width/1440)/4;
@@ -346,23 +347,16 @@ float lavSwitches4(SwitchGroup switchGroup, String[] liste, float startY) {
     for (int i=0; i<4; i++) {
       switchGroup.addSwitch(new Switch(bredder[i], højde, size, liste[counter], false));
       counter++;
-      if (counter==liste.length) {
-        break;
-      }
-    }
-    if (counter==liste.length) {
-      break;
     }
     højde+=90*height/982;
   }
-  return højde;
 }
 
-void lavSwitches03(SwitchGroup switchGroup, String[] liste, float startY) {
+void lavSwitches3(SwitchGroup switchGroup, String[] liste, float startY) {
   float højde=startY;
   float size=30*width/1440;
-  float bredde1=(580*width/1440)/4-50;
-  float bredde2=(580*width/1440)/2-40;
+  float bredde1=(580*width/1440)/4;
+  float bredde2=(580*width/1440)/2;
   float bredde3=(580*width/1440)/4*3;
   float[] bredder = {bredde1, bredde2, bredde3};
   int counter=0;
@@ -371,22 +365,7 @@ void lavSwitches03(SwitchGroup switchGroup, String[] liste, float startY) {
     for (int i=0; i<3; i++) {
       switchGroup.addSwitch(new Switch(bredder[i], højde, size, liste[counter], false));
       counter++;
-      if (counter==liste.length) {
-        break;
-      }
-    }
-    if (counter==liste.length) {
-      break;
     }
     højde+=90*height/982;
-  }
-}
-
-void lavSwitches3(String[] produkttyper, String kategori) {
-  ArrayList<String> liste = kategoriTilProdukter.get(kategori);
-  if (liste != null) {
-    for (String p : produkttyper) {
-      liste.add(p);
-    }
   }
 }
