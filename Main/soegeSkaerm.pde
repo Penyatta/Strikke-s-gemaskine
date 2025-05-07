@@ -9,6 +9,7 @@ float HøjdeForGarn=0;
 // Declare the back button for the search screen
 Knap søgeSkærmTilbageKnap;
 Knap søgeSkærmSøgKnap;
+Textfield søgeSkærmSøgeTekstfelt;
 
 SwitchGroup garnFilterGroup;
 
@@ -103,15 +104,29 @@ void søgeSkærmSetup() {
   knapper.add(søgeSkærmTilbageKnap);
 
   //laver søgefeltknappen til søgeskærmen
-  søgeSkærmSøgKnap = new Knap(493*width/1440, height/9*2+height/40-camY, 67*width/1440, 67*height/982, color(71, 92, 108), "Søg", 30, color(247, 239, 210), color(247, 239, 210), 0, søgeSkærm);
+  søgeSkærmSøgKnap = new Knap(493*width/1440, height/9*2+height/40-camY, 67*width/1440, 67*height/982, color(71, 92, 108), "Søg", 30, color(247, 239, 210), color(205, 139, 98), 0, søgeSkærm);
   knapper.add(søgeSkærmSøgKnap);
-  textfields.add(new Textfield(35*width/1440, height/9*2+height/40, 440*width/1440, 67*height/982, color(71, 92, 108), color(247, 239, 210), color(247, 239, 210), color(247, 239, 210), 30*width/1440, "Søgefelt", "", 0, søgeSkærm, false));
+  
+  søgeSkærmSøgeTekstfelt =new Textfield(35*width/1440, height/9*2+height/40, 440*width/1440, 67*height/982, color(71, 92, 108), color(247, 239, 210), color(247, 239, 210), color(247, 239, 210),
+  30*width/1440, "Søgefelt", "", 0, søgeSkærm, false);
+  textfields.add(søgeSkærmSøgeTekstfelt);
 
   // Laver tilbageknappen til søgeskærmen
   søgeSkærmTilbageKnap = new TilbageKnap(height/9-height/15, height/9-height/17, height/15*2, height/17*2, color(0), "tilbage", 10, color(205, 139, 98), color(247, 239, 210), 10, søgeSkærm);
   knapper.add(søgeSkærmTilbageKnap);
   
-  
+}
+
+void søgEfterTitel() {
+  String søgetekst = søgeSkærmSøgeTekstfelt.tekst.trim().toLowerCase();  // Få input og gør småt
+
+  visteOpskrifter.clear();
+
+  for (Opskrift o : alleOpskrifter) {
+    if (o.titel.toLowerCase().contains(søgetekst)) {
+      visteOpskrifter.add(o);
+    }
+  }
 }
 
 // Funktion til at initialisere kategori-produkttype sammenhængen
@@ -183,6 +198,8 @@ void opdaterFiltreretListe() {
 
   // Få navnet på den valgte switch (Produkttype)
   String valgtproduktType = produktTypeGroup.getSelectedTitle();
+  
+  String søgeord = textfields.get(0).tekst.toLowerCase().trim();
 
   for (Opskrift o : alleOpskrifter) {
     boolean match = true;
@@ -192,6 +209,10 @@ void opdaterFiltreretListe() {
     }
 
     if (!valgtproduktType.equals("") && !o.produktType.equals(valgtproduktType)) {
+      match = false;
+    }
+      
+      if (!søgeord.equals("") && !o.titel.toLowerCase().contains(søgeord)) {
       match = false;
     }
 
@@ -228,6 +249,10 @@ void søgeSkærmKnapper() {
     // Reset scroll position when leaving the screen
     camY = 0;
   }
+  
+  if (søgeSkærmSøgKnap.mouseOver()) {
+  søgEfterTitel();
+}
 
   // Gem den tidligere valgte kategori før vi checker for museklik
   String forrigeValgtKategori = kategoriGroup.getSelectedTitle();
