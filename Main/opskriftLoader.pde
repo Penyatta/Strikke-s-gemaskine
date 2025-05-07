@@ -1,5 +1,4 @@
 
-
 // Liste med opskrifter
 ArrayList<Opskrift> opskrifter = new ArrayList<Opskrift>();
 
@@ -12,6 +11,8 @@ ArrayList<Opskrift> alleOpskrifter = new ArrayList<Opskrift>();
 
 // Indeholder de opskrifter der vises på skærmen – opdateres når man filtrerer
 ArrayList<Opskrift> visteOpskrifter = new ArrayList<Opskrift>();
+
+float loaderAngle = 0;
 
 // Funktion til at hente opskrifter fra serveren
 void hentOpskrifterFraServer(String kilde) {
@@ -175,11 +176,59 @@ void displayOpskrifter(Opskrift opskrifter[]) {
 
       //Viser billedet
       if (opskrift.billede == null) {
-        fill(200);
-        rect(posX + bredde/24*17, posY - camY + højde/10, bredde/24*5, højde/10*8);
-        fill(0);
-        textAlign(CENTER, CENTER);
-        text("No Image", posX + bredde/24*17 + bredde/48*5, posY - camY + højde/10 + højde/10*4); // Added camY offset here
+     //   fill(200);
+   //     rect(posX + bredde/24*17, posY - camY + højde/10, bredde/24*5, højde/10*8);
+        
+  
+  float imgX = posX + bredde/24*17*width/1920;
+  float imgY = posY - camY + højde/10*width/1920;
+  float imgW = bredde/24*5*width/1920;
+  float imgH = højde/10*8*width/1920;
+
+  // Baggrund
+  fill(250);
+  rect(imgX, imgY, imgW, imgH);
+
+   fill(0);
+   textAlign(CENTER, CENTER);
+   textSize(20);
+   
+   // Animeret punktummer til "Indlæser..."
+int dotCount = (frameCount / 10) % 4;  // Skift punktummer hvert 30. frame (ca. hvert 0.5 sekund ved 60 fps)
+String dots = "";
+
+for (int i = 0; i < dotCount; i++) {
+  dots += ".";
+}
+
+float t = (millis() % 2000) / 2000.0;  // 0.0 → 1.0 over 2 sekunder
+t = 1 - pow(1 - t, 3);  // Ease-out-cubic (starter hurtigt, slutter langsomt)
+
+float vinkel = map(t, 0, 1, 0, TWO_PI);  // Brug vinkel til arc'en
+
+float rotation = radians((frameCount * 2) % 360);
+
+text("Indlæser" + dots, posX + bredde/24*17 + bredde/48*5, posY - camY + højde/10 + højde/10*4 + 50);
+      
+  // Tegn roterende ring midt i billedområdet
+  pushMatrix();
+  translate(imgX + imgW / 2, imgY + imgH / 2-30);
+  noFill();
+ 
+  strokeWeight(4);
+  float r = min(imgW, imgH) / 7;
+  stroke(200);
+  ellipse(0,0,r*2,r*2);
+  
+
+  stroke(120);
+  //arc(0, 0, r * 2, r * 2, loaderAngle, loaderAngle + PI / 1.5);
+  rotate(rotation);
+  arc(0, 0, r * 2, r * 2, 0, vinkel);
+  
+  popMatrix();
+    
+  
       } else {
         image(opskrift.billede, posX + bredde/24*17, posY - camY + højde/10, bredde/24*5, højde/10*8);
       }

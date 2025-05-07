@@ -314,8 +314,6 @@ void opretSkærmSetup() {
      textfields.add(LinkTextfelt);
 
   // Tilføj et tekstfelt til opretSkærm
-
-  // Tilføj et tekstfelt til opretSkærm
   TitelTextfelt = new Textfield( 100*width/1440, 300*height/1125, width/3, 67*height/982, color(71, 92, 108), color(247, 239, 210), color(247, 239, 210), color(247, 239, 210),
     30*width/1440, "Indtast opskriftens navn", "", 0, opretSkærm, false);
   textfields.add(TitelTextfelt);

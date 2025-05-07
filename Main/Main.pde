@@ -96,6 +96,10 @@ void draw() {
     søgeSkærmTilbageKnap.tegn();
     hjælpKnap.tegn();
   }
+  
+//  loaderAngle += 0.5;
+//if (loaderAngle > TWO_PI) loaderAngle = 0;
+
 }
 
 
