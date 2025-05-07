@@ -192,8 +192,8 @@ void mousePressed() {
       scrollOffsetY = mouseY - scrollBarY;  // Gem hvor du klikkede inde i scrollbaren
     }
   }
-  
-for (KlikOmråde ko : klikOmråder) {
+
+  for (KlikOmråde ko : klikOmråder) {
     if (ko.erKlikket(mouseX, mouseY)) {
       println("Åbner link: " + ko.url);  // Til fejlsøgning
       if (ko.url != null && !ko.url.equals("")) {
@@ -201,11 +201,11 @@ for (KlikOmråde ko : klikOmråder) {
       } else {
         println("❌ URL er null eller tom.");
       }
-   
-  
-     break;
-      } 
-}
+
+
+      break;
+    }
+  }
 }//slut mousePressed
 
 
