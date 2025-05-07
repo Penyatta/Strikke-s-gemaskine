@@ -358,11 +358,11 @@ float lavSwitches4(SwitchGroup switchGroup, String[] liste, float startY) {
   return højde;
 }
 
-void lavSwitches3(SwitchGroup switchGroup, String[] liste, float startY) {
+void lavSwitches03(SwitchGroup switchGroup, String[] liste, float startY) {
   float højde=startY;
   float size=30*width/1440;
-  float bredde1=(580*width/1440)/4;
-  float bredde2=(580*width/1440)/2;
+  float bredde1=(580*width/1440)/4-50;
+  float bredde2=(580*width/1440)/2-40;
   float bredde3=(580*width/1440)/4*3;
   float[] bredder = {bredde1, bredde2, bredde3};
   int counter=0;
@@ -379,5 +379,14 @@ void lavSwitches3(SwitchGroup switchGroup, String[] liste, float startY) {
       break;
     }
     højde+=90*height/982;
+  }
+}
+
+void lavSwitches3(String[] produkttyper, String kategori) {
+  ArrayList<String> liste = kategoriTilProdukter.get(kategori);
+  if (liste != null) {
+    for (String p : produkttyper) {
+      liste.add(p);
+    }
   }
 }
