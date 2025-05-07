@@ -188,8 +188,9 @@ void displayOpskrifter(Opskrift opskrifter[]) {
       strokeWeight(10);
       line(posX + bredde/24*15, posY - camY - 1, posX + bredde/24*15, posY - camY + højde);
     }
-
-    float posiX = 1275*width/1920;
+ 
+ //"fake" knap til besøg link
+  float posiX = 1275*width/1920;
     // Laver en "Besøg"-knap for denne opskrift
     float knapBredde = 120;
     float knapHøjde = 40;
@@ -210,6 +211,26 @@ void displayOpskrifter(Opskrift opskrifter[]) {
     KlikOmråde ko = new KlikOmråde(knapX, knapY, knapBredde, knapHøjde, opskrift.link);
     klikOmråder.add(ko);
 
+//Beregn position for Print-området
+float printY = posY - camY + højde - 150;
+
+// Tegn området
+fill(205, 139, 98);
+rectMode(CORNER);
+stroke(205, 139, 98);
+rect(knapX, printY, knapBredde, knapHøjde);
+
+fill(247, 239, 210);
+textAlign(CENTER, CENTER);
+textSize(20);
+text("Udskriv", knapX + knapBredde / 2, printY + knapHøjde / 2);
+
+// Gem som klikområde
+ String printLink = opskrift.getPrintLink();
+ if (printLink != null) {
+ KlikOmråde printKO = new KlikOmråde(knapX, printY, knapBredde, knapHøjde, printLink);
+ klikOmråder.add(printKO);
+}
     posY += spacing + højde;
   }
 }
