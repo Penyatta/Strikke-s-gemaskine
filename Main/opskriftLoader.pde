@@ -199,10 +199,10 @@ klikOmråder.clear();
  //"fake" knap til besøg link
   float posiX = 1275*width/1920;
     // Laver en "Besøg"-knap for denne opskrift
-  float knapBredde = 120;
-  float knapHøjde = 40;
+  float knapBredde = 120*width/1920;
+  float knapHøjde = 40*width/1920;
   float knapX = posiX + 30;
-  float knapY = posY-camY + højde - knapHøjde-40;
+  float knapY = posY-camY + højde - knapHøjde-40*width/1920;
  
 
 fill(71, 92, 108);  // Baggrundsfarve
@@ -219,7 +219,7 @@ KlikOmråde ko = new KlikOmråde(knapX, knapY, knapBredde, knapHøjde, opskrift.
 klikOmråder.add(ko);
 
 //Beregn position for Print-området
-float printY = posY - camY + højde - 150;
+float printY = posY - camY + højde - 150*width/1920;
 
 // Tegn området
 fill(205, 139, 98);

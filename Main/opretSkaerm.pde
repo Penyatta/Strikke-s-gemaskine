@@ -53,7 +53,6 @@ void opretSkærm() {
   fill(71, 92, 108);
   textFont(boldFont);
   textAlign(CORNER, CORNER);
-  //text("Navn:",50*width/1440,300*height/982-camY);
   text("Vælg kategori", 100*width/1440, 445*height/982-camY);
   text("Vælg produkttype", 100*width/1440, 690*height/982-camY);
   text("Type af garn:", 100*width/1440, 1135*height/982-camY);
@@ -178,8 +177,6 @@ void opretSkærm() {
     linkRectH = 30;
     aktivtLink = brugerLink;
 
-    // Udskriv URL'en for at kontrollere, at den er korrekt
-    //  println("Aktivt link: " + aktivtLink);
   }
   if (visLinkFejl) {
     fill(200, 0, 0); // Rød farve
@@ -240,30 +237,30 @@ void opretSkærmSetup() {
   //Tilbageknap
   opretSkærmTilbageKnap = new TilbageKnap(height/9-height/15, height/9-height/17, height/15*2, height/17*2, color(0), "tilbage", 10, color(205, 139, 98), color(247, 239, 210), 10, opretSkærm);
   knapper.add(opretSkærmTilbageKnap);
-  
 
-  opretSkærmIndsætKnap = new Knap(1000*width/1920, 750*width/1920, 250*width/1920, 50*width/1920, color(247, 239, 210), 
-  "Indsæt Udklipsfolder", 20*width/1440, color(71, 92, 108), color(205, 139, 98), 0, opretSkærm);
+
+  opretSkærmIndsætKnap = new Knap(1000*width/1920, 750*width/1920, 250*width/1920, 50*width/1920, color(247, 239, 210),
+    "Indsæt Udklipsfolder", 20*width/1920, color(71, 92, 108), color(205, 139, 98), 0, opretSkærm);
   knapper.add(opretSkærmIndsætKnap);
 
   opretSkærmOpretKnap = new Knap(1000*width/1920, 850*width/1920, 500*width/1920, 100*width/1920, color(247, 239, 210),
-  "Opret opskrift", 40*width/1440, color(71, 92, 108), color(205, 139, 98), 0, opretSkærm);
+    "Opret opskrift", 40*width/1920, color(71, 92, 108), color(205, 139, 98), 0, opretSkærm);
   knapper.add(opretSkærmOpretKnap);
 
   // Tilføj en knap til at vælge billede
-  billedeKnap = new Knap (1000*width/1440, 320*width/1440, 200*width/1440, 50*width/1440, color(247, 239, 210), 
-  "Vælg billede", 25*width/1440, color(71, 92, 108), color(205, 139, 98), 0, opretSkærm);
+  billedeKnap = new Knap (1133*width/1920, 345*width/1920, 266*width/1920, 50*width/1920, color(247, 239, 210),
+    "Vælg billede", 40*width/1920, color(71, 92, 108), color(205, 139, 98), 0, opretSkærm);
   knapper.add(billedeKnap);
 
   //Tilføj knap til at vælge fil
-  filKnap =new Knap (1400*width/1920, 320*width/1920, 250*width/1920, 50, color(247, 239, 210), 
-  "Vælg fil", 25*width/1440, color(71, 92, 108), color(205, 139, 98), 0, opretSkærm);
+  filKnap =new Knap (1400*width/1920, 320*width/1920, 250*width/1920, 50, color(247, 239, 210),
+    "Vælg fil", 25*width/1920, color(71, 92, 108), color(205, 139, 98), 0, opretSkærm);
   knapper.add(filKnap);
 
   // Tilføj Textfield til link
-  textfields.add(new Textfield(1000*width/1440, 750*width/1920, (width/4), 50,
+  textfields.add(new Textfield(1000*width/1920, 750*width/1920, (width/4), 50,
     color(71, 92, 108), color(247, 239, 210), color(247, 239, 210), color(247, 239, 210),
-    20*width/1440, "Indsæt link til opskrift (https://...)", "", 0, opretSkærm, false));
+    40*width/1920, "Indsæt link til opskrift (https://...)", "", 0, opretSkærm, false));
 
   // Tilføj et tekstfelt til opretSkærm
   TitelTextfelt = new Textfield( 100*width/1440, 300*height/1125, width/3, 67*height/982, color(71, 92, 108), color(247, 239, 210), color(247, 239, 210), color(247, 239, 210),
