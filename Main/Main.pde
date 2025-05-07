@@ -46,12 +46,13 @@ void setup() {
   søgeSkærmSetup();
   mitSkærmSetup();
   opretSkærmSetup();
-  //loadOpskrifter("opskrifter.json");
+
 
   // Initialize lastY for drag scrolling
   lastMouseY = mouseY; // Initialize lastMouseY
 
-  //scrollBarX = width - scrollBarW - 10; // 10 px fra højre kant
+  italicFont = loadFont("Arial-ItalicMT-15.vlw");  // Fontnavnet skal passe til systemets skrifttyper
+ 
 }
 
 void draw() {
