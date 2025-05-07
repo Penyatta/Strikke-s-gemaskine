@@ -49,7 +49,7 @@ void hentOpskrifterFraServer(String kilde) {
       String link = jsonOpskrift.getString("url"); // ændret fra "link"
  
  // Debugging: Udskriv linket for hver opskrift
-            println("Link for opskrift " + titel + ": " + link); // Udskriv URL'en
+      //      println("Link for opskrift " + titel + ": " + link); // Udskriv URL'en
 
       String produktType = jsonOpskrift.getString("produkttype");
 
@@ -61,7 +61,8 @@ void hentOpskrifterFraServer(String kilde) {
 
       Opskrift nyOpskrift = new Opskrift(titel, kategori, link, produktType, null);
       
-      println("URL i opskrift: " + nyOpskrift.link);  // Test om link er korrekt
+      println("Print-link for '" + nyOpskrift.titel + "': " + nyOpskrift.getPrintLink());
+ //     println("URL i opskrift: " + nyOpskrift.link);  // Test om link er korrekt
       nyOpskrift.imageUrl = imagePath;
       nyOpskrift.billedeHentes = true;
 
@@ -195,6 +196,7 @@ klikOmråder.clear();
       line(posX + bredde/24*15, posY - camY - 1, posX + bredde/24*15, posY - camY + højde);
     }
  
+ //"fake" knap til besøg link
   float posiX = 1275*width/1920;
     // Laver en "Besøg"-knap for denne opskrift
   float knapBredde = 120;
@@ -216,6 +218,26 @@ text("Besøg", knapX + knapBredde / 2, knapY + knapHøjde / 2);
 KlikOmråde ko = new KlikOmråde(knapX, knapY, knapBredde, knapHøjde, opskrift.link);
 klikOmråder.add(ko);
 
+//Beregn position for Print-området
+float printY = posY - camY + højde - 150;
+
+// Tegn området
+fill(205, 139, 98);
+rectMode(CORNER);
+stroke(205, 139, 98);
+rect(knapX, printY, knapBredde, knapHøjde);
+
+fill(247, 239, 210);
+textAlign(CENTER, CENTER);
+textSize(20);
+text("Udskriv", knapX + knapBredde / 2, printY + knapHøjde / 2);
+
+// Gem som klikområde
+ String printLink = opskrift.getPrintLink();
+ if (printLink != null) {
+ KlikOmråde printKO = new KlikOmråde(knapX, printY, knapBredde, knapHøjde, printLink);
+ klikOmråder.add(printKO);
+}
     posY += spacing + højde;
   }
  
