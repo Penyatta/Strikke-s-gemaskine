@@ -19,21 +19,20 @@ void søgeSkærm() {
     Opskrift[] visteOpskriftArray = visteOpskrifter.toArray(new Opskrift[0]);
 
     displayOpskrifter(visteOpskriftArray);
-    
   }
   // Add the "Opskrifter" title text with proper camY offset
-    textFont(generalFont);
-    textSize(80);
-    fill(71, 92, 108);
-    textAlign(CENTER);
-    text("Opskrifter", width / 7 * 3 + width / 4, height / 3 - camY);
-    
-   // den lige bjælke der opdeler skærmen
-   rectMode(CORNER);
-    noStroke();
-    fill(247, 239, 210);
-    rect(585*width/1440, 150*height/900, 18*width/1440, 780*height/900);
-    
+  textFont(generalFont);
+  textSize(80);
+  fill(71, 92, 108);
+  textAlign(CENTER);
+  text("Opskrifter", width / 7 * 3 + width / 4, height / 3 - camY);
+
+  // den lige bjælke der opdeler skærmen
+  rectMode(CORNER);
+  noStroke();
+  fill(247, 239, 210);
+  rect(585*width/1440, 150*height/900, 18*width/1440, 780*height/900);
+
   textSize(40*width/1440);
   fill(71, 92, 108);
   textAlign(CORNER, CORNER);
@@ -55,10 +54,10 @@ SwitchGroup produktTypeGroup;
 SwitchGroup udfraGarnGroup;
 
 void søgeSkærmSetup() {
-  
-    // Initialiser kategori til produkttype mapping
+
+  // Initialiser kategori til produkttype mapping
   initialiserKategoriProdukter();
-  
+
   hentOpskrifterFraServer("søg");
 
 
@@ -104,8 +103,6 @@ void søgeSkærmSetup() {
   søgeSkærmSøgKnap = new Knap(493*width/1440, height/9*2+height/40, 67*width/1440, 67*height/982, color(71, 92, 108), "Søg", 30, color(247, 239, 210), color(247, 239, 210), 0, søgeSkærm);
   knapper.add(søgeSkærmSøgKnap);
   textfields.add(new Textfield(35*width/1440, height/9*2+height/40, 440*width/1440, 67*height/982, color(71, 92, 108), color(247, 239, 210), color(247, 239, 210), color(247, 239, 210), 30*width/1440, "Søgefelt", "", 0, søgeSkærm, false));
-
-
 }
 
 // Funktion til at initialisere kategori-produkttype sammenhængen
@@ -116,6 +113,7 @@ void initialiserKategoriProdukter() {
   kategoriTilProdukter.put("Baby (0-4 år)", new ArrayList<String>());
   kategoriTilProdukter.put("Børn (2-14 år)", new ArrayList<String>());
   kategoriTilProdukter.put("Hjem", new ArrayList<String>());
+  kategoriTilProdukter.put("Højtider", new ArrayList<String>());
   
   // Tilføj produkttyper til Kvinde
   kategoriTilProdukter.get("Kvinde").add("Sweater");
@@ -127,27 +125,27 @@ void initialiserKategoriProdukter() {
   kategoriTilProdukter.get("Kvinde").add("Strømper");
   kategoriTilProdukter.get("Kvinde").add("Kjoler og Tunikaer");
   kategoriTilProdukter.get("Kvinde").add("Shawls");
-  
+
   // Tilføj produkttyper til Mand
   kategoriTilProdukter.get("Mand").add("Sweater");
   kategoriTilProdukter.get("Mand").add("Cardigans");
   kategoriTilProdukter.get("Mand").add("Huer");
   kategoriTilProdukter.get("Mand").add("Veste");
   kategoriTilProdukter.get("Mand").add("Strømper");
-  
+
   // Tilføj produkttyper til Baby
   kategoriTilProdukter.get("Baby (0-4 år)").add("Sweater");
   kategoriTilProdukter.get("Baby (0-4 år)").add("Cardigans");
   kategoriTilProdukter.get("Baby (0-4 år)").add("Huer");
   kategoriTilProdukter.get("Baby (0-4 år)").add("Babytæpper");
   kategoriTilProdukter.get("Baby (0-4 år)").add("Strømper");
-  
+
   // Tilføj produkttyper til Børn
   kategoriTilProdukter.get("Børn (2-14 år)").add("Sweater");
   kategoriTilProdukter.get("Børn (2-14 år)").add("Cardigans");
   kategoriTilProdukter.get("Børn (2-14 år)").add("Huer");
   kategoriTilProdukter.get("Børn (2-14 år)").add("Strømper");
-  
+
   // Tilføj produkttyper til Hjem
   kategoriTilProdukter.get("Hjem").add("Børneværelse");
   kategoriTilProdukter.get("Hjem").add("Påske");
@@ -155,27 +153,27 @@ void initialiserKategoriProdukter() {
 
 void opdaterProdukttypeVisning() {
   String valgtKategori = kategoriGroup.getSelectedTitle();
-  
+
   // Ryd den eksisterende produkttype gruppe
   produktTypeGroup.clear();
-  
+
   // Hvis ingen kategori er valgt, vis ingen produkttyper
   if (valgtKategori.equals("")) {
     return;
   }
-  
+
   // Hent listen af produkttyper der er relevante for den valgte kategori
   ArrayList<String> relevanteProdukter = kategoriTilProdukter.get(valgtKategori);
   if (relevanteProdukter == null) {
     return; // Sikkerhedscheck
   }
-  
+
   // Genopret alle switches, men tilføj kun de relevante til gruppen
   float højde=750*height/982-camY;
   float bredde1=(580*width/1440)/4;
   float bredde2=(580*width/1440)/2;
   float bredde3=(580*width/1440)/4*3;
-  
+
   // Første række
   if (relevanteProdukter.contains("Sweater")) {
     produktTypeGroup.addSwitch(new Switch(bredde1, højde, 30*width/1440, "Sweater", false));
@@ -186,7 +184,7 @@ void opdaterProdukttypeVisning() {
   if (relevanteProdukter.contains("Huer")) {
     produktTypeGroup.addSwitch(new Switch(bredde3, højde, 30*width/1440, "Huer", false));
   }
-  
+
   // Anden række
   højde=840*height/982-camY;
   if (relevanteProdukter.contains("Veste & Toppe")) {
@@ -198,7 +196,7 @@ void opdaterProdukttypeVisning() {
   if (relevanteProdukter.contains("Toppe")) {
     produktTypeGroup.addSwitch(new Switch(bredde3, højde, 30*width/1440, "Toppe", false));
   }
-  
+
   // Tredje række
   højde=930*height/982-camY;
   if (relevanteProdukter.contains("Babytæpper")) {
@@ -210,7 +208,7 @@ void opdaterProdukttypeVisning() {
   if (relevanteProdukter.contains("Børneværelse")) {
     produktTypeGroup.addSwitch(new Switch(bredde3, højde, 30*width/1440, "Børneværelse", false));
   }
-  
+
   // Fjerde række
   højde=1020*height/982-camY;
   if (relevanteProdukter.contains("Kjoler og Tunikaer")) {
@@ -244,23 +242,23 @@ void opdaterFiltreretListe() {
       match = false;
     }
 
-if (udfraGarnGroup.erSwitchAktiv("Ja")) {
-  if (!o.krævneGarn.isEmpty()) {
-    for (String krævetGarn : o.krævneGarn) {
-      boolean fundet = false;
-      for (String mit : mitGarn) {
-        if (mit.trim().equalsIgnoreCase(krævetGarn.trim())) {
-          fundet = true;
-          break;
+    if (udfraGarnGroup.erSwitchAktiv("Ja")) {
+      if (!o.krævneGarn.isEmpty()) {
+        for (String krævetGarn : o.krævneGarn) {
+          boolean fundet = false;
+          for (String mit : mitGarn) {
+            if (mit.trim().equalsIgnoreCase(krævetGarn.trim())) {
+              fundet = true;
+              break;
+            }
+          }
+          if (!fundet) {
+            match = false;
+            break;
+          }
         }
       }
-      if (!fundet) {
-        match = false;
-        break;
-      }
     }
-  }
-}
 
 
     if (match) {
@@ -277,18 +275,18 @@ void søgeSkærmKnapper() {
     // Reset scroll position when leaving the screen
     camY = 0;
   }
-  
+
   // Gem den tidligere valgte kategori før vi checker for museklik
   String forrigeValgtKategori = kategoriGroup.getSelectedTitle();
-  
+
   kategoriGroup.checkMouse();
-  
+
   // Hvis kategorien er ændret, opdater produkttyper
   String nuværendeValgtKategori = kategoriGroup.getSelectedTitle();
   if (!forrigeValgtKategori.equals(nuværendeValgtKategori)) {
     opdaterProdukttypeVisning();
   }
-  
+
   produktTypeGroup.checkMouse();
   udfraGarnGroup.checkMouse();
 
