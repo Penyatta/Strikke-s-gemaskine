@@ -8,7 +8,7 @@ String placeholder = "Indtast link her";
 int opskriftCreationFeedback=0;
 // sørger for at denne vises i en kortere periode
 int opskriftTimer;
-int opskriftFeedbackTid=2000;
+int opskriftFeedbackTid=30;
 
 boolean ugyldigtLink = false;
 boolean visLinkFejl = false;
@@ -134,9 +134,9 @@ void opretSkærmSetup() {
   opretSkærmTilbageKnap = new TilbageKnap(height/9-height/15, height/9-height/17, height/15*2, height/17*2, color(0), "tilbage", 10, color(205, 139, 98), color(247, 239, 210), 10, opretSkærm);
   knapper.add(opretSkærmTilbageKnap);
 
-  opretSkærmIndsætKnap = new Knap(1000*width/1920, 750*width/1920, 250*width/1920, 50, color(0), "Indsæt Udklipsfolder", 20*width/1440, color(205, 139, 98), color(247, 239, 210), 0, opretSkærm);
+  opretSkærmIndsætKnap = new Knap(1000*width/1920, 750*width/1920, 250*width/1920, 50*width/1920, color(247, 239, 210), "Indsæt Udklipsfolder", 20*width/1440, color(71, 92, 108), color(205, 139, 98), 0, opretSkærm);
   knapper.add(opretSkærmIndsætKnap);
-  opretSkærmOpretKnap = new Knap(width/3+110*width/1440, 300*height/1125, 67*height/982, 67*height/982, color(71, 92, 108), "Opret opskrift", 20*width/1440, color(247, 239, 210), color(247, 239, 210), 0, opretSkærm);
+  opretSkærmOpretKnap = new Knap(1000*width/1920, 850*width/1920, 500*width/1920, 100*width/1920, color(247, 239, 210), "Opret opskrift", 40*width/1440, color(71, 92, 108), color(205, 139, 98), 0, opretSkærm);
   knapper.add(opretSkærmOpretKnap);
 
   // Tilføj en knap til at vælge billede
@@ -146,7 +146,7 @@ void opretSkærmSetup() {
   // Tilføj Textfield til link
   textfields.add(new Textfield(200*width/1440+1000, 750*width/1920, (width/3)-150, 50,
     color(71, 92, 108), color(247, 239, 210), color(247, 239, 210), color(247, 239, 210),
-    20*width/1440, "Indsæt link til opskrift (https://...)", "", 10, opretSkærm, false));
+    20*width/1440, "Indsæt link til opskrift (https://...)", "", 0, opretSkærm, false));
 
   // Tilføj et tekstfelt til opretSkærm
 
@@ -208,13 +208,10 @@ void opretSkærmSetup() {
   garnTypeGroup.addSwitch(new Switch(bredde3, højde, size, "Silkegarn", false));
 
   // Tilføj en knap til at vælge billede
-  billedeKnap = new Knap (1000, 320, 200*width/1440, 50, color(247, 239, 210), "Vælg billede", 30*width/1440, color(71, 92, 108), color(205, 139, 98), 10, opretSkærm);
+  billedeKnap = new Knap (1000, 320, 200*width/1440, 50, color(247, 239, 210), "Vælg billede", 30*width/1440, color(71, 92, 108), color(205, 139, 98), 0, opretSkærm);
   knapper.add(billedeKnap);
 
-  // Tilføj Textfield til link
-  textfields.add(new Textfield(200*width/1440+1000, 320, (width/3)-100, 50,
-    color(71, 92, 108), color(247, 239, 210), color(247, 239, 210), color(247, 239, 210),
-    30*width/1440, "Indsæt link til opskrift (https://...)", "", 10, opretSkærm, false));
+
 }
 
 void opretSkærmKnapper() {
@@ -279,7 +276,7 @@ void opretSkærmKnapper() {
   }
   // Håndter billede-knap
   if (knapper.get(knapper.size()-1).mouseOver()) {
-    selectImage();  // Kald funktionen til at vælge billede
+    selectImage();  // Kald funktionen til at e billede
   }
   // Hvis der er et aktivt link og det klikkes
 
@@ -318,22 +315,60 @@ String getClipboard() {
 void opretOpskriftFeedback() {
   //opskrift oprettet feedback
   if (opskriftCreationFeedback!=0) {
-    rectMode(CENTER);
     stroke(0);
     strokeWeight(1);
     textSize(25*width/1440);
     textAlign(CENTER, CENTER);
-    fill(255);
-    rect(width/2, height/3*2, 300*width/1440, 150*width/1440);
+    fill(247, 239, 210);
+    rect(width/2-width/8, height/2-height/16,width/4,height/8);
+    fill(71, 92, 108);
     fill(0);
     if (opskriftCreationFeedback==1) {
-      text("Opskrift oprettet", width/2, height/3*2);
+      text("Opskrift oprettet", width/2, height/2);
     } else if (opskriftCreationFeedback==2) {
-      text("Opskrift ikke oprettet", width/2, height/3*2);
+      text("Opskrift ikke oprettet", width/2, height/2);
     }
-    rectMode(CORNER);
     if (millis()-opskriftTimer>=opskriftFeedbackTid+opskriftTimer) {
       opskriftCreationFeedback=0;
     }
   }
+}
+
+void lavSwitches4(SwitchGroup switchGroup,String[] liste,float startY){
+  float højde=startY;
+  float size=30*width/1440;
+  float bredde1=(580*width/1440)/4;
+  float bredde2=(580*width/1440)/2;
+  float bredde3=(580*width/1440)/4*3;
+  float bredde4=(580*width/1440)/4*4;
+  float[] bredder = {bredde1,bredde2,bredde3,bredde4};
+  int counter=0;
+  boolean stop=false;
+  while(!stop){
+    for(int i=0;i<4;i++){
+      switchGroup.addSwitch(new Switch(bredder[i],højde,size,liste[counter],false));
+      counter++;
+    }
+    højde+=90*height/982;
+  }
+  
+}
+
+void lavSwitches3(SwitchGroup switchGroup,String[] liste,float startY){
+  float højde=startY;
+  float size=30*width/1440;
+  float bredde1=(580*width/1440)/4;
+  float bredde2=(580*width/1440)/2;
+  float bredde3=(580*width/1440)/4*3;
+  float[] bredder = {bredde1,bredde2,bredde3};
+  int counter=0;
+  boolean stop=false;
+  while(!stop){
+    for(int i=0;i<3;i++){
+      switchGroup.addSwitch(new Switch(bredder[i],højde,size,liste[counter],false));
+      counter++;
+    }
+    højde+=90*height/982;
+  }
+  
 }

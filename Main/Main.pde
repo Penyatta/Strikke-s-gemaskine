@@ -192,7 +192,23 @@ void mousePressed() {
       scrollOffsetY = mouseY - scrollBarY;  // Gem hvor du klikkede inde i scrollbaren
     }
   }
+  
+for (KlikOmråde ko : klikOmråder) {
+    if (ko.erKlikket(mouseX, mouseY)) {
+      println("Åbner link: " + ko.url);  // Til fejlsøgning
+      if (ko.url != null && !ko.url.equals("")) {
+        link(ko.url);  // <- Dette åbner browseren
+      } else {
+        println("❌ URL er null eller tom.");
+      }
+   
+  
+     break;
+      } 
 }
+}//slut mousePressed
+
+
 // Hjælpefunktion til at tjekke om musen er over et tekstfelt
 boolean overField(Textfield tf) {
   return mouseX > tf.posX && mouseX < tf.posX + tf.sizeX &&

@@ -1,7 +1,9 @@
 import http.requests.*;
 
+
 // Definer sammenhænge mellem kategori og produkttyper
 HashMap<String, ArrayList<String>> kategoriTilProdukter = new HashMap<String, ArrayList<String>>();
+
 
 // Declare the back button for the search screen
 Knap søgeSkærmTilbageKnap;
@@ -169,7 +171,7 @@ void opdaterProdukttypeVisning() {
   }
 
   // Genopret alle switches, men tilføj kun de relevante til gruppen
-  float højde=750*height/982-camY;
+  float højde=750*height/982;
   float bredde1=(580*width/1440)/4;
   float bredde2=(580*width/1440)/2;
   float bredde3=(580*width/1440)/4*3;
@@ -186,7 +188,7 @@ void opdaterProdukttypeVisning() {
   }
 
   // Anden række
-  højde=840*height/982-camY;
+  højde=840*height/982;
   if (relevanteProdukter.contains("Veste & Toppe")) {
     produktTypeGroup.addSwitch(new Switch(bredde1, højde, 30*width/1440, "Veste & Toppe", false));
   }
@@ -198,7 +200,7 @@ void opdaterProdukttypeVisning() {
   }
 
   // Tredje række
-  højde=930*height/982-camY;
+  højde=930*height/982;
   if (relevanteProdukter.contains("Babytæpper")) {
     produktTypeGroup.addSwitch(new Switch(bredde1, højde, 30*width/1440, "Babytæpper", false));
   }
@@ -210,7 +212,7 @@ void opdaterProdukttypeVisning() {
   }
 
   // Fjerde række
-  højde=1020*height/982-camY;
+  højde=1020*height/982;
   if (relevanteProdukter.contains("Kjoler og Tunikaer")) {
     produktTypeGroup.addSwitch(new Switch(bredde1, højde, 30*width/1440, "Kjoler og Tunikaer", false));
   }
