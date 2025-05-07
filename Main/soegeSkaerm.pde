@@ -4,6 +4,7 @@ import http.requests.*;
 // Definer sammenhænge mellem kategori og produkttyper
 HashMap<String, ArrayList<String>> kategoriTilProdukter = new HashMap<String, ArrayList<String>>();
 
+float HøjdeForGarn=0;
 
 // Declare the back button for the search screen
 Knap søgeSkærmTilbageKnap;
@@ -41,8 +42,12 @@ void søgeSkærm() {
   text("Filtrer - kryds af", 45*width/1440, 370*height/982-camY);
   textSize(30*width/1440);
   text("Kategorier", 45*width/1440, 425*height/982-camY);
+  if(HøjdeForGarn!=0){
   text("Produkttype", 45*width/1440, 690*height/982-camY);
-  text("Søg udfra mit garn", 52*width/1440, 1300*height/982-camY);
+  text("Søg udfra mit garn", 52*width/1440, HøjdeForGarn-camY);
+  } else {
+    text("Søg udfra mit garn", 52*width/1440, 690*height/982-camY);
+  }
 
   kategoriGroup.tegnAlle();
   produktTypeGroup.tegnAlle();
@@ -54,6 +59,8 @@ void søgeSkærm() {
 SwitchGroup kategoriGroup;
 SwitchGroup produktTypeGroup;
 SwitchGroup udfraGarnGroup;
+
+Switch jaSwitch;
 
 void søgeSkærmSetup() {
 
@@ -68,16 +75,17 @@ void søgeSkærmSetup() {
   udfraGarnGroup = new SwitchGroup();
 
   // Laver kategori switchesne
-  float højde=400*height/982;
+  float højde=475*height/982;
   float bredde1=(580*width/1440)/4-50;
   float bredde2=(580*width/1440)/2-30;
   float bredde3=(580*width/1440)/4*3;
   float radius=30*width/1440;
-  Switch KvindeSwitch = new Switch(bredde1, højde+75, radius, "Kvinde", false);
-  Switch BarnSwitch = new Switch(bredde3, højde+75, radius, "Børn (2-14 år)", false);
-  Switch BabySwitch = new Switch(bredde2, højde+75, radius, "Baby (0-4 år)", false);
-  Switch MandSwitch = new Switch(bredde1, 585*height/982-10, radius, "Mand", false);
-  Switch HjemSwitch = new Switch(bredde2, 585*height/982-10, radius, "Hjem", false);
+  Switch KvindeSwitch = new Switch(bredde1, højde, radius, "Kvinde", false);
+  Switch BarnSwitch = new Switch(bredde3, højde, radius, "Børn (2-14 år)", false);
+  Switch BabySwitch = new Switch(bredde2, højde, radius, "Baby (0-4 år)", false);
+  højde+=110*height/982;
+  Switch MandSwitch = new Switch(bredde1, højde, radius, "Mand", false);
+  Switch HjemSwitch = new Switch(bredde2, højde, radius, "Hjem", false);
 
   //Tilføjer kategori switchesne til en gruppe
   kategoriGroup.addSwitch(KvindeSwitch);
@@ -87,7 +95,7 @@ void søgeSkærmSetup() {
   kategoriGroup.addSwitch(HjemSwitch);
 
   // laver udfra garn switch
-  Switch jaSwitch = new Switch(bredde1, 1370*height/982, radius, "Ja", false);
+  jaSwitch = new Switch(bredde1, 750 * height / 982, radius, "Ja", false);
   udfraGarnGroup.addSwitch(jaSwitch);
 
   // Laver tilbageknappen til søgeskærmen
@@ -150,7 +158,11 @@ void opdaterProdukttypeVisning() {
   String valgtKategori = kategoriGroup.getSelectedTitle();
   produktTypeGroup.clear();
 
-  if (valgtKategori.equals("")) return;
+  if (valgtKategori.equals("")) {
+   HøjdeForGarn=0; 
+   jaSwitch.posY=750 * height / 982;
+    return;
+  }
 
   ArrayList<String> produkttyper = kategoriTilProdukter.get(valgtKategori);
   if (produkttyper == null || produkttyper.isEmpty()) return;
@@ -159,7 +171,9 @@ void opdaterProdukttypeVisning() {
   String[] produktArray = produkttyper.toArray(new String[0]);
 
   // Brug lavSwitches3 til at oprette switches
-  lavSwitches03(produktTypeGroup, produktArray, 750 * height / 982);
+  float højde=lavSwitches03(produktTypeGroup, produktArray, 750 * height / 982);
+  HøjdeForGarn=højde+110*height/982;
+  jaSwitch.posY=HøjdeForGarn+50*height/982;
 }
 
 

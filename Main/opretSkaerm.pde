@@ -580,7 +580,7 @@ float lavSwitches4(SwitchGroup switchGroup, String[] liste, float startY) {
   return højde;
 }
 
-void lavSwitches03(SwitchGroup switchGroup, String[] liste, float startY) {
+float lavSwitches03(SwitchGroup switchGroup, String[] liste, float startY) {
   float højde=startY;
   float size=30*width/1440;
   float bredde1=(580*width/1440)/4-50;
@@ -602,6 +602,7 @@ void lavSwitches03(SwitchGroup switchGroup, String[] liste, float startY) {
     }
     højde+=90*height/982;
   }
+  return højde;
 }
 
 void lavSwitches3(String[] produkttyper, String kategori) {
