@@ -47,6 +47,11 @@ String[] wrapText(String text, float maxWidth, PFont font) {
   return lines.toArray(new String[lines.size()]);
 }
 
+ArrayList<SwitchGroup> produkttypeGrupper = new ArrayList<SwitchGroup>();
+SwitchGroup selectedSwitchGroup;
+String selectedKategori;
+float garnOverskriftHøjde=0;
+
 void opretSkærm() {
   background(255);
   textSize(30*width/1440);
@@ -55,8 +60,14 @@ void opretSkærm() {
   textAlign(CORNER, CORNER);
   //text("Navn:",50*width/1440,300*height/982-camY);
   text("Vælg kategori", 100*width/1440, 445*height/982-camY);
-  text("Vælg produkttype", 100*width/1440, 690*height/982-camY);
-  text("Type af garn:", 100*width/1440, 1135*height/982-camY);
+  if (opretKategorierGroup.switchValgt()) {
+    text("Vælg produkttype", 100*width/1440, 690*height/982-camY);
+  }
+  if (selectedSwitchGroup!= null) {
+    if (selectedSwitchGroup.getSelectedSwitch() != null) {
+      text("Type af garn:", 100*width/1440, garnOverskriftHøjde-camY);
+    }
+  }
   textFont(generalFont);
 
   noStroke();
@@ -64,8 +75,37 @@ void opretSkærm() {
   rect(700*width/1440, 100*width/1440, 18*width/1440, height*2);
 
   opretKategorierGroup.tegnAlle();
-  opretProduktTypeGroup.tegnAlle();
-  garnTypeGroup.tegnAlle();
+  if (opretKategorierGroup.switchValgt()) {
+    String[] kategorier = {"Mænd", "Kvinder", "Baby (0-4 år)", "Barn (2-14 år)", "Hjem", "Højtider"};
+    for (int i=0; i<6; i++) {
+      if (kategorier[i]==opretKategorierGroup.getSelectedTitle()) {
+        produkttypeGrupper.get(i).tegnAlle();
+      }
+    }
+    if (selectedKategori !=opretKategorierGroup.getSelectedTitle()) {
+      selectedKategori= opretKategorierGroup.getSelectedTitle();
+      float højde=(485+90*(ceil(selectedSwitchGroup.switches.size()/4)+3)+175)*height/982;
+      if (selectedSwitchGroup.switches.size()%4==0) {
+        højde=(485+90*(ceil(selectedSwitchGroup.switches.size()/4)+2)+175)*height/982;
+      }
+      garnOverskriftHøjde=højde-55*height/982;
+      int i=0;
+
+      for (Switch switchs : garnTypeGroup.switches) {
+        if (i==4) {
+          højde+=90*height/982;
+          i=0;
+        }
+        switchs.posY=højde;
+        i++;
+      }
+    }
+  }
+  if (selectedSwitchGroup!= null) {
+    if (selectedSwitchGroup.getSelectedSwitch() != null) {
+      garnTypeGroup.tegnAlle();
+    }
+  }
 
   // Hvis et billede er uploadet, vis det
   float posY = 400*width/1920+15;
@@ -237,7 +277,7 @@ void fileSelectedPdf (File selection) {
 
 
 SwitchGroup opretKategorierGroup;
-SwitchGroup opretProduktTypeGroup;
+
 SwitchGroupA garnTypeGroup;
 Knap opretSkærmTilbageKnap;
 Knap opretSkærmIndsætKnap;
@@ -278,56 +318,43 @@ void opretSkærmSetup() {
   textfields.add(TitelTextfelt);
 
   float højde=485*height/982;
-  float bredde1=(580*width/1440)/4;
-  float bredde2=(580*width/1440)/2;
-  float bredde3=(580*width/1440)/4*3;
-  float bredde4=(580*width/1440)/4*4;
-  float size=30*width/1440;
 
   opretKategorierGroup = new SwitchGroup();
-
+  String[] kategorier = {"Mænd", "Kvinder", "Baby (0-4 år)", "Barn (2-14 år)", "Hjem", "Højtider"};
   // Opret switches med nye positioner
-  opretKategorierGroup.addSwitch(new Switch(bredde1, højde, size, "Kvinder", false));
-  opretKategorierGroup.addSwitch(new Switch(bredde2, højde, size, "Mænd", false));
-  opretKategorierGroup.addSwitch(new Switch(bredde3, højde, size, "Baby (0-4 år)", false));
-  opretKategorierGroup.addSwitch(new Switch(bredde4, højde, size, "Barn (2-14 år)", false));
-  højde+=90*height/982;
-  opretKategorierGroup.addSwitch(new Switch(bredde1, højde, size, "Hjem", false));
-
-  opretProduktTypeGroup = new SwitchGroup();
+  højde=lavSwitches4(opretKategorierGroup, kategorier, højde);
+  for (int i=0; i<6; i++) {
+    produkttypeGrupper.add(new SwitchGroup());
+  }
 
   højde+=175*height/982;
+  float startHøjde=højde;
 
+  String[] mændProdukttyper = {"Veste", "Sweater", "Andet", "Strømper og Futsko", "Cardigans"};
+  højde=lavSwitches4(produkttypeGrupper.get(0), mændProdukttyper, startHøjde);
 
-  opretProduktTypeGroup.addSwitch(new Switch(bredde1, højde, size, "Sweater", false));
-  opretProduktTypeGroup.addSwitch(new Switch(bredde2, højde, size, "Påske", false));
-  opretProduktTypeGroup.addSwitch(new Switch(bredde3, højde, size, "Veste & Toppe", false));
-  opretProduktTypeGroup.addSwitch(new Switch(bredde4, højde, size, "Cardigans", false));
-  højde+=90*height/982;
-  opretProduktTypeGroup.addSwitch(new Switch(bredde1, højde, size, "Vest", false));
-  opretProduktTypeGroup.addSwitch(new Switch(bredde2, højde, size, "Babytæpper", false));
-  opretProduktTypeGroup.addSwitch(new Switch(bredde3, højde, size, "Toppe", false));
-  opretProduktTypeGroup.addSwitch(new Switch(bredde4, højde, size, "Strømper & Hjemmesko", false));
-  højde+=90*height/982;
-  opretProduktTypeGroup.addSwitch(new Switch(bredde1, højde, size, "Børneværelse", false));
-  opretProduktTypeGroup.addSwitch(new Switch(bredde2, højde, size, "Kjoler og Tunika", false));
-  opretProduktTypeGroup.addSwitch(new Switch(bredde3, højde, size, "Huer", false));
-  opretProduktTypeGroup.addSwitch(new Switch(bredde4, højde, size, "Shawls", false));
-  højde+=90*height/982;
-  opretProduktTypeGroup.addSwitch(new Switch(bredde1, højde, size, "Unknown", false));
+  String[] kvindeProdukttyper = {"Huer", "Sweater", "Nederdele", "Bukser og shorts", "Veste", "Ponchoer",  "Toppe", "Strømper og Futsko","Bikinier",  "Andet", "Cardigans", "Kjoler og Tunikaer", "Sjaler", "Tørklæder"};
+  højde=lavSwitches4(produkttypeGrupper.get(1), kvindeProdukttyper, startHøjde);
+
+  String[] babyProdukttyper ={ "Huer", "Cardigans",  "Andet","Kjoler og Tunikaer", "Køreposer", "Babytæpper", "Sweater", "Strømper og Støvler",  "Hentesæt", "Veste og Toppe", "Ponchoer", "Sparkedragter o.lign","Bukser og shorts"};
+  højde=lavSwitches4(produkttypeGrupper.get(2), babyProdukttyper, startHøjde);
+
+  String[] børnProdukttyper ={ "Kjoler og nederdele","Cardigans",  "Andet", "Bukser og Overalls","Veste og Toppe", "Huer", "Sweater", "Strømper og Futsko"};
+  højde=lavSwitches4(produkttypeGrupper.get(3), børnProdukttyper, startHøjde);
+
+  String[] hjemProdukttyper ={"Æggevarmer", "Karklude",  "Påske","Puder og Puffer", "Bogmærker",  "kurve", "Jul", "Dekorative Blomster", "Tæpper", "Børneværelse",  "Betræk","Gryddelapper o.lign.", "Siddeunderlag", "Dekorationer", "Kæledyr","Glasunderlag o.lign."};
+  højde=lavSwitches4(produkttypeGrupper.get(4), hjemProdukttyper, startHøjde);
+
+  String[] højtiderProdukttyper ={"Påske", "Jul", "Halloween og Karnival", "Andet"};
+  højde=lavSwitches4(produkttypeGrupper.get(5), højtiderProdukttyper, startHøjde);
+
 
   garnTypeGroup = new SwitchGroupA();
 
   højde+=175*height/982;
   // Laver alle switchesne
-  garnTypeGroup.addSwitch(new Switch(bredde1, højde, size, "Uld", false));
-  garnTypeGroup.addSwitch(new Switch(bredde2, højde, size, "Bomuld", false));
-  garnTypeGroup.addSwitch(new Switch(bredde3, højde, size, "Mohair", false));
-  garnTypeGroup.addSwitch(new Switch(bredde4, højde, size, "Alpaka", false));
-  højde+=90*height/982;
-  garnTypeGroup.addSwitch(new Switch(bredde1, højde, size, "Merinould", false));
-  garnTypeGroup.addSwitch(new Switch(bredde2, højde, size, "Strømpegarn", false));
-  garnTypeGroup.addSwitch(new Switch(bredde3, højde, size, "Silkegarn", false));
+  String[] garnTyper = {"alpaka", "bomuld", "hør", "merino", "mohair", "silke", "uld"};
+  højde=lavSwitches4(garnTypeGroup, garnTyper, højde);
 
 }
 
@@ -341,9 +368,32 @@ void opretSkærmKnapper() {
   if (skærm==opretSkærm) {
     opskriftCreationFeedback=0;
   }
-  opretProduktTypeGroup.checkMouse();
   opretKategorierGroup.checkMouse();
-  garnTypeGroup.checkMouse();
+  if (opretKategorierGroup.switchValgt()) {
+    String[] kategorier = {"Mænd", "Kvinder", "Baby (0-4 år)", "Barn (2-14 år)", "Hjem", "Højtider"};
+    for (int i=0; i<6; i++) {
+      if (kategorier[i]==opretKategorierGroup.getSelectedTitle()) {
+        produkttypeGrupper.get(i).checkMouse();
+        if (selectedSwitchGroup!=produkttypeGrupper.get(i)) {
+          if (selectedSwitchGroup != null) {
+            for (Switch switchs : selectedSwitchGroup.switches) {
+              switchs.tændt=false;
+            }
+          }
+          selectedSwitchGroup=produkttypeGrupper.get(i);
+        }
+        break;
+      }
+    }
+  } else {
+    selectedKategori=null;
+    selectedSwitchGroup=null;
+  }
+  if (selectedSwitchGroup!= null) {
+    if (selectedSwitchGroup.getSelectedSwitch() != null) {
+      garnTypeGroup.checkMouse();
+    }
+  }
 
 // Hvis filens titel er klikket på, åbn PDF'en
   if (selectedPdfName != null && !selectedPdfName.isEmpty() &&
@@ -399,12 +449,23 @@ if (mousePressed &&
   }
 
   if (opretSkærmOpretKnap.mouseOver() ) {
+    String produkttype="";
+    Switch selectedSwitch=null;
+    String[] kategorier = {"Mænd", "Kvinder", "Baby (0-4 år)", "Barn (2-14 år)", "Hjem", "Højtider"};
+    for (int i=0; i<6; i++) {
+      if (kategorier[i]==opretKategorierGroup.getSelectedTitle()) {
+        if (produkttypeGrupper.get(i).getSelectedSwitch() !=null) {
+          produkttype=produkttypeGrupper.get(i).getSelectedTitle();
+          selectedSwitch=produkttypeGrupper.get(i).getSelectedSwitch();
+          break;
+        }
+      }
+    }
     //Tjekker om alle de nødvændige ting er udfyldt
-    if (!TitelTextfelt.tekst.isEmpty() && opretKategorierGroup.getSelectedSwitch() != null
-      && uploadedImage != null && opretProduktTypeGroup.getSelectedSwitch() != null && garnTypeGroup.switchValgt()) {
+    if (!TitelTextfelt.tekst.isEmpty()&& uploadedImage!=null && selectedSwitch != null && garnTypeGroup.switchValgt()) {
       // kommer den nye opskrift i gemte opskrifter
       gemteOpskrifter.add(new Opskrift(TitelTextfelt.tekst, opretKategorierGroup.getSelectedSwitch().getTitel(),
-        "", opretKategorierGroup.getSelectedSwitch().getTitel(), uploadedImage));
+        "", produkttype, uploadedImage));
       int index=gemteOpskrifter.size();
       for (Switch switchs : garnTypeGroup.switches) {
         if (switchs.getState()) {
@@ -412,7 +473,7 @@ if (mousePressed &&
           switchs.tændt=false;
         }
         TitelTextfelt.tekst="";
-        opretProduktTypeGroup.getSelectedSwitch().tændt=false;
+        selectedSwitch.tændt=false;
         opretKategorierGroup.getSelectedSwitch().tændt=false;
         opskriftCreationFeedback=1;
         uploadedImage=null;
@@ -518,11 +579,11 @@ float lavSwitches4(SwitchGroup switchGroup, String[] liste, float startY) {
   return højde;
 }
 
-void lavSwitches3(SwitchGroup switchGroup, String[] liste, float startY) {
+void lavSwitches03(SwitchGroup switchGroup, String[] liste, float startY) {
   float højde=startY;
   float size=30*width/1440;
-  float bredde1=(580*width/1440)/4;
-  float bredde2=(580*width/1440)/2;
+  float bredde1=(580*width/1440)/4-50;
+  float bredde2=(580*width/1440)/2-40;
   float bredde3=(580*width/1440)/4*3;
   float[] bredder = {bredde1, bredde2, bredde3};
   int counter=0;
@@ -539,5 +600,14 @@ void lavSwitches3(SwitchGroup switchGroup, String[] liste, float startY) {
       break;
     }
     højde+=90*height/982;
+  }
+}
+
+void lavSwitches3(String[] produkttyper, String kategori) {
+  ArrayList<String> liste = kategoriTilProdukter.get(kategori);
+  if (liste != null) {
+    for (String p : produkttyper) {
+      liste.add(p);
+    }
   }
 }

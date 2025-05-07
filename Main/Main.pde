@@ -100,8 +100,8 @@ void draw() {
 
 
 void tegnScrollbar() {
-  if (skærm == søgeSkærm && !alleOpskrifter.isEmpty()) {
-    scrollContentHeight = height/5*2 + (height/4 + height/32) * alleOpskrifter.size();
+  if (skærm == søgeSkærm && !visteOpskrifter.isEmpty()) {
+    scrollContentHeight = height/5*2 + (height/4 + height/32) * visteOpskrifter.size();
   } else {
     scrollContentHeight = 3000;
   }
@@ -193,8 +193,8 @@ void mousePressed() {
       scrollOffsetY = mouseY - scrollBarY;  // Gem hvor du klikkede inde i scrollbaren
     }
   }
-  
-for (KlikOmråde ko : klikOmråder) {
+
+  for (KlikOmråde ko : klikOmråder) {
     if (ko.erKlikket(mouseX, mouseY)) {
       println("Åbner link: " + ko.url);  // Til fejlsøgning
       if (ko.url != null && !ko.url.equals("")) {
@@ -202,11 +202,11 @@ for (KlikOmråde ko : klikOmråder) {
       } else {
         println("❌ URL er null eller tom.");
       }
-   
-  
-     break;
-      } 
-}
+
+
+      break;
+    }
+  }
 }//slut mousePressed
 
 
