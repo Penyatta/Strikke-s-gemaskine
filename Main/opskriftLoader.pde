@@ -61,6 +61,7 @@ void hentOpskrifterFraServer(String kilde) {
 
       Opskrift nyOpskrift = new Opskrift(titel, kategori, link, produktType, null);
       
+      println("Print-link for '" + nyOpskrift.titel + "': " + nyOpskrift.getPrintLink());
  //     println("URL i opskrift: " + nyOpskrift.link);  // Test om link er korrekt
       nyOpskrift.imageUrl = imagePath;
       nyOpskrift.billedeHentes = true;
@@ -229,14 +230,14 @@ rect(knapX, printY, knapBredde, knapHøjde);
 fill(247, 239, 210);
 textAlign(CENTER, CENTER);
 textSize(20);
-text("Print", knapX + knapBredde / 2, printY + knapHøjde / 2);
+text("Udskriv", knapX + knapBredde / 2, printY + knapHøjde / 2);
 
 // Gem som klikområde
-//String printLink = opskrift.getPrintLink();
-//if (printLink != null) {
-//  KlikOmråde printKO = new KlikOmråde(printX, printY, printBredde, printHøjde, printLink);
-//  klikOmråder.add(printKO);
-//}
+ String printLink = opskrift.getPrintLink();
+ if (printLink != null) {
+ KlikOmråde printKO = new KlikOmråde(knapX, printY, knapBredde, knapHøjde, printLink);
+ klikOmråder.add(printKO);
+}
     posY += spacing + højde;
   }
  
