@@ -1,7 +1,16 @@
-[{
-  "titel": "jrifsiodx",
-  "garn": ["alpaka"],
-  "link": "",
-  "kategori": "Kvinder",
-  "produktType": "Huer"
-}]
+[
+  {
+    "titel": "jrifsiodx",
+    "garn": ["alpaka"],
+    "link": "",
+    "kategori": "",
+    "produktType": "Huer"
+  },
+  {
+    "titel": "nhjbb",
+    "garn": ["bomuld"],
+    "link": "https://www.google.com",
+    "kategori": "Kvinder",
+    "produktType": "Sweater"
+  }
+]

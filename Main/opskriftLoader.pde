@@ -210,7 +210,7 @@ float rotation = radians((frameCount * 2) % 360);
 
 text("Indlæser" + dots, posX + bredde/24*17 + bredde/48*5, posY - camY + højde/10 + højde/10*4 + 50);
       
-  // Tegn roterende ring midt i billedområdet
+  //Tegn roterende ring midt i billedområdet
   pushMatrix();
   translate(imgX + imgW / 2, imgY + imgH / 2-30);
   noFill();
