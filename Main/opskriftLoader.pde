@@ -13,7 +13,7 @@ ArrayList<Opskrift> alleOpskrifter = new ArrayList<Opskrift>();
 // Indeholder de opskrifter der vises på skærmen – opdateres når man filtrerer
 ArrayList<Opskrift> visteOpskrifter = new ArrayList<Opskrift>();
 
-// Funktion til at hente opskrifter fra serveren 
+// Funktion til at hente opskrifter fra serveren
 void hentOpskrifterFraServer(String kilde) {
 
   alleOpskrifter.clear();     // Ryd hele listen først
@@ -34,7 +34,7 @@ void hentOpskrifterFraServer(String kilde) {
 
   String json = get.getContent();
 
- 
+
   // Debugging: Udskriv serverens svar (JSON-data)
   println("Server svar: " + json);
 
@@ -46,11 +46,7 @@ void hentOpskrifterFraServer(String kilde) {
 
       String titel = jsonOpskrift.getString("titel");
       String kategori = jsonOpskrift.getString("kategori");
-      String link = jsonOpskrift.getString("url"); // ændret fra "link"
- 
- // Debugging: Udskriv linket for hver opskrift
-            println("Link for opskrift " + titel + ": " + link); // Udskriv URL'en
-
+      String link = jsonOpskrift.getString("url");
       String produktType = jsonOpskrift.getString("produkttype");
 
       // Load billede
@@ -60,7 +56,7 @@ void hentOpskrifterFraServer(String kilde) {
       }
 
       Opskrift nyOpskrift = new Opskrift(titel, kategori, link, produktType, null);
-      
+
       println("URL i opskrift: " + nyOpskrift.link);  // Test om link er korrekt
       nyOpskrift.imageUrl = imagePath;
       nyOpskrift.billedeHentes = true;
@@ -75,9 +71,9 @@ void hentOpskrifterFraServer(String kilde) {
         }
       }
 
-        // Tilføj opskriften til begge lister
-    alleOpskrifter.add(nyOpskrift);
-    visteOpskrifter.add(nyOpskrift);
+      // Tilføj opskriften til begge lister
+      alleOpskrifter.add(nyOpskrift);
+      visteOpskrifter.add(nyOpskrift);
     }
 
     // Debugging: Bekræft hvor mange opskrifter der er blevet tilføjet
@@ -98,7 +94,6 @@ void hentOpskrifterFraServer(String kilde) {
   if (maxScroll < 0) {
     maxScroll = 0;
   }
-  
 }
 
 void hentBillederThread() {
@@ -125,11 +120,11 @@ void displayOpskrifter(Opskrift opskrifter[]) {
   float spacing = height/32;
   strokeCap(SQUARE);
 
-klikOmråder.clear();
+  klikOmråder.clear();
 
   //Går igennem de opskrifter der er i arrayet som funktionen modtager
   for (Opskrift opskrift : opskrifter) {
-    
+
     // Only draw recipes that would be visible on screen (optimization)
     if (posY - camY < height + højde && posY - camY + højde > 0) {
       noStroke();
@@ -138,18 +133,17 @@ klikOmråder.clear();
       fill(247, 239, 210);
       rect(posX, posY - camY, bredde, højde);
       skyggeImplement(posX, posY-camY+højde-1, bredde, true);
-     
+
       boolean gemt = false;
       for (Opskrift gemtOpskrift : gemteOpskrifter) {
         if (opskrift.titel.equals(gemtOpskrift.titel)) {
           gemt = true;
-          
+
           break;
         }
       }
-      
-      tegnStjerne(posX+bredde/24*14, posY+højde/9-camY, gemt);
 
+      tegnStjerne(posX+bredde/24*14, posY+højde/9-camY, gemt);
 
       //skriver titlen
       fill(0);
@@ -157,7 +151,7 @@ klikOmråder.clear();
       textAlign(CORNER);
       textSize(30*width/1440);
       text(opskrift.titel, posX + width/100, posY - camY + width/50);
-    
+
       //skriver kategorien
       textFont(generalFont);
       textSize(20*width/1440);
@@ -188,35 +182,34 @@ klikOmråder.clear();
       } else {
         image(opskrift.billede, posX + bredde/24*17, posY - camY + højde/10, bredde/24*5, højde/10*8);
       }
-    
+
 
       stroke(71, 92, 108);
       strokeWeight(10);
       line(posX + bredde/24*15, posY - camY - 1, posX + bredde/24*15, posY - camY + højde);
     }
- 
-  float posiX = 1275*width/1920;
+
+    float posiX = 1275*width/1920;
     // Laver en "Besøg"-knap for denne opskrift
-  float knapBredde = 120;
-  float knapHøjde = 40;
-  float knapX = posiX + 30;
-  float knapY = posY-camY + højde - knapHøjde-40;
- 
+    float knapBredde = 120;
+    float knapHøjde = 40;
+    float knapX = posiX + 30;
+    float knapY = posY-camY + højde - knapHøjde-40;
 
-fill(71, 92, 108);  // Baggrundsfarve
-rect(knapX,knapY, knapBredde, knapHøjde);
 
-// Tegn tekst midt i firkanten
-fill(247, 239, 210);  // Tekstfarve
-textAlign(CENTER, CENTER);
-textSize(20);
-text("Besøg", knapX + knapBredde / 2, knapY + knapHøjde / 2);
+    fill(71, 92, 108);  // Baggrundsfarve
+    rect(knapX, knapY, knapBredde, knapHøjde);
 
-// Tilføj klikområde
-KlikOmråde ko = new KlikOmråde(knapX, knapY, knapBredde, knapHøjde, opskrift.link);
-klikOmråder.add(ko);
+    // Tegn tekst midt i firkanten
+    fill(247, 239, 210);  // Tekstfarve
+    textAlign(CENTER, CENTER);
+    textSize(20);
+    text("Besøg", knapX + knapBredde / 2, knapY + knapHøjde / 2);
+
+    // Tilføj klikområde
+    KlikOmråde ko = new KlikOmråde(knapX, knapY, knapBredde, knapHøjde, opskrift.link);
+    klikOmråder.add(ko);
 
     posY += spacing + højde;
   }
- 
 }
