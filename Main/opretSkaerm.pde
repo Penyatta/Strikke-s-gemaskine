@@ -210,8 +210,6 @@ void opretSkærmSetup() {
   // Tilføj en knap til at vælge billede
   billedeKnap = new Knap (1000, 320, 200*width/1440, 50, color(247, 239, 210), "Vælg billede", 30*width/1440, color(71, 92, 108), color(205, 139, 98), 0, opretSkærm);
   knapper.add(billedeKnap);
-
-
 }
 
 void opretSkærmKnapper() {
@@ -320,7 +318,7 @@ void opretOpskriftFeedback() {
     textSize(25*width/1440);
     textAlign(CENTER, CENTER);
     fill(247, 239, 210);
-    rect(width/2-width/8, height/2-height/16,width/4,height/8);
+    rect(width/2-width/8, height/2-height/16, width/4, height/8);
     fill(71, 92, 108);
     fill(0);
     if (opskriftCreationFeedback==1) {
@@ -334,41 +332,52 @@ void opretOpskriftFeedback() {
   }
 }
 
-void lavSwitches4(SwitchGroup switchGroup,String[] liste,float startY){
+float lavSwitches4(SwitchGroup switchGroup, String[] liste, float startY) {
   float højde=startY;
   float size=30*width/1440;
   float bredde1=(580*width/1440)/4;
   float bredde2=(580*width/1440)/2;
   float bredde3=(580*width/1440)/4*3;
   float bredde4=(580*width/1440)/4*4;
-  float[] bredder = {bredde1,bredde2,bredde3,bredde4};
+  float[] bredder = {bredde1, bredde2, bredde3, bredde4};
   int counter=0;
   boolean stop=false;
-  while(!stop){
-    for(int i=0;i<4;i++){
-      switchGroup.addSwitch(new Switch(bredder[i],højde,size,liste[counter],false));
+  while (!stop) {
+    for (int i=0; i<4; i++) {
+      switchGroup.addSwitch(new Switch(bredder[i], højde, size, liste[counter], false));
       counter++;
+      if (counter==liste.length) {
+        break;
+      }
+    }
+    if (counter==liste.length) {
+      break;
     }
     højde+=90*height/982;
   }
-  
+  return højde;
 }
 
-void lavSwitches3(SwitchGroup switchGroup,String[] liste,float startY){
+void lavSwitches3(SwitchGroup switchGroup, String[] liste, float startY) {
   float højde=startY;
   float size=30*width/1440;
   float bredde1=(580*width/1440)/4;
   float bredde2=(580*width/1440)/2;
   float bredde3=(580*width/1440)/4*3;
-  float[] bredder = {bredde1,bredde2,bredde3};
+  float[] bredder = {bredde1, bredde2, bredde3};
   int counter=0;
   boolean stop=false;
-  while(!stop){
-    for(int i=0;i<3;i++){
-      switchGroup.addSwitch(new Switch(bredder[i],højde,size,liste[counter],false));
+  while (!stop) {
+    for (int i=0; i<3; i++) {
+      switchGroup.addSwitch(new Switch(bredder[i], højde, size, liste[counter], false));
       counter++;
+      if (counter==liste.length) {
+        break;
+      }
+    }
+    if (counter==liste.length) {
+      break;
     }
     højde+=90*height/982;
   }
-  
 }
