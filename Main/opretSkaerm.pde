@@ -208,22 +208,19 @@ void opretSkærmSetup() {
   højde+=175*height/982;
   float startHøjde=højde;
 
-  String[] mændProdukttyper = {"Sweater", "Cardigans", "Strømper og Hjemmesko", "Veste", "Andet"};
+  String[] mændProdukttyper = {"Veste", "Sweater", "Andet", "Strømper og Futsko", "Cardigans"};
   højde=lavSwitches4(produkttypeGrupper.get(0), mændProdukttyper, startHøjde);
 
-  String[] kvindeProdukttyper = { "Sweater", "Cardigans", "Veste", "Toppe", "Strømper og Hjemmesko", "Kjoler og Tunikaer",
-    "Påske", "Sjaler", "Andet", "Huer", "Tørklæder", "Ponchoer", "Bukser og shorts", "Nederdele", "Bikinier"};
+  String[] kvindeProdukttyper = {"Huer", "Sweater", "Nederdele", "Bukser og shorts", "Veste", "Ponchoer",  "Toppe", "Strømper og Futsko","Bikinier",  "Andet", "Cardigans", "Kjoler og Tunikaer", "Sjaler", "Tørklæder"};
   højde=lavSwitches4(produkttypeGrupper.get(1), kvindeProdukttyper, startHøjde);
 
-  String[] babyProdukttyper ={"Babytæpper", "Cardigans", "Sweater", "Hentesæt", "Kjoler og Tunikaer", "Strømper og Støvler",
-    "Bukser og shorts", "Sparkedragter og Overalls", "Huer", "Køreposer", "Veste og Toppe", "Ponchoer", "Andet"};
+  String[] babyProdukttyper ={ "Huer", "Cardigans",  "Andet","Kjoler og Tunikaer", "Køreposer", "Babytæpper", "Sweater", "Strømper og Støvler",  "Hentesæt", "Veste og Toppe", "Ponchoer", "Sparkedragter o.lign","Bukser og shorts"};
   højde=lavSwitches4(produkttypeGrupper.get(2), babyProdukttyper, startHøjde);
 
-  String[] børnProdukttyper ={"Veste og Toppe", "Cardigans", "Sweater", "Huer", "Andet", "Strømper og Hjemmesko", "Kjoler og nederdele", "Bukser og Overalls"};
+  String[] børnProdukttyper ={ "Kjoler og nederdele","Cardigans",  "Andet", "Bukser og Overalls","Veste og Toppe", "Huer", "Sweater", "Strømper og Futsko"};
   højde=lavSwitches4(produkttypeGrupper.get(3), børnProdukttyper, startHøjde);
 
-  String[] hjemProdukttyper ={"Påske", "Børneværelse", "Karklude", "Æggevarmer", "Tæpper", "kurve", "Dekorationer", "Gryddelapper og Bordskåner",
-    "Kæledyr", "Glasunderlag og Dækkeservietter", "Pillows & Cushions", "Siddeunderlag", "Bogmærker", "Betræk", "Jul", "Dekorative Blomster"};
+  String[] hjemProdukttyper ={"Æggevarmer", "Karklude",  "Påske","Puder og Puffer", "Bogmærker",  "kurve", "Jul", "Dekorative Blomster", "Tæpper", "Børneværelse",  "Betræk","Gryddelapper o.lign.", "Siddeunderlag", "Dekorationer", "Kæledyr","Glasunderlag o.lign."};
   højde=lavSwitches4(produkttypeGrupper.get(4), hjemProdukttyper, startHøjde);
 
   String[] højtiderProdukttyper ={"Påske", "Jul", "Halloween og Karnival", "Andet"};
