@@ -85,15 +85,15 @@ void hentOpskrifterFraServer(String kilde) {
   thread("hentBillederThread");
 
   // Beregn max scroll baseret på antal opskrifter og layout
-  float antal = alleOpskrifter.size();
-  float højde = height / 4;
+  float kortHøjde = height / 4;
   float spacing = height / 32;
-  maxScroll = (højde + spacing) * antal - (height - height / 5 * 2);
+  float synligHøjde = height - height / 5 * 2;
+  float samletHøjde = (kortHøjde + spacing) * visteOpskrifter.size();
 
-  // Sørg for det ikke bliver negativt
-  if (maxScroll < 0) {
-    maxScroll = 0;
-  }
+  maxScroll = samletHøjde - synligHøjde;
+  maxScroll = max(0, maxScroll);  // Undgå negativ scroll
+
+  println(maxScroll);
 }
 
 void hentBillederThread() {
