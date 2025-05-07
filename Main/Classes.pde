@@ -45,7 +45,33 @@ class Opskrift {
       image(billede, x + width / 2, y);
     }
   }
-}
+  
+  //funktion til printning
+//  String getPrintLink() {
+//  if (link != null && link.contains("id=") && link.contains("cid=")) {
+//    // Ekstraher id og cid fra URL'en
+//    String[] parts = link.split("\\?");
+//    if (parts.length > 1) {
+//      String[] params = parts[1].split("&");
+//      String id = "";
+//      String cid = "";
+//      for (String param : params) {
+//        if (param.startsWith("id=")) {
+//          id = param.substring(3);
+//        } else if (param.startsWith("cid=")) {
+//          cid = param.substring(4);
+//        }
+//      }
+//      if (!id.isEmpty() && !cid.isEmpty()) {
+//        return "https://www.garnstudio.com/includes/pattern-print.php?id=" + id + "&cid=" + cid;
+//      }
+//    }
+//  }
+//  return null; // Hvis noget går galt
+//}
+  
+  
+} //slut Opskrifter
 
 class SearchToken {
   String token;
