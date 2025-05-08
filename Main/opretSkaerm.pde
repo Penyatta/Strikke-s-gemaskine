@@ -287,9 +287,7 @@ Knap billedeKnap;
 Knap filKnap;
 
 float skalering = min(width, height) / 1000.0;
-int skriftStørrelse = max(30, int(40 * skalering));  // Minimum 10 i størrelse
-
-
+int skriftStørrelse = max(25, int(30 * skalering));  // Minimum 10 i størrelse
 
 void opretSkærmSetup() {
   
@@ -299,7 +297,7 @@ void opretSkærmSetup() {
   knapper.add(opretSkærmTilbageKnap);
 
   opretSkærmIndsætKnap = new Knap(1000*width/1920, 750*width/1920, 250*width/1920, 50*width/1920, color(247, 239, 210), 
-  "Indsæt Udklipsfolder", 30*width/1440, color(71, 92, 108), color(205, 139, 98), 0, opretSkærm);
+  "Indsæt Udklipsfolder", skriftStørrelse, color(71, 92, 108), color(205, 139, 98), 0, opretSkærm);
   knapper.add(opretSkærmIndsætKnap);
 
   opretSkærmOpretKnap = new Knap(1000*width/1920, 850*width/1920, 500*width/1920, 100*width/1920, color(247, 239, 210), 
