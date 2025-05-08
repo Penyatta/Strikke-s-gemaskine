@@ -226,7 +226,6 @@ void opretSkærm() {
     linkRectW = textWidth("Åbn");
     linkRectH = 30;
     aktivtLink = brugerLink;
-
   }
   if (visLinkFejl) {
     fill(200, 0, 0); // Rød farve
@@ -239,7 +238,7 @@ void opretSkærm() {
     visLinkFejl = false;
   }
   opretOpskriftFeedback();
-} 
+}
 
 // slut void opretskærm
 
@@ -287,29 +286,32 @@ Knap billedeKnap;
 Knap filKnap;
 
 void opretSkærmSetup() {
-  
+
   float skalering = min(width, height) / 1000.0;
   int skriftStørrelse = int(30 * skalering);
 
 
   //laver knapperne
   opretSkærmTilbageKnap = new TilbageKnap(height/9-height/15, height/9-height/17, height/15*2, height/17*2, color(0),
-  "tilbage", 10, color(205, 139, 98), color(247, 239, 210), 10, opretSkærm);
+    "tilbage", 10, color(205, 139, 98), color(247, 239, 210), 10, opretSkærm);
   knapper.add(opretSkærmTilbageKnap);
 
-  opretSkærmIndsætKnap = new Knap(1000*width/1920, 750*width/1920, 250*width/1920, 50*width/1920, color(247, 239, 210), "Indsæt Udklipsfolder", 20*width/1440, color(71, 92, 108), color(205, 139, 98), 0, opretSkærm);
+  opretSkærmIndsætKnap = new Knap(1000*width/1920, 750*width/1920, 250*width/1920, 50*width/1920, color(247, 239, 210),
+    "Indsæt Udklipsfolder", skriftStørrelse, color(71, 92, 108), color(205, 139, 98), 0, opretSkærm);
   knapper.add(opretSkærmIndsætKnap);
 
-  opretSkærmOpretKnap = new Knap(1000*width/1920, 850*width/1920, 500*width/1920, 100*width/1920, color(247, 239, 210), "Opret opskrift", 40*width/1440, color(71, 92, 108), color(205, 139, 98), 0, opretSkærm);
+  opretSkærmOpretKnap = new Knap(1000*width/1920, 850*width/1920, 500*width/1920, 100*width/1920, color(247, 239, 210),
+    "Opret opskrift", 40*width/1440, color(71, 92, 108), color(205, 139, 98), 0, opretSkærm);
   knapper.add(opretSkærmOpretKnap);
 
   // Tilføj en knap til at vælge billede
-  billedeKnap = new Knap (1000*width/1920, 320*width/1920, 200*width/1440, 50, color(247, 239, 210), "Vælg billede", 25*width/1440, color(71, 92, 108), color(205, 139, 98), 0, opretSkærm);
+  billedeKnap = new Knap (1000*width/1920, 320*width/1920, 200*width/1440, 50, color(247, 239, 210),
+    "Vælg billede", 25*width/1440, color(71, 92, 108), color(205, 139, 98), 0, opretSkærm);
   knapper.add(billedeKnap);
 
   //Tilføj knap til at vælge fil
-  filKnap =new Knap (1400*width/1920, 320*width/1920, 250*width/1920, 50*width/1920, color(247, 239, 210), 
-  "Vælg fil", 30*width/1440, color(71, 92, 108), color(205, 139, 98), 0, opretSkærm);
+  filKnap =new Knap (1400*width/1920, 320*width/1920, 250*width/1920, 50*width/1920, color(247, 239, 210),
+    "Vælg fil", 30*width/1440, color(71, 92, 108), color(205, 139, 98), 0, opretSkærm);
   knapper.add(filKnap);
 
   // Tilføj Textfield til link
@@ -457,143 +459,143 @@ void opretSkærmKnapper() {
     }
   }
 
- if (opretSkærmOpretKnap.mouseOver()) {
-  String produkttype = "";
-  Switch selectedSwitch = null;
-  String[] kategorier = {"Mænd", "Kvinder", "Baby (0-4 år)", "Barn (2-14 år)", "Hjem", "Højtider"};
+  if (opretSkærmOpretKnap.mouseOver()) {
+    String produkttype = "";
+    Switch selectedSwitch = null;
+    String[] kategorier = {"Mænd", "Kvinder", "Baby (0-4 år)", "Barn (2-14 år)", "Hjem", "Højtider"};
 
-  for (int i = 0; i < kategorier.length; i++) {
-    if (kategorier[i].equals(opretKategorierGroup.getSelectedTitle())) {
-      if (produkttypeGrupper.get(i).getSelectedSwitch() != null) {
-        produkttype = produkttypeGrupper.get(i).getSelectedTitle();
-        selectedSwitch = produkttypeGrupper.get(i).getSelectedSwitch();
-        break;
+    for (int i = 0; i < kategorier.length; i++) {
+      if (kategorier[i].equals(opretKategorierGroup.getSelectedTitle())) {
+        if (produkttypeGrupper.get(i).getSelectedSwitch() != null) {
+          produkttype = produkttypeGrupper.get(i).getSelectedTitle();
+          selectedSwitch = produkttypeGrupper.get(i).getSelectedSwitch();
+          break;
+        }
       }
     }
-  }
 
-  if (!TitelTextfelt.tekst.isEmpty() && uploadedImage != null && selectedSwitch != null &&
+    if (!TitelTextfelt.tekst.isEmpty() && uploadedImage != null && selectedSwitch != null &&
       garnTypeGroup.switchValgt() && LinkTextfelt.tekst != null) {
 
-    Opskrift nyOpskrift = new Opskrift(
-      TitelTextfelt.tekst,
-      opretKategorierGroup.getSelectedSwitch().getTitel(),
-      LinkTextfelt.tekst,
-      produkttype,
-      uploadedImage
-    );
+      Opskrift nyOpskrift = new Opskrift(
+        TitelTextfelt.tekst,
+        opretKategorierGroup.getSelectedSwitch().getTitel(),
+        LinkTextfelt.tekst,
+        produkttype,
+        uploadedImage
+        );
 
-    for (Switch switchs : garnTypeGroup.switches) {
-      if (switchs.getState()) {
-        nyOpskrift.tilfoejGarntype(switchs.getTitel());
-        switchs.tændt = false;
-      }
-    }
-
-    // ✅ Tilføj til lokal liste og gem lokalt
-    gemteOpskrifter.add(nyOpskrift);
-    saveRecipesToFile();
-
-    // Nulstil brugerinput
-    TitelTextfelt.tekst = "";
-    selectedSwitch.tændt = false;
-    opretKategorierGroup.getSelectedSwitch().tændt = false;
-    uploadedImage = null;
-    opskriftCreationFeedback = 1;
-    opskriftTimer = millis();
-  } else {
-    opskriftCreationFeedback = 2;
-    opskriftTimer = millis();
-  }
-}
-
-
-    //Tjekker om alle de nødvændige ting er udfyldt
-    if (!TitelTextfelt.tekst.isEmpty()&& uploadedImage!=null && selectedSwitch != null && garnTypeGroup.switchValgt() && LinkTextfelt.tekst != null) {
-      // kommer den nye opskrift i gemte opskrifter
-      Opskrift nyOpskrift = new Opskrift(TitelTextfelt.tekst, opretKategorierGroup.getSelectedTitle(),
-        LinkTextfelt.tekst, produkttype, uploadedImage);
-
-      // Save the image to a file
-      if (uploadedImage != null) {
-        // Create directory if it doesn't exist
-        File imgDir = new File(dataPath("images"));
-        if (!imgDir.exists()) {
-          imgDir.mkdirs();
-          println("Created directory: " + imgDir.getAbsolutePath());
-        }
-
-        // Generate a safe filename
-        String safeFileName = TitelTextfelt.tekst.replaceAll("[^a-zA-Z0-9]", "_") + ".png";
-        String fileName = "images/" + safeFileName;
-
-        // Save the image
-        uploadedImage.save(dataPath(fileName));
-
-        // Set the image URL in the recipe
-        nyOpskrift.imageUrl = fileName;
-        println("Image saved to: " + fileName);
-      }
-      
-      // Set the file path if a PDF is selected
-      if (selectedPdfPath != null && !selectedPdfPath.isEmpty()) {
-        // Create directory if it doesn't exist
-        File dir = new File(dataPath("pdf"));
-        if (!dir.exists()) {
-          dir.mkdirs();
-          println("Created directory: " + dir.getAbsolutePath());
-        }
-        
-        // Generate a safe filename
-        String safeFileName = TitelTextfelt.tekst.replaceAll("[^a-zA-Z0-9]", "_") + ".pdf";
-        String fileName = "pdf/" + safeFileName;
-        
-        try {
-          // Copy the file
-          File sourceFile = new File(selectedPdfPath);
-          File destFile = new File(dataPath(fileName));
-          
-          println("Copying from: " + sourceFile.getAbsolutePath());
-          println("Copying to: " + destFile.getAbsolutePath());
-          
-          // Create parent directories if they don't exist
-          if (!destFile.getParentFile().exists()) {
-            destFile.getParentFile().mkdirs();
-          }
-          
-          // Use Java NIO for file copying
-          java.nio.file.Files.copy(
-            sourceFile.toPath(),
-            destFile.toPath(),
-            java.nio.file.StandardCopyOption.REPLACE_EXISTING
-          );
-          
-          // Set the file path in the recipe
-          nyOpskrift.filePath = fileName;
-          println("File copied successfully to: " + fileName);
-        } catch (Exception e) {
-          println("Error copying file: " + e.getMessage());
-          e.printStackTrace();
-        }
-      }
-      
-      gemteOpskrifter.add(nyOpskrift);
-      int index=gemteOpskrifter.size();
       for (Switch switchs : garnTypeGroup.switches) {
         if (switchs.getState()) {
-          gemteOpskrifter.get(index-1).tilfoejGarntype(switchs.getTitel());
-          switchs.tændt=false;
+          nyOpskrift.tilfoejGarntype(switchs.getTitel());
+          switchs.tændt = false;
         }
-        TitelTextfelt.tekst="";
-        selectedSwitch.tændt=false;
-        opretKategorierGroup.getSelectedSwitch().tændt=false;
-        opskriftCreationFeedback=1;
-        uploadedImage=null;
-        selectedPdfPath = "";
-        selectedPdfName = "";
-        opskriftTimer=millis();
-        saveRecipesToFile();
       }
+
+      // ✅ Tilføj til lokal liste og gem lokalt
+      gemteOpskrifter.add(nyOpskrift);
+      saveRecipesToFile();
+
+      // Nulstil brugerinput
+      TitelTextfelt.tekst = "";
+      selectedSwitch.tændt = false;
+      opretKategorierGroup.getSelectedSwitch().tændt = false;
+      uploadedImage = null;
+      opskriftCreationFeedback = 1;
+      opskriftTimer = millis();
+    } else {
+      opskriftCreationFeedback = 2;
+      opskriftTimer = millis();
+    }
+  }
+
+  //Tjekker om alle de nødvændige ting er udfyldt
+  if (!TitelTextfelt.tekst.isEmpty()&& uploadedImage!=null && selectedSwitch != null && garnTypeGroup.switchValgt() && LinkTextfelt.tekst != null) {
+    // kommer den nye opskrift i gemte opskrifter
+    Opskrift nyOpskrift = new Opskrift(TitelTextfelt.tekst, opretKategorierGroup.getSelectedTitle(),
+      LinkTextfelt.tekst, produkttype, uploadedImage);
+
+    // Save the image to a file
+    if (uploadedImage != null) {
+      // Create directory if it doesn't exist
+      File imgDir = new File(dataPath("images"));
+      if (!imgDir.exists()) {
+        imgDir.mkdirs();
+        println("Created directory: " + imgDir.getAbsolutePath());
+      }
+
+      // Generate a safe filename
+      String safeFileName = TitelTextfelt.tekst.replaceAll("[^a-zA-Z0-9]", "_") + ".png";
+      String fileName = "images/" + safeFileName;
+
+      // Save the image
+      uploadedImage.save(dataPath(fileName));
+
+      // Set the image URL in the recipe
+      nyOpskrift.imageUrl = fileName;
+      println("Image saved to: " + fileName);
+    }
+
+    // Set the file path if a PDF is selected
+    if (selectedPdfPath != null && !selectedPdfPath.isEmpty()) {
+      // Create directory if it doesn't exist
+      File dir = new File(dataPath("pdf"));
+      if (!dir.exists()) {
+        dir.mkdirs();
+        println("Created directory: " + dir.getAbsolutePath());
+      }
+
+      // Generate a safe filename
+      String safeFileName = TitelTextfelt.tekst.replaceAll("[^a-zA-Z0-9]", "_") + ".pdf";
+      String fileName = "pdf/" + safeFileName;
+
+      try {
+        // Copy the file
+        File sourceFile = new File(selectedPdfPath);
+        File destFile = new File(dataPath(fileName));
+
+        println("Copying from: " + sourceFile.getAbsolutePath());
+        println("Copying to: " + destFile.getAbsolutePath());
+
+        // Create parent directories if they don't exist
+        if (!destFile.getParentFile().exists()) {
+          destFile.getParentFile().mkdirs();
+        }
+
+        // Use Java NIO for file copying
+        java.nio.file.Files.copy(
+          sourceFile.toPath(),
+          destFile.toPath(),
+          java.nio.file.StandardCopyOption.REPLACE_EXISTING
+          );
+
+        // Set the file path in the recipe
+        nyOpskrift.filePath = fileName;
+        println("File copied successfully to: " + fileName);
+      }
+      catch (Exception e) {
+        println("Error copying file: " + e.getMessage());
+        e.printStackTrace();
+      }
+    }
+  }
+  gemteOpskrifter.add(nyOpskrift);
+  int index=gemteOpskrifter.size();
+  for (Switch switchs : garnTypeGroup.switches) {
+    if (switchs.getState()) {
+      gemteOpskrifter.get(index-1).tilfoejGarntype(switchs.getTitel());
+      switchs.tændt=false;
+
+
+      TitelTextfelt.tekst="";
+      selectedSwitch.tændt=false;
+      opretKategorierGroup.getSelectedSwitch().tændt=false;
+      opskriftCreationFeedback=1;
+      uploadedImage=null;
+      selectedPdfPath = "";
+      selectedPdfName = "";
+      opskriftTimer=millis();
+      saveRecipesToFile();
     } else {
       opskriftCreationFeedback=2;
       opskriftTimer=millis();
@@ -624,8 +626,6 @@ void opretSkærmKnapper() {
     selectPdf();  // Kald funktionen til at vælge billede
   }
 }
-
-
 String getClipboard() {
   String text = "";
   try {
@@ -642,6 +642,7 @@ String getClipboard() {
   }
   return text;
 }
+
 
 void opretOpskriftFeedback() {
   //opskrift oprettet feedback
