@@ -1,3 +1,6 @@
+import java.net.*;
+import java.io.*;
+
 // Liste med opskrifter
 ArrayList<Opskrift> opskrifter = new ArrayList<Opskrift>();
 
@@ -34,10 +37,6 @@ void hentOpskrifterFraServer(String kilde) {
 
   String json = get.getContent();
 
-
-  // Debugging: Udskriv serverens svar (JSON-data)
-  println("Server svar: " + json);
-
   if (json != null && json.length() > 0) {
     JSONArray jsonOpskrifter = parseJSONArray(json);
 
@@ -57,8 +56,7 @@ void hentOpskrifterFraServer(String kilde) {
 
       Opskrift nyOpskrift = new Opskrift(titel, kategori, link, produktType, null);
 
-      //println("Print-link for '" + nyOpskrift.titel + "': " + nyOpskrift.getPrintLink());
-      //     println("URL i opskrift: " + nyOpskrift.link);  // Test om link er korrekt
+
       nyOpskrift.imageUrl = imagePath;
       nyOpskrift.billedeHentes = true;
 
@@ -277,14 +275,82 @@ void displayOpskrifter(Opskrift opskrifter[]) {
         // For local files, we need to handle them differently
         KlikOmråde printKO = new KlikOmråde(knapX, printY, knapBredde, knapHøjde, "LOCAL:" + printLink);
         klikOmråder.add(printKO);
-        //println("Added local file click area: " + printLink);
       } else {
         // For web URLs, use the normal link function
         KlikOmråde printKO = new KlikOmråde(knapX, printY, knapBredde, knapHøjde, printLink);
         klikOmråder.add(printKO);
-        //println("Added web link click area: " + printLink);
+   
       }
     }
     posY += spacing + højde;
   }
+}
+
+void sendDataToServer(Opskrift opskrift) {
+  // Del garn korrekt op som liste
+  for (String garn : opskrift.krævneGarn) {
+  }
+  String[] garnArray = splitTokens(opskrift.krævneGarn.get(0), ",");
+  StringBuilder garnList = new StringBuilder();
+  for (int i = 0; i < garnArray.length; i++) {
+    garnList.append("\"" + garnArray[i].trim() + "\"");
+    if (i < garnArray.length - 1) garnList.append(",");
+  }
+
+  // Opret JSON-strukturen med de manuelle værdier
+  String jsonData = "{"
+    + "\"titel\":\"" + opskrift.titel + "\","
+    + "\"garn\":[" + garnList + "],"
+    + "\"kategori\":\"" + opskrift.kategori + "\","
+    + "\"produkttype\":\"" + opskrift.produktType + "\","
+    + "\"image\":\"" + opskrift.imageUrl + "\","
+    + "\"url\":\"" + opskrift.link + "\""
+    + "}";
+
+  // Udskriv dataene til konsollen
+  println("Sender følgende data til serveren:");
+  println(jsonData);
+
+  String url = "https://server-kopi.onrender.com/opskrifter";
+
+  try {
+    URL apiUrl = new URL(url);
+    HttpURLConnection connection = (HttpURLConnection) apiUrl.openConnection();
+    connection.setRequestMethod("POST");
+    connection.setDoOutput(true);
+    connection.setRequestProperty("Content-Type", "application/json");
+
+    // Send JSON-data til serveren
+    try (OutputStream os = connection.getOutputStream()) {
+      byte[] input = jsonData.getBytes("utf-8");
+      os.write(input, 0, input.length);
+    }
+
+    // Læs serverens svar
+    int responseCode = connection.getResponseCode();
+    println("Response Code: " + responseCode);
+
+    BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+    String inputLine;
+    StringBuilder response = new StringBuilder();
+    while ((inputLine = in.readLine()) != null) response.append(inputLine);
+    in.close();
+    println("Response: " + response.toString());
+  }
+  catch (Exception e) {
+    println("❌ Der opstod en fejl ved afsendelse:");
+    e.printStackTrace();
+  }
+}
+
+// Funktion der genererer tilfældige strenge
+String generateRandomString() {
+  String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  StringBuilder sb = new StringBuilder();
+  int length = 10 + (int)(Math.random() * 10); // Generer tilfældig længde mellem 10 og 20
+  for (int i = 0; i < length; i++) {
+    int index = (int)(Math.random() * chars.length());
+    sb.append(chars.charAt(index));
+  }
+  return sb.toString();
 }
