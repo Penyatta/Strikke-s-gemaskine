@@ -245,6 +245,15 @@ class TilbageKnap extends Knap {
       popMatrix();
     }
   }
+   //funktion der returnerer sand når musen er over knappen men ellers falsk
+   @Override
+  boolean mouseOver() {
+    if (posX < mouseX && mouseX < (posX+sizeX) && posY < mouseY && mouseY < (posY+sizeY) && knapSkærm==skærm) {
+      return(true);
+    } else {
+      return(false);
+    }
+  }
 }
 
 /*

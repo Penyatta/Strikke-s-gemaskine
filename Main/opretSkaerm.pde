@@ -464,7 +464,7 @@ void opretSkærmKnapper() {
     //Tjekker om alle de nødvændige ting er udfyldt
     if (!TitelTextfelt.tekst.isEmpty()&& uploadedImage!=null && selectedSwitch != null && garnTypeGroup.switchValgt() && LinkTextfelt.tekst != null) {
       // kommer den nye opskrift i gemte opskrifter
-      Opskrift nyOpskrift = new Opskrift(TitelTextfelt.tekst, opretKategorierGroup.getSelectedSwitch().getTitel(),
+      Opskrift nyOpskrift = new Opskrift(TitelTextfelt.tekst, opretKategorierGroup.getSelectedTitle(),
         LinkTextfelt.tekst, produkttype, uploadedImage);
       
       // Set the file path if a PDF is selected
