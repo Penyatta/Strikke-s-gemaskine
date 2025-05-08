@@ -185,7 +185,7 @@ void mousePressed() {
   }
 
   for (Textfield tf : textfields) {
-    if (skærm == tf.textfieldSkærm && overField(tf)) {
+    if (skærm == tf.textfieldSkærm && tf.mouseOver()) {
       activeField = tf;
       tf.active = true;
 
@@ -230,12 +230,6 @@ void mousePressed() {
   }
 }//slut mousePressed
 
-
-// Hjælpefunktion til at tjekke om musen er over et tekstfelt
-boolean overField(Textfield tf) {
-  return mouseX > tf.posX && mouseX < tf.posX + tf.sizeX &&
-    mouseY > tf.posY && mouseY < tf.posY + tf.sizeY;
-}
 
 void mouseReleased() {
   scrollbarAktiv = false;
