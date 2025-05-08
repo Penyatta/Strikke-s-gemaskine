@@ -306,12 +306,12 @@ void opretSkærmSetup() {
 
   // Tilføj en knap til at vælge billede
   billedeKnap = new Knap (1000*width/1920, 320*width/1920, 200*width/1440, 50*width/1920, color(247, 239, 210), 
-  "Vælg billede", skriftStørrelse, color(71, 92, 108), color(205, 139, 98), 0, opretSkærm);
+  "Vælg billede", skriftStørrelse+5, color(71, 92, 108), color(205, 139, 98), 0, opretSkærm);
   knapper.add(billedeKnap);
 
   //Tilføj knap til at vælge fil
   filKnap =new Knap (1400*width/1920, 320*width/1920, 250*width/1920, 50*width/1920, color(247, 239, 210), 
-  "Vælg fil", skriftStørrelse, color(71, 92, 108), color(205, 139, 98), 0, opretSkærm);
+  "Vælg fil", skriftStørrelse+5, color(71, 92, 108), color(205, 139, 98), 0, opretSkærm);
   knapper.add(filKnap);
 
   // Tilføj Textfield til link
