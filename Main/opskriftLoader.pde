@@ -299,15 +299,8 @@ text("Udskriv", knapX + knapBredde / 2, printY + knapHøjde / 2);
 
 void sendDataToServer(Opskrift opskrift) {
   // Del garn korrekt op som liste
-  for(String garn : opskrift.krævneGarn){
-    
-  }
-  String[] garnArray = splitTokens(opskrift.krævneGarn.get(0), ",");
-  StringBuilder garnList = new StringBuilder();
-  for (int i = 0; i < garnArray.length; i++) {
-    garnList.append("\"" + garnArray[i].trim() + "\"");
-    if (i < garnArray.length - 1) garnList.append(",");
-  }
+  
+  String garnList = convertListToString(opskrift.krævneGarn);
 
   // Opret JSON-strukturen med de manuelle værdier
   String jsonData = "{"
@@ -354,14 +347,15 @@ void sendDataToServer(Opskrift opskrift) {
   }
 }
 
-// Funktion der genererer tilfældige strenge
-String generateRandomString() {
-  String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+String convertListToString(ArrayList<String> list) {
   StringBuilder sb = new StringBuilder();
-  int length = 10 + (int)(Math.random() * 10); // Generer tilfældig længde mellem 10 og 20
-  for (int i = 0; i < length; i++) {
-    int index = (int)(Math.random() * chars.length());
-    sb.append(chars.charAt(index));
+  sb.append("\"");
+  for (int i = 0; i < list.size(); i++) {
+    sb.append(list.get(i));
+    if (i < list.size() - 1) {
+      sb.append(",");
+    }
   }
+  sb.append("\"");
   return sb.toString();
 }
