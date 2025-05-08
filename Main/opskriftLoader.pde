@@ -143,7 +143,9 @@ void displayOpskrifter(Opskrift opskrifter[]) {
       }
 
       tegnStjerne(posX+bredde/24*14, posY+højde/9-camY, gemt);
-
+      textSize(15*width/1440);
+      fill(71, 92, 108);
+      text("Gem", posX+bredde/24*14, posY+højde/9+højde/9-camY);
       //skriver titlen
       fill(0);
       textFont(boldFont);
@@ -279,7 +281,6 @@ void displayOpskrifter(Opskrift opskrifter[]) {
         // For web URLs, use the normal link function
         KlikOmråde printKO = new KlikOmråde(knapX, printY, knapBredde, knapHøjde, printLink);
         klikOmråder.add(printKO);
-   
       }
     }
     posY += spacing + højde;
@@ -288,7 +289,7 @@ void displayOpskrifter(Opskrift opskrifter[]) {
 
 void sendDataToServer(Opskrift opskrift) {
   // Del garn korrekt op som liste
-  
+
   String garnList = convertListToString(opskrift.krævneGarn);
 
   // Opret JSON-strukturen med de manuelle værdier
