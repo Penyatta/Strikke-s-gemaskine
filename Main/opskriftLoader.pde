@@ -299,6 +299,9 @@ text("Udskriv", knapX + knapBredde / 2, printY + knapHøjde / 2);
 
 void sendDataToServer(Opskrift opskrift) {
   // Del garn korrekt op som liste
+  for(String garn : opskrift.krævneGarn){
+    
+  }
   String[] garnArray = splitTokens(opskrift.krævneGarn.get(0), ",");
   StringBuilder garnList = new StringBuilder();
   for (int i = 0; i < garnArray.length; i++) {
@@ -344,7 +347,6 @@ void sendDataToServer(Opskrift opskrift) {
     StringBuilder response = new StringBuilder();
     while ((inputLine = in.readLine()) != null) response.append(inputLine);
     in.close();
-
     println("Response: " + response.toString());
   } catch (Exception e) {
     println("❌ Der opstod en fejl ved afsendelse:");
