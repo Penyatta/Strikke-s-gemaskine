@@ -1,4 +1,3 @@
-
 ArrayList<String> mitGarn = new ArrayList<String>();
 int openDropdown=-1;
 boolean allowOpen;
@@ -8,16 +7,6 @@ ArrayList<Opskrift> gemteOpskrifter = new ArrayList<Opskrift>();
 
 void mitSkærm() {
   background(255);
-  // Viser titlen til mit garn
-  fill(71, 92, 108);
-  textAlign(CENTER);
-  textSize(35*width/1440);
-
-  textFont(generalFont);
-  textSize(80);
-  fill(71, 92, 108);
-  textAlign(CENTER);
-
 
   if (!gemteOpskrifter.isEmpty()) {
     Opskrift[] opskriftArray = gemteOpskrifter.toArray(new Opskrift[0]);
@@ -34,13 +23,18 @@ void mitSkærm() {
     needToAddDropdown = false;
   }
   noStroke();
+  // Viser titlen til mit garn
   fill(247, 239, 210);
   rect(580*width/1440, 150*width/1440, 18*width/1440, 780*width/1440);
-  overskriftBjælke("Min profil");
-  rect(580*width/1440, 202*width/1440, 18*width/1440, 780*width/1440);
-  fill(#475C6C);
+   textFont(generalFont);
+  textSize(80);
+  fill(71, 92, 108);
+  textAlign(CENTER);
   text("Mit Garn", 290*width/1440, height/3 -height/30-camY);
   text("Gemte opskrifter", 1020*width/1440, height/3-height/30-camY);
+  overskriftBjælke("Min profil");
+  rect(580*width/1440, 202*width/1440, 18*width/1440, 780*width/1440);
+  
 }
 
 Knap mitSkærmTilbageKnap;
@@ -58,11 +52,6 @@ void mitSkærmSetup() {
   checkRecipeFile();
   // Load saved recipes from file
   loadSavedRecipes();
-
-  // Initialize scrollbar variables
-  scrollBarEndY=height;
-  scrollBarStartY=height/9*2;
-  scrollBarVisibleHeight = scrollBarEndY - scrollBarStartY;
 }
 
 void mitSkærmKnapper() {
@@ -238,6 +227,8 @@ void checkRecipeFile() {
   }
 }
 
+// Update the loadSavedRecipes function to load the file path when loading recipes
+
 // Function to load saved recipes from JSON file
 void loadSavedRecipes() {
   try {
@@ -250,11 +241,11 @@ void loadSavedRecipes() {
       // Extract recipe data
       String titel = recipeJSON.getString("titel");
       String link = recipeJSON.getString("link", "");
-      String svaerhedsgrad = recipeJSON.getString("svaerhedsgrad", "");
+      String kategori = recipeJSON.getString("kategori", "");
       String produktType = recipeJSON.getString("produktType", "");
 
       // Create new recipe object
-      Opskrift savedRecipe = new Opskrift(titel, link, svaerhedsgrad, produktType, null);
+      Opskrift savedRecipe = new Opskrift(titel, kategori,link, produktType, null);
 
       // Add yarn types if they exist
       if (recipeJSON.hasKey("garn")) {
@@ -268,6 +259,11 @@ void loadSavedRecipes() {
       if (recipeJSON.hasKey("image")) {
         savedRecipe.imageUrl = recipeJSON.getString("image");
         savedRecipe.billedeHentes = true;
+      }
+      
+      // Load file path if it exists
+      if (recipeJSON.hasKey("filePath")) {
+        savedRecipe.filePath = recipeJSON.getString("filePath");
       }
 
       gemteOpskrifter.add(savedRecipe);
@@ -283,6 +279,8 @@ void loadSavedRecipes() {
     checkRecipeFile();
   }
 }
+
+// Update the saveRecipesToFile function to include the file path when saving recipes
 
 // Function to save recipes to JSON file
 void saveRecipesToFile() {
@@ -302,6 +300,11 @@ void saveRecipesToFile() {
     if (recipe.imageUrl != null) {
       recipeJSON.setString("image", recipe.imageUrl);
     }
+    
+    // Save file path if it exists
+    if (recipe.filePath != null && !recipe.filePath.isEmpty()) {
+      recipeJSON.setString("filePath", recipe.filePath);
+    }
 
     // Save yarn types
     JSONArray garnArray = new JSONArray();
@@ -315,4 +318,31 @@ void saveRecipesToFile() {
 
   saveJSONArray(savedRecipesJSON, "data/savedRecipes.json");
   println("Saved " + gemteOpskrifter.size() + " recipes to file");
+}
+
+// Function to load images for saved recipes
+void hentGemteOpskrifterBilleder() {
+  for (Opskrift o : gemteOpskrifter) {
+    if (o.billedeHentes && o.imageUrl != null && o.billede == null) {
+      // Check if it's a local file path
+      if (o.imageUrl.startsWith("images/")) {
+        // Load from data folder
+        PImage img = loadImage(o.imageUrl);
+        if (img != null) {
+          o.billede = img;
+          o.billedeHentes = false;
+          println("Loaded local image: " + o.imageUrl);
+        } else {
+          println("Failed to load local image: " + o.imageUrl);
+        }
+      } else {
+        // Load from URL
+        PImage img = loadImage(o.imageUrl);
+        if (img != null) {
+          o.billede = img;
+          o.billedeHentes = false;
+        }
+      }
+    }
+  }
 }

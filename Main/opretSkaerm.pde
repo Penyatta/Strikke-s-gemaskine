@@ -297,17 +297,14 @@ void opretSkærmSetup() {
   "tilbage", 10, color(205, 139, 98), color(247, 239, 210), 10, opretSkærm);
   knapper.add(opretSkærmTilbageKnap);
 
-
-  opretSkærmIndsætKnap = new Knap(1000*width/1920, 750*width/1920, 255*width/1920, 50*width/1920, color(247, 239, 210), 
-  "Indsæt Udklipsfolder", skriftStørrelse, color(71, 92, 108), color(205, 139, 98), 0, opretSkærm);
+  opretSkærmIndsætKnap = new Knap(1000*width/1920, 750*width/1920, 250*width/1920, 50*width/1920, color(247, 239, 210), "Indsæt Udklipsfolder", 20*width/1440, color(71, 92, 108), color(205, 139, 98), 0, opretSkærm);
   knapper.add(opretSkærmIndsætKnap);
 
-  opretSkærmOpretKnap = new Knap(1000*width/1920, 850*width/1920, 500*width/1920, 100*width/1920, color(247, 239, 210),
-  "Opret opskrift", 50*width/1440, color(71, 92, 108), color(205, 139, 98), 0, opretSkærm);
+  opretSkærmOpretKnap = new Knap(1000*width/1920, 850*width/1920, 500*width/1920, 100*width/1920, color(247, 239, 210), "Opret opskrift", 40*width/1440, color(71, 92, 108), color(205, 139, 98), 0, opretSkærm);
   knapper.add(opretSkærmOpretKnap);
+
   // Tilføj en knap til at vælge billede
-  billedeKnap = new Knap (1000*width/1920, 320*width/1920, 200*width/1440, 50*width/1920, color(247, 239, 210), 
-  "Vælg billede", 30*width/1440, color(71, 92, 108), color(205, 139, 98), 0, opretSkærm);
+  billedeKnap = new Knap (1000*width/1920, 320*width/1920, 200*width/1440, 50, color(247, 239, 210), "Vælg billede", 25*width/1440, color(71, 92, 108), color(205, 139, 98), 0, opretSkærm);
   knapper.add(billedeKnap);
 
   //Tilføj knap til at vælge fil
@@ -416,6 +413,8 @@ void opretSkærmKnapper() {
         File pdfFile = new File(selectedPdfPath);
         if (pdfFile.exists()) {
           Desktop.getDesktop().open(pdfFile);
+          // Use our custom file opening function instead of Desktop.open
+          openFile(selectedPdfPath);
         } else {
           println("Filen findes ikke: " + selectedPdfPath);
         }
@@ -509,6 +508,98 @@ void opretSkærmKnapper() {
 }
 
 
+    //Tjekker om alle de nødvændige ting er udfyldt
+    if (!TitelTextfelt.tekst.isEmpty()&& uploadedImage!=null && selectedSwitch != null && garnTypeGroup.switchValgt() && LinkTextfelt.tekst != null) {
+      // kommer den nye opskrift i gemte opskrifter
+      Opskrift nyOpskrift = new Opskrift(TitelTextfelt.tekst, opretKategorierGroup.getSelectedTitle(),
+        LinkTextfelt.tekst, produkttype, uploadedImage);
+
+      // Save the image to a file
+      if (uploadedImage != null) {
+        // Create directory if it doesn't exist
+        File imgDir = new File(dataPath("images"));
+        if (!imgDir.exists()) {
+          imgDir.mkdirs();
+          println("Created directory: " + imgDir.getAbsolutePath());
+        }
+
+        // Generate a safe filename
+        String safeFileName = TitelTextfelt.tekst.replaceAll("[^a-zA-Z0-9]", "_") + ".png";
+        String fileName = "images/" + safeFileName;
+
+        // Save the image
+        uploadedImage.save(dataPath(fileName));
+
+        // Set the image URL in the recipe
+        nyOpskrift.imageUrl = fileName;
+        println("Image saved to: " + fileName);
+      }
+      
+      // Set the file path if a PDF is selected
+      if (selectedPdfPath != null && !selectedPdfPath.isEmpty()) {
+        // Create directory if it doesn't exist
+        File dir = new File(dataPath("pdf"));
+        if (!dir.exists()) {
+          dir.mkdirs();
+          println("Created directory: " + dir.getAbsolutePath());
+        }
+        
+        // Generate a safe filename
+        String safeFileName = TitelTextfelt.tekst.replaceAll("[^a-zA-Z0-9]", "_") + ".pdf";
+        String fileName = "pdf/" + safeFileName;
+        
+        try {
+          // Copy the file
+          File sourceFile = new File(selectedPdfPath);
+          File destFile = new File(dataPath(fileName));
+          
+          println("Copying from: " + sourceFile.getAbsolutePath());
+          println("Copying to: " + destFile.getAbsolutePath());
+          
+          // Create parent directories if they don't exist
+          if (!destFile.getParentFile().exists()) {
+            destFile.getParentFile().mkdirs();
+          }
+          
+          // Use Java NIO for file copying
+          java.nio.file.Files.copy(
+            sourceFile.toPath(),
+            destFile.toPath(),
+            java.nio.file.StandardCopyOption.REPLACE_EXISTING
+          );
+          
+          // Set the file path in the recipe
+          nyOpskrift.filePath = fileName;
+          println("File copied successfully to: " + fileName);
+        } catch (Exception e) {
+          println("Error copying file: " + e.getMessage());
+          e.printStackTrace();
+        }
+      }
+      
+      gemteOpskrifter.add(nyOpskrift);
+      int index=gemteOpskrifter.size();
+      for (Switch switchs : garnTypeGroup.switches) {
+        if (switchs.getState()) {
+          gemteOpskrifter.get(index-1).tilfoejGarntype(switchs.getTitel());
+          switchs.tændt=false;
+        }
+        TitelTextfelt.tekst="";
+        selectedSwitch.tændt=false;
+        opretKategorierGroup.getSelectedSwitch().tændt=false;
+        opskriftCreationFeedback=1;
+        uploadedImage=null;
+        selectedPdfPath = "";
+        selectedPdfName = "";
+        opskriftTimer=millis();
+        saveRecipesToFile();
+      }
+    } else {
+      opskriftCreationFeedback=2;
+      opskriftTimer=millis();
+    }
+  }
+
   // Hvis der er et aktivt link og det klikkes
   if (aktivtLink.length() > 0 &&
     mousePressed &&
@@ -600,7 +691,7 @@ float lavSwitches4(SwitchGroup switchGroup, String[] liste, float startY) {
   return højde;
 }
 
-void lavSwitches03(SwitchGroup switchGroup, String[] liste, float startY) {
+float lavSwitches03(SwitchGroup switchGroup, String[] liste, float startY) {
   float højde=startY;
   float size=30*width/1440;
   float bredde1=(580*width/1440)/4-50;
@@ -622,6 +713,7 @@ void lavSwitches03(SwitchGroup switchGroup, String[] liste, float startY) {
     }
     højde+=90*height/982;
   }
+  return højde;
 }
 
 void lavSwitches3(String[] produkttyper, String kategori) {

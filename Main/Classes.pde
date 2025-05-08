@@ -11,6 +11,7 @@ class Opskrift {
   int garntyper;
   String kategori;
   String produktType;
+  String filePath; // Path to the stored file in the data folder
 
   // Constructor
   Opskrift(String TITEL, String KATEGORI, String LINK, String PRODUKTTYPE, PImage BILLEDE) {
@@ -48,6 +49,13 @@ class Opskrift {
 
 
   String getPrintLink() {
+    // Check om der en lokal path
+    if (filePath != null && !filePath.isEmpty()) {
+      //println("Using local file path: " + filePath);
+      return filePath;
+    }
+
+    // Ellers bruges det online link funktion
     if (link != null && link.contains("id=") && link.contains("cid=")) {
       String[] parts = link.split("\\?");
       if (parts.length > 1) {
@@ -69,10 +77,6 @@ class Opskrift {
     return null; // Hvis noget går galt
   }
 } //slut Opskrifter
-
-class SearchToken {
-  String token;
-}
 
 ArrayList<Knap> knapper = new ArrayList <Knap>();
 
@@ -166,7 +170,7 @@ class Knap {
   }
   //funktion der returnerer sand når musen er over knappen men ellers falsk
   boolean mouseOver() {
-    if (posX < mouseX && mouseX < (posX+sizeX) && posY < mouseY && mouseY < (posY+sizeY) && knapSkærm==skærm) {
+    if (posX < mouseX && mouseX < (posX+sizeX) && posY-camY < mouseY && mouseY < (posY+sizeY)-camY && knapSkærm==skærm) {
       return(true);
     } else {
       return(false);
@@ -233,6 +237,15 @@ class TilbageKnap extends Knap {
       fill(71, 92, 108);
       arc(height/15, height/17*2, height/15*2, height/31*2, PI/2*3, PI*2);
       popMatrix();
+    }
+  }
+  //funktion der returnerer sand når musen er over knappen men ellers falsk
+  @Override
+    boolean mouseOver() {
+    if (posX < mouseX && mouseX < (posX+sizeX) && posY < mouseY && mouseY < (posY+sizeY) && knapSkærm==skærm) {
+      return(true);
+    } else {
+      return(false);
     }
   }
 }
@@ -504,11 +517,6 @@ class SwitchGroup {
     return "";
   }
 
-  // Get the index of the selected switch
-  int getSelectedIndex() {
-    return selectedIndex;
-  }
-
   // Tjekker om en switch med et bestemt navn er aktiv (tændt)
   boolean erSwitchAktiv(String navn) {
     for (Switch s : switches) {
@@ -518,6 +526,7 @@ class SwitchGroup {
     }
     return false;
   }
+  //tjekker om der er en valgt switch
   boolean switchValgt() {
     boolean enValgt=false;
     for (Switch switchs : switches) {
@@ -529,6 +538,8 @@ class SwitchGroup {
     return enValgt;
   }
 }
+
+//switch group hvor der kan være flere valgt samtidig
 class SwitchGroupA extends SwitchGroup {
   SwitchGroupA() {
     super();
@@ -555,7 +566,7 @@ class SwitchGroupA extends SwitchGroup {
   }
 }
 
-// Dropdowns itil at vælge det garn man har
+// Dropdowns til at vælge det garn man har
 class Dropdown {
   float posX, posY, sizeX, sizeY;
   //Holder garnet
