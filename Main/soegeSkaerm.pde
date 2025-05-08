@@ -101,11 +101,10 @@ void søgeSkærmSetup() {
   knapper.add(søgeSkærmTilbageKnap);
 
   //laver søgefeltknappen til søgeskærmen
-  søgeSkærmSøgKnap = new Knap(493*width/1440, height/9*2+height/40-camY, 67*width/1440, 67*height/982, color(71, 92, 108), "Søg", 30, color(247, 239, 210), color(205, 139, 98), 0, søgeSkærm);
+  søgeSkærmSøgKnap = new Knap(493*width/1440, height/9*2+height/40-camY, 67*width/1440, 67*height/982, color(71, 92, 108),"Søg", 30, color(247, 239, 210), color(205, 139, 98), 0, søgeSkærm);
   knapper.add(søgeSkærmSøgKnap);
   
-  søgeSkærmSøgeTekstfelt =new Textfield(35*width/1440, height/9*2+height/40, 440*width/1440, 67*height/982, color(71, 92, 108), color(247, 239, 210), color(247, 239, 210), color(247, 239, 210),
-  30*width/1440, "Søgefelt", "", 0, søgeSkærm, false);
+  søgeSkærmSøgeTekstfelt =new Textfield(35*width/1440, height/9*2+height/40, 440*width/1440, 67*height/982, color(71, 92, 108), color(247, 239, 210), color(247, 239, 210), color(247, 239, 210), 30*width/1440, "Søgefelt", "", 0, søgeSkærm, false);
   textfields.add(søgeSkærmSøgeTekstfelt);
 
   // Laver tilbageknappen til søgeskærmen
