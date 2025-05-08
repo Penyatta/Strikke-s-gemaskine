@@ -35,11 +35,12 @@ void mitSkærm() {
   noStroke();
   fill(247, 239, 210);
   rect(580*width/1440, 150*width/1440, 18*width/1440, 780*width/1440);
-  overskriftBjælke("Min profil");
-  rect(580*width/1440, 202*width/1440, 18*width/1440, 780*width/1440);
   fill(#475C6C);
   text("Mit Garn", 290*width/1440, height/3 -height/30-camY);
   text("Gemte opskrifter", 1020*width/1440, height/3-height/30-camY);
+  overskriftBjælke("Min profil");
+  rect(580*width/1440, 202*width/1440, 18*width/1440, 780*width/1440);
+  
 }
 
 Knap mitSkærmTilbageKnap;
