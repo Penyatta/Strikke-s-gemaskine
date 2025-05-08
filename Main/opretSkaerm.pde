@@ -287,7 +287,7 @@ Knap billedeKnap;
 Knap filKnap;
 
 float skalering = min(width, height) / 1000.0;
-int skriftStørrelse = max(30, int(40 * skalering));  // Minimum 10 i størrelse
+int skriftStørrelse = max(25, int(30 * skalering));  // Minimum 10 i størrelse
 
 void opretSkærmSetup() {
   
