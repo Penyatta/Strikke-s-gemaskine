@@ -466,6 +466,27 @@ void opretSkærmKnapper() {
       // kommer den nye opskrift i gemte opskrifter
       Opskrift nyOpskrift = new Opskrift(TitelTextfelt.tekst, opretKategorierGroup.getSelectedTitle(),
         LinkTextfelt.tekst, produkttype, uploadedImage);
+
+      // Save the image to a file
+      if (uploadedImage != null) {
+        // Create directory if it doesn't exist
+        File imgDir = new File(dataPath("images"));
+        if (!imgDir.exists()) {
+          imgDir.mkdirs();
+          println("Created directory: " + imgDir.getAbsolutePath());
+        }
+
+        // Generate a safe filename
+        String safeFileName = TitelTextfelt.tekst.replaceAll("[^a-zA-Z0-9]", "_") + ".png";
+        String fileName = "images/" + safeFileName;
+
+        // Save the image
+        uploadedImage.save(dataPath(fileName));
+
+        // Set the image URL in the recipe
+        nyOpskrift.imageUrl = fileName;
+        println("Image saved to: " + fileName);
+      }
       
       // Set the file path if a PDF is selected
       if (selectedPdfPath != null && !selectedPdfPath.isEmpty()) {

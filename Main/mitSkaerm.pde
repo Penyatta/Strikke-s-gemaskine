@@ -329,3 +329,30 @@ void saveRecipesToFile() {
   saveJSONArray(savedRecipesJSON, "data/savedRecipes.json");
   println("Saved " + gemteOpskrifter.size() + " recipes to file");
 }
+
+// Function to load images for saved recipes
+void hentGemteOpskrifterBilleder() {
+  for (Opskrift o : gemteOpskrifter) {
+    if (o.billedeHentes && o.imageUrl != null && o.billede == null) {
+      // Check if it's a local file path
+      if (o.imageUrl.startsWith("images/")) {
+        // Load from data folder
+        PImage img = loadImage(o.imageUrl);
+        if (img != null) {
+          o.billede = img;
+          o.billedeHentes = false;
+          println("Loaded local image: " + o.imageUrl);
+        } else {
+          println("Failed to load local image: " + o.imageUrl);
+        }
+      } else {
+        // Load from URL
+        PImage img = loadImage(o.imageUrl);
+        if (img != null) {
+          o.billede = img;
+          o.billedeHentes = false;
+        }
+      }
+    }
+  }
+}
