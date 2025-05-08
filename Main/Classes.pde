@@ -49,13 +49,13 @@ class Opskrift {
 
 
   String getPrintLink() {
-    // First check if we have a local file path
+    // Check om der en lokal path
     if (filePath != null && !filePath.isEmpty()) {
       //println("Using local file path: " + filePath);
       return filePath;
     }
 
-    // Otherwise use the online print link
+    // Ellers bruges det online link funktion
     if (link != null && link.contains("id=") && link.contains("cid=")) {
       String[] parts = link.split("\\?");
       if (parts.length > 1) {
@@ -526,6 +526,7 @@ class SwitchGroup {
     }
     return false;
   }
+  //tjekker om der er en valgt switch
   boolean switchValgt() {
     boolean enValgt=false;
     for (Switch switchs : switches) {
@@ -538,7 +539,7 @@ class SwitchGroup {
   }
 }
 
-
+//switch group hvor der kan være flere valgt samtidig
 class SwitchGroupA extends SwitchGroup {
   SwitchGroupA() {
     super();
@@ -565,7 +566,7 @@ class SwitchGroupA extends SwitchGroup {
   }
 }
 
-// Dropdowns itil at vælge det garn man har
+// Dropdowns til at vælge det garn man har
 class Dropdown {
   float posX, posY, sizeX, sizeY;
   //Holder garnet

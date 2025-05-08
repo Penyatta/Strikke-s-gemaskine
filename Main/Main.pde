@@ -1,6 +1,6 @@
 import java.util.Arrays;
 
-// Add the Desktop import at the top of the file:
+
 
 import java.awt.Desktop;
 import java.io.File;
@@ -25,9 +25,12 @@ int skærm=startSkærm;
 
 //Værdi der bruges til at display når der scrolles
 float camY=0;
-int lastY; // To track mouse movement
-int scrollSpeed = 10; // You can adjust this value
-float maxScroll = 2000; // Maximum scroll limit (adjust based on your content)
+//holdet styr på musens sidste position til brug i scroll
+int lastY;
+//Hvorhurtigt man kan scroll
+int scrollSpeed = 10;
+// Hvor langt man kan scroll ned justeres baseret på længden af siden
+float maxScroll = 2000;
 int lastMouseY;
 
 // Scrollbar
@@ -37,11 +40,8 @@ float scrollBarW = 25;
 float scrollBarH = 0; // Bruges til at beregne højde på scrollbar
 boolean scrollbarAktiv = false;
 float scrollOffsetY;
-// Scrollbar position variables
-float scrollBarStartY; // Top position of scrollbar (adjust as needed)
-float scrollBarEndY; // Bottom position of scrollbar (adjust as needed)
-float scrollBarVisibleHeight; // Will store the visible height of the scrollbar area
-float scrollContentHeight = 3000; // Initial værdi
+// ændres undervejs
+float scrollContentHeight = 3000;
 
 
 void setup() {
@@ -56,11 +56,10 @@ void setup() {
   opretSkærmSetup();
 
 
-  // Initialize lastY for drag scrolling
-  lastMouseY = mouseY; // Initialize lastMouseY
+  // Initialisere musens sudste position iY
+  lastMouseY = mouseY;
 
   italicFont = loadFont("Arial-ItalicMT-15.vlw");  // Fontnavnet skal passe til systemets skrifttyper
-  
 }
 
 void draw() {
@@ -92,26 +91,25 @@ void draw() {
     scrollBarX = width - scrollBarW;
     tegnScrollbar();    // tegner scrollbaren i uændret koordinatsystem
   }
+  //hvis man er inde på søgeskærmen eller opretskærm så skal søgefeltene forsvinde under overskriftbjælken, men ikke tilbageknap og hjælpknap
   if (skærm==opretSkærm) {
     overskriftBjælke("Tilføj din egen opskrift");
     opretSkærmTilbageKnap.tegn();
     hjælpKnap.tegn();
   }
-
-  //hvis man er inde på søgeskærmen eller opretskærm så skal søgefeltene forsvinde under overskriftbjælken, men ikke tilbageknap og hjælpknap
   if (skærm == søgeSkærm) {
     overskriftBjælke("Søg efter opskrifter");
     søgeSkærmTilbageKnap.tegn();
     hjælpKnap.tegn();
   }
-  
-//  loaderAngle += 0.5;
-//if (loaderAngle > TWO_PI) loaderAngle = 0;
 
+  //  loaderAngle += 0.5;
+  //if (loaderAngle > TWO_PI) loaderAngle = 0;
 }
 
 
 void tegnScrollbar() {
+  // justere højden på scrollbar
   if (skærm == søgeSkærm && !visteOpskrifter.isEmpty()) {
     scrollContentHeight = height/5*2 + (height/4 + height/32) * visteOpskrifter.size();
   } else {
@@ -139,27 +137,29 @@ void tegnScrollbar() {
 
 
 void mouseDragged() {
+  // hvis skærmen er en hvor der kan scrolles
   if (skærm == søgeSkærm || skærm == opretSkærm || skærm == mitSkærm) {
+    // beregner forskellen mellem nuværende og sidste musY
     int diff = mouseY - lastMouseY;
 
     if (!scrollbarAktiv && abs(diff) > 1) {
       camY -= diff;
       camY = constrain(camY, 0, maxScroll);
     }
-
+    //Ændre position af scrollbar og camY til at afspejle ændringen i musY
     if (scrollbarAktiv) {
       scrollBarY = mouseY - scrollOffsetY;
       scrollBarY = constrain(scrollBarY, height/9*2, height - scrollBarH);
       camY = map(scrollBarY, height/9*2, height - scrollBarH, 0, maxScroll);
     }
-
+    //gemmer nuværende musY til at være sidste frame musY
     lastMouseY = mouseY;
   }
 }
 
 
 void mousePressed() {
-
+  //gemmer nuværende musY til at være sidste musY
   lastMouseY = mouseY;
 
   //kører knap funktionerne der tjekker om knapperne tilhørende de forskellige skærme er blevet trykket på
@@ -173,17 +173,8 @@ void mousePressed() {
   }
   opretSkærmKnapper();
 
-  // Aktivere tekstfelter hvis musen er over dem
-  for (Textfield field : textfields) {
-    if (field.mouseOver()) {
-      if (activeField != null) {
-        activeField.deactivate(); // Deactivater alle felter
-      }
-      field.activate(); // Activater det field man klikker på
-      return;
-    }
-  }
 
+  // Aktivere tekstfelter hvis musen er over dem
   for (Textfield tf : textfields) {
     if (skærm == tf.textfieldSkærm && tf.mouseOver()) {
       activeField = tf;
@@ -193,11 +184,12 @@ void mousePressed() {
       if (tf.tekst.startsWith("http")) {
         link(tf.tekst);
       }
+      break;
     } else {
       tf.active = false;
     }
   }
-
+  //Tjekker om musen er over scroll håndtaget
   if (skærm == søgeSkærm || skærm == opretSkærm || skærm == mitSkærm) {
     if (mouseX > scrollBarX && mouseX < scrollBarX + scrollBarW &&
       mouseY > scrollBarY && mouseY < scrollBarY + scrollBarH) {
@@ -209,17 +201,17 @@ void mousePressed() {
   for (KlikOmråde ko : klikOmråder) {
     if (ko.erKlikket(mouseX, mouseY)) {
       println("Åbner link: " + ko.url);  // Til fejlsøgning
-    
+
       if (ko.url != null && !ko.url.equals("")) {
-        // Check if this is a local file path
+        // Check om det er en lokal fil path
         if (ko.url.startsWith("LOCAL:")) {
-          String filePath = ko.url.substring(6); // Remove the "LOCAL:" prefix
+          String filePath = ko.url.substring(6); // Fjerner ordet loacal fra det
           println("Opening local file: " + filePath);
-        
-          // Use our custom file opening function
+
+          // åbner filen
           openFile(dataPath(filePath));
         } else {
-          // For regular URLs, use the link function
+          // For normale links bruges link funktionen
           link(ko.url);
         }
       } else {
@@ -236,16 +228,14 @@ void mouseReleased() {
 }
 
 void mouseWheel(MouseEvent event) {
-
+  //Scroller hvis man er på den rigtige skærm til det
   if (skærm == søgeSkærm || skærm == opretSkærm || skærm == mitSkærm) {
-
-    if (skærm == søgeSkærm || skærm == opretSkærm || skærm == mitSkærm) {
-      float e = event.getCount();
-      camY += e * scrollSpeed;
-      camY = constrain(camY, 0, maxScroll);
-    }
+    float e = event.getCount();
+    camY += e * scrollSpeed;
+    camY = constrain(camY, 0, maxScroll);
   }
 }
+
 void keyPressed() {
   if (activeField != null) {
     // Tjekker om det er slet man klikker på
@@ -262,47 +252,49 @@ void keyPressed() {
 void openFile(String filePath) {
   try {
     File file = new File(filePath);
-    
-    // Check if the file exists
+
+    // Check om filen eksisterer
     if (!file.exists()) {
       println("File does not exist: " + filePath);
       return;
     }
-    
-    // Check if Desktop is supported
+
+    // Check om desktop kan gøres
     if (Desktop.isDesktopSupported()) {
       try {
         Desktop.getDesktop().open(file);
         println("Opening file with system default application: " + filePath);
-      } catch (Exception e) {
-        // If opening with default application fails, try to open in browser
+      }
+      catch (Exception e) {
+        // Hvis mna ikke kan åben det med en standard application åbnes det i browseren
         println("Could not open with default application, trying browser: " + e.getMessage());
         String fileURL = "file:///" + file.getAbsolutePath().replace("\\", "/");
         openURL(fileURL);
       }
     } else {
-      // If Desktop is not supported, try to open in browser
+      // Hvis desktop ikke er supported åben i browser
       println("Desktop not supported, trying browser");
       String fileURL = "file:///" + file.getAbsolutePath().replace("\\", "/");
       openURL(fileURL);
     }
-  } catch (Exception e) {
+  }
+  catch (Exception e) {
     println("Error opening file: " + e.getMessage());
     e.printStackTrace();
   }
 }
 
-// Add this function to open URLs in the browser
+// function til at åbne urls i browser
 void openURL(String url) {
   try {
     if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
       Desktop.getDesktop().browse(new URI(url));
       println("Opening URL in browser: " + url);
     } else {
-      // Fallback for platforms where Desktop is not supported
+      // Hvis browser ikke er supported
       String[] browserCmd = new String[0];
-      
-      // Detect operating system and set appropriate browser command
+
+      // Tejkker browser systemet og bruger den rigtige komando
       String os = System.getProperty("os.name").toLowerCase();
       if (os.contains("win")) {
         browserCmd = new String[]{"cmd", "/c", "start", url};
@@ -311,7 +303,7 @@ void openURL(String url) {
       } else if (os.contains("nix") || os.contains("nux")) {
         browserCmd = new String[]{"xdg-open", url};
       }
-      
+
       if (browserCmd.length > 0) {
         Runtime.getRuntime().exec(browserCmd);
         println("Opening URL with system command: " + url);
@@ -319,7 +311,8 @@ void openURL(String url) {
         println("Could not determine browser command for OS: " + os);
       }
     }
-  } catch (Exception e) {
+  }
+  catch (Exception e) {
     println("Error opening URL: " + e.getMessage());
     e.printStackTrace();
   }

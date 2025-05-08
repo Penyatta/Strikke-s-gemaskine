@@ -7,16 +7,6 @@ ArrayList<Opskrift> gemteOpskrifter = new ArrayList<Opskrift>();
 
 void mitSkærm() {
   background(255);
-  // Viser titlen til mit garn
-  fill(71, 92, 108);
-  textAlign(CENTER);
-  textSize(35*width/1440);
-
-  textFont(generalFont);
-  textSize(80);
-  fill(71, 92, 108);
-  textAlign(CENTER);
-
 
   if (!gemteOpskrifter.isEmpty()) {
     Opskrift[] opskriftArray = gemteOpskrifter.toArray(new Opskrift[0]);
@@ -33,9 +23,13 @@ void mitSkærm() {
     needToAddDropdown = false;
   }
   noStroke();
+  // Viser titlen til mit garn
   fill(247, 239, 210);
   rect(580*width/1440, 150*width/1440, 18*width/1440, 780*width/1440);
-  fill(#475C6C);
+   textFont(generalFont);
+  textSize(80);
+  fill(71, 92, 108);
+  textAlign(CENTER);
   text("Mit Garn", 290*width/1440, height/3 -height/30-camY);
   text("Gemte opskrifter", 1020*width/1440, height/3-height/30-camY);
   overskriftBjælke("Min profil");
@@ -58,11 +52,6 @@ void mitSkærmSetup() {
   checkRecipeFile();
   // Load saved recipes from file
   loadSavedRecipes();
-
-  // Initialize scrollbar variables
-  scrollBarEndY=height;
-  scrollBarStartY=height/9*2;
-  scrollBarVisibleHeight = scrollBarEndY - scrollBarStartY;
 }
 
 void mitSkærmKnapper() {

@@ -6,7 +6,7 @@ HashMap<String, ArrayList<String>> kategoriTilProdukter = new HashMap<String, Ar
 
 float HøjdeForGarn=0;
 
-// Declare the back button for the search screen
+// Opretter tilbage knappen for søg skærmen
 Knap søgeSkærmTilbageKnap;
 Knap søgeSkærmSøgKnap;
 Textfield søgeSkærmSøgeTekstfelt;
