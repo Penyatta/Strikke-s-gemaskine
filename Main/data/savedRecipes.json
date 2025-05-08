@@ -1,8 +1,18 @@
-[{
-  "image": "https://www.garnstudio.com/drops/mag/236/18/18-2.jpg",
-  "titel": "Moody Judy",
-  "garn": ["Alpaka"],
-  "link": "https://www.garnstudio.com/pattern.php?id=10989&cid=19",
-  "kategori": "Kvinde",
-  "produktType": "Sweater"
-}]
+[
+  {
+    "image": "https://www.garnstudio.com/drops/mag/236/18/18-2.jpg",
+    "titel": "Moody Judy",
+    "garn": ["Alpaka"],
+    "link": "https://www.garnstudio.com/pattern.php?id=10989&cid=19",
+    "kategori": "Kvinde",
+    "produktType": "Sweater"
+  },
+  {
+    "image": "images/grys_sweater.png",
+    "titel": "grys sweater",
+    "garn": ["alpaka"],
+    "link": "https://mayflower.dk/pages/showroom",
+    "kategori": "Kvinder",
+    "produktType": "Sweater"
+  }
+]

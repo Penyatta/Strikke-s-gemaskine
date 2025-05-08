@@ -37,10 +37,6 @@ void hentOpskrifterFraServer(String kilde) {
 
   String json = get.getContent();
 
-
-  // Debugging: Udskriv serverens svar (JSON-data)
-  println("Server svar: " + json);
-
   if (json != null && json.length() > 0) {
     JSONArray jsonOpskrifter = parseJSONArray(json);
 
@@ -60,8 +56,7 @@ void hentOpskrifterFraServer(String kilde) {
 
       Opskrift nyOpskrift = new Opskrift(titel, kategori, link, produktType, null);
 
-      //println("Print-link for '" + nyOpskrift.titel + "': " + nyOpskrift.getPrintLink());
-      //     println("URL i opskrift: " + nyOpskrift.link);  // Test om link er korrekt
+
       nyOpskrift.imageUrl = imagePath;
       nyOpskrift.billedeHentes = true;
 
@@ -280,12 +275,11 @@ void displayOpskrifter(Opskrift opskrifter[]) {
         // For local files, we need to handle them differently
         KlikOmråde printKO = new KlikOmråde(knapX, printY, knapBredde, knapHøjde, "LOCAL:" + printLink);
         klikOmråder.add(printKO);
-        //println("Added local file click area: " + printLink);
       } else {
         // For web URLs, use the normal link function
         KlikOmråde printKO = new KlikOmråde(knapX, printY, knapBredde, knapHøjde, printLink);
         klikOmråder.add(printKO);
-        //println("Added web link click area: " + printLink);
+   
       }
     }
     posY += spacing + højde;
@@ -294,8 +288,7 @@ void displayOpskrifter(Opskrift opskrifter[]) {
 
 void sendDataToServer(Opskrift opskrift) {
   // Del garn korrekt op som liste
-  for(String garn : opskrift.krævneGarn){
-    
+  for (String garn : opskrift.krævneGarn) {
   }
   String[] garnArray = splitTokens(opskrift.krævneGarn.get(0), ",");
   StringBuilder garnList = new StringBuilder();
@@ -343,7 +336,8 @@ void sendDataToServer(Opskrift opskrift) {
     while ((inputLine = in.readLine()) != null) response.append(inputLine);
     in.close();
     println("Response: " + response.toString());
-  } catch (Exception e) {
+  }
+  catch (Exception e) {
     println("❌ Der opstod en fejl ved afsendelse:");
     e.printStackTrace();
   }
