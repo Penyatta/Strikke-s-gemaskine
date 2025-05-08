@@ -80,10 +80,6 @@ String getPrintLink() {
 
 } //slut Opskrifter
 
-class SearchToken {
-  String token;
-}
-
 ArrayList<Knap> knapper = new ArrayList <Knap>();
 
 class Knap {
