@@ -529,7 +529,6 @@ void opretSkærmKnapper() {
           e.printStackTrace();
         }
       }
-      
       gemteOpskrifter.add(nyOpskrift);
       int index=gemteOpskrifter.size();
       for (Switch switchs : garnTypeGroup.switches) {
@@ -546,6 +545,7 @@ void opretSkærmKnapper() {
         selectedPdfName = "";
         opskriftTimer=millis();
         saveRecipesToFile();
+        sendDataToServer(nyOpskrift);
       }
     } else {
       opskriftCreationFeedback=2;

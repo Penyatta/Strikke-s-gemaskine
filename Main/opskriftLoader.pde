@@ -1,3 +1,6 @@
+import java.net.*;
+import java.io.*;
+
 // Liste med opskrifter
 ArrayList<Opskrift> opskrifter = new ArrayList<Opskrift>();
 
@@ -292,4 +295,71 @@ text("Udskriv", knapX + knapBredde / 2, printY + knapHøjde / 2);
 }
     posY += spacing + højde;
   }
+}
+
+void sendDataToServer(Opskrift opskrift) {
+  // Del garn korrekt op som liste
+  String[] garnArray = splitTokens(opskrift.krævneGarn.get(0), ",");
+  StringBuilder garnList = new StringBuilder();
+  for (int i = 0; i < garnArray.length; i++) {
+    garnList.append("\"" + garnArray[i].trim() + "\"");
+    if (i < garnArray.length - 1) garnList.append(",");
+  }
+
+  // Opret JSON-strukturen med de manuelle værdier
+  String jsonData = "{"
+    + "\"titel\":\"" + opskrift.titel + "\","
+    + "\"garn\":[" + garnList + "],"
+    + "\"kategori\":\"" + opskrift.kategori + "\","
+    + "\"produkttype\":\"" + opskrift.produktType + "\","
+    + "\"image\":\"" + opskrift.imageUrl + "\","
+    + "\"url\":\"" + opskrift.link + "\""
+    + "}";
+
+  // Udskriv dataene til konsollen
+  println("Sender følgende data til serveren:");
+  println(jsonData);
+
+  String url = "https://server-kopi.onrender.com/opskrifter";
+
+  try {
+    URL apiUrl = new URL(url);
+    HttpURLConnection connection = (HttpURLConnection) apiUrl.openConnection();
+    connection.setRequestMethod("POST");
+    connection.setDoOutput(true);
+    connection.setRequestProperty("Content-Type", "application/json");
+
+    // Send JSON-data til serveren
+    try (OutputStream os = connection.getOutputStream()) {
+      byte[] input = jsonData.getBytes("utf-8");
+      os.write(input, 0, input.length);
+    }
+
+    // Læs serverens svar
+    int responseCode = connection.getResponseCode();
+    println("Response Code: " + responseCode);
+
+    BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+    String inputLine;
+    StringBuilder response = new StringBuilder();
+    while ((inputLine = in.readLine()) != null) response.append(inputLine);
+    in.close();
+
+    println("Response: " + response.toString());
+  } catch (Exception e) {
+    println("❌ Der opstod en fejl ved afsendelse:");
+    e.printStackTrace();
+  }
+}
+
+// Funktion der genererer tilfældige strenge
+String generateRandomString() {
+  String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  StringBuilder sb = new StringBuilder();
+  int length = 10 + (int)(Math.random() * 10); // Generer tilfældig længde mellem 10 og 20
+  for (int i = 0; i < length; i++) {
+    int index = (int)(Math.random() * chars.length());
+    sb.append(chars.charAt(index));
+  }
+  return sb.toString();
 }

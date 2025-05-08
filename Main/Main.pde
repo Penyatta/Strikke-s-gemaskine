@@ -60,7 +60,6 @@ void setup() {
   lastMouseY = mouseY; // Initialize lastMouseY
 
   italicFont = loadFont("Arial-ItalicMT-15.vlw");  // Fontnavnet skal passe til systemets skrifttyper
-  
 }
 
 void draw() {
@@ -104,10 +103,9 @@ void draw() {
     søgeSkærmTilbageKnap.tegn();
     hjælpKnap.tegn();
   }
-  
-//  loaderAngle += 0.5;
-//if (loaderAngle > TWO_PI) loaderAngle = 0;
 
+  //  loaderAngle += 0.5;
+  //if (loaderAngle > TWO_PI) loaderAngle = 0;
 }
 
 
@@ -209,13 +207,13 @@ void mousePressed() {
   for (KlikOmråde ko : klikOmråder) {
     if (ko.erKlikket(mouseX, mouseY)) {
       println("Åbner link: " + ko.url);  // Til fejlsøgning
-    
+
       if (ko.url != null && !ko.url.equals("")) {
         // Check if this is a local file path
         if (ko.url.startsWith("LOCAL:")) {
           String filePath = ko.url.substring(6); // Remove the "LOCAL:" prefix
           println("Opening local file: " + filePath);
-        
+
           // Use our custom file opening function
           openFile(dataPath(filePath));
         } else {
@@ -268,19 +266,20 @@ void keyPressed() {
 void openFile(String filePath) {
   try {
     File file = new File(filePath);
-    
+
     // Check if the file exists
     if (!file.exists()) {
       println("File does not exist: " + filePath);
       return;
     }
-    
+
     // Check if Desktop is supported
     if (Desktop.isDesktopSupported()) {
       try {
         Desktop.getDesktop().open(file);
         println("Opening file with system default application: " + filePath);
-      } catch (Exception e) {
+      }
+      catch (Exception e) {
         // If opening with default application fails, try to open in browser
         println("Could not open with default application, trying browser: " + e.getMessage());
         String fileURL = "file:///" + file.getAbsolutePath().replace("\\", "/");
@@ -292,7 +291,8 @@ void openFile(String filePath) {
       String fileURL = "file:///" + file.getAbsolutePath().replace("\\", "/");
       openURL(fileURL);
     }
-  } catch (Exception e) {
+  }
+  catch (Exception e) {
     println("Error opening file: " + e.getMessage());
     e.printStackTrace();
   }
@@ -307,7 +307,7 @@ void openURL(String url) {
     } else {
       // Fallback for platforms where Desktop is not supported
       String[] browserCmd = new String[0];
-      
+
       // Detect operating system and set appropriate browser command
       String os = System.getProperty("os.name").toLowerCase();
       if (os.contains("win")) {
@@ -317,7 +317,7 @@ void openURL(String url) {
       } else if (os.contains("nix") || os.contains("nux")) {
         browserCmd = new String[]{"xdg-open", url};
       }
-      
+
       if (browserCmd.length > 0) {
         Runtime.getRuntime().exec(browserCmd);
         println("Opening URL with system command: " + url);
@@ -325,7 +325,8 @@ void openURL(String url) {
         println("Could not determine browser command for OS: " + os);
       }
     }
-  } catch (Exception e) {
+  }
+  catch (Exception e) {
     println("Error opening URL: " + e.getMessage());
     e.printStackTrace();
   }
