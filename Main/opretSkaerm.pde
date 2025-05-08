@@ -239,7 +239,9 @@ void opretSkærm() {
     visLinkFejl = false;
   }
   opretOpskriftFeedback();
-}
+} 
+
+// slut void opretskærm
 
 
 // Funktion til at vælge billede
@@ -365,6 +367,7 @@ void opretSkærmSetup() {
   højde=lavSwitches4(garnTypeGroup, garnTyper, højde);
 }
 
+// slut void opretskærmsetup
 
 void opretSkærmKnapper() {
 
@@ -491,8 +494,6 @@ void opretSkærmKnapper() {
     // ✅ Tilføj til lokal liste og gem lokalt
     gemteOpskrifter.add(nyOpskrift);
     saveRecipesToFile();
-    
-    sendOpskriftTilServer(nyOpskrift);
 
     // Nulstil brugerinput
     TitelTextfelt.tekst = "";
