@@ -210,7 +210,7 @@ void mousePressed() {
           String filePath = ko.url.substring(6); // Fjerner ordet loacal fra det
           println("Opening local file: " + filePath);
 
-          // åbner filen
+          // Use our custom file opening function
           openFile(dataPath(filePath));
         } else {
           // For normale links bruges link funktionen
@@ -255,20 +255,20 @@ void openFile(String filePath) {
   try {
     File file = new File(filePath);
 
-    // Check om filen eksisterer
+    // Check if the file exists
     if (!file.exists()) {
       println("File does not exist: " + filePath);
       return;
     }
 
-    // Check om desktop kan gøres
+    // Check if Desktop is supported
     if (Desktop.isDesktopSupported()) {
       try {
         Desktop.getDesktop().open(file);
         println("Opening file with system default application: " + filePath);
       }
       catch (Exception e) {
-        // Hvis mna ikke kan åben det med en standard application åbnes det i browseren
+        // If opening with default application fails, try to open in browser
         println("Could not open with default application, trying browser: " + e.getMessage());
         String fileURL = "file:///" + file.getAbsolutePath().replace("\\", "/");
         openURL(fileURL);
@@ -296,7 +296,7 @@ void openURL(String url) {
       // Hvis browser ikke er supported
       String[] browserCmd = new String[0];
 
-      // Tejkker browser systemet og bruger den rigtige komando
+      // Detect operating system and set appropriate browser command
       String os = System.getProperty("os.name").toLowerCase();
       if (os.contains("win")) {
         browserCmd = new String[]{"cmd", "/c", "start", url};

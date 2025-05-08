@@ -497,7 +497,7 @@ void opretSkærmKnapper() {
         nyOpskrift.imageUrl = fileName;
         println("Image saved to: " + fileName);
       }
-      
+
       // Set the file path if a PDF is selected
       if (selectedPdfPath != null && !selectedPdfPath.isEmpty()) {
         // Create directory if it doesn't exist
@@ -506,40 +506,40 @@ void opretSkærmKnapper() {
           dir.mkdirs();
           println("Created directory: " + dir.getAbsolutePath());
         }
-        
+
         // Generate a safe filename
         String safeFileName = TitelTextfelt.tekst.replaceAll("[^a-zA-Z0-9]", "_") + ".pdf";
         String fileName = "pdf/" + safeFileName;
-        
+
         try {
           // Copy the file
           File sourceFile = new File(selectedPdfPath);
           File destFile = new File(dataPath(fileName));
-          
+
           println("Copying from: " + sourceFile.getAbsolutePath());
           println("Copying to: " + destFile.getAbsolutePath());
-          
+
           // Create parent directories if they don't exist
           if (!destFile.getParentFile().exists()) {
             destFile.getParentFile().mkdirs();
           }
-          
+
           // Use Java NIO for file copying
           java.nio.file.Files.copy(
             sourceFile.toPath(),
             destFile.toPath(),
             java.nio.file.StandardCopyOption.REPLACE_EXISTING
-          );
-          
+            );
+
           // Set the file path in the recipe
           nyOpskrift.filePath = fileName;
           println("File copied successfully to: " + fileName);
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
           println("Error copying file: " + e.getMessage());
           e.printStackTrace();
         }
       }
-      
       gemteOpskrifter.add(nyOpskrift);
       int index=gemteOpskrifter.size();
       for (Switch switchs : garnTypeGroup.switches) {
@@ -547,16 +547,17 @@ void opretSkærmKnapper() {
           gemteOpskrifter.get(index-1).tilfoejGarntype(switchs.getTitel());
           switchs.tændt=false;
         }
-        TitelTextfelt.tekst="";
-        selectedSwitch.tændt=false;
-        opretKategorierGroup.getSelectedSwitch().tændt=false;
-        opskriftCreationFeedback=1;
-        uploadedImage=null;
-        selectedPdfPath = "";
-        selectedPdfName = "";
-        opskriftTimer=millis();
-        saveRecipesToFile();
       }
+      sendDataToServer(nyOpskrift);
+      TitelTextfelt.tekst="";
+      selectedSwitch.tændt=false;
+      opretKategorierGroup.getSelectedSwitch().tændt=false;
+      opskriftCreationFeedback=1;
+      uploadedImage=null;
+      selectedPdfPath = "";
+      selectedPdfName = "";
+      opskriftTimer=millis();
+      saveRecipesToFile();
     } else {
       opskriftCreationFeedback=2;
       opskriftTimer=millis();
