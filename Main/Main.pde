@@ -52,7 +52,6 @@ void setup() {
   lastMouseY = mouseY; // Initialize lastMouseY
 
   italicFont = loadFont("Arial-ItalicMT-15.vlw");  // Fontnavnet skal passe til systemets skrifttyper
- 
 }
 
 void draw() {
@@ -96,10 +95,9 @@ void draw() {
     søgeSkærmTilbageKnap.tegn();
     hjælpKnap.tegn();
   }
-  
-//  loaderAngle += 0.5;
-//if (loaderAngle > TWO_PI) loaderAngle = 0;
 
+  //  loaderAngle += 0.5;
+  //if (loaderAngle > TWO_PI) loaderAngle = 0;
 }
 
 
@@ -197,6 +195,8 @@ void mousePressed() {
       scrollOffsetY = mouseY - scrollBarY;  // Gem hvor du klikkede inde i scrollbaren
     }
   }
+  
+  
 
   for (KlikOmråde ko : klikOmråder) {
     if (ko.erKlikket(mouseX, mouseY)) {
@@ -211,7 +211,7 @@ void mousePressed() {
       break;
     }
   }
-}//slut mousePressed
+}        //slut mousePressed
 
 
 // Hjælpefunktion til at tjekke om musen er over et tekstfelt

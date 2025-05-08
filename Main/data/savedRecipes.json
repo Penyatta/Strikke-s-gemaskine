@@ -1,7 +1,69 @@
-[{
-  "titel": "jrifsiodx",
-  "garn": ["alpaka"],
-  "link": "",
-  "kategori": "Kvinder",
-  "produktType": "Huer"
-}]
+[
+  {
+    "titel": "jrifsiodx",
+    "garn": ["alpaka"],
+    "link": "",
+    "kategori": "",
+    "produktType": "Huer"
+  },
+  {
+    "titel": "Cloud Sweater",
+    "garn": [
+      "alpaka",
+      "mohair"
+    ],
+    "link": "",
+    "kategori": "",
+    "produktType": "Sweater"
+  },
+  {
+    "titel": "Ida tee",
+    "garn": ["bomuld"],
+    "link": "",
+    "kategori": "",
+    "produktType": "Toppe"
+  },
+  {
+    "titel": "Sommer top",
+    "garn": ["bomuld"],
+    "link": "",
+    "kategori": "",
+    "produktType": "Toppe"
+  },
+  {
+    "titel": "noget",
+    "garn": ["alpaka"],
+    "link": "",
+    "kategori": "",
+    "produktType": "Veste"
+  },
+  {
+    "titel": "noget igen",
+    "garn": ["alpaka"],
+    "link": "",
+    "kategori": "",
+    "produktType": "Cardigans"
+  },
+  {
+    "image": "https://www.garnstudio.com/drops/mag/251/9/9-2.jpg",
+    "titel": "Glacier Whisper",
+    "garn": ["Uld"],
+    "link": "",
+    "kategori": "",
+    "produktType": "Sweater"
+  },
+  {
+    "titel": "Noget",
+    "garn": ["alpaka"],
+    "link": "",
+    "kategori": "https://mayflower.dk/pages/showroom",
+    "produktType": "Andet"
+  },
+  {
+    "titel": "Hej",
+    "garn": ["uld"],
+    "link": "https://mayflower.dk/pages/showroom",
+    "kategori": "Barn (2-14 år)",
+    "produktType": "Bukser og Overalls"
+  }
+]

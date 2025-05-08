@@ -227,8 +227,6 @@ void opretSkærm() {
     linkRectH = 30;
     aktivtLink = brugerLink;
 
-    // Udskriv URL'en for at kontrollere, at den er korrekt
-    //  println("Aktivt link: " + aktivtLink);
   }
   if (visLinkFejl) {
     fill(200, 0, 0); // Rød farve
@@ -305,7 +303,6 @@ void opretSkærmSetup() {
   opretSkærmOpretKnap = new Knap(1000*width/1920, 850*width/1920, 500*width/1920, 100*width/1920, color(247, 239, 210),
   "Opret opskrift", 50*width/1440, color(71, 92, 108), color(205, 139, 98), 0, opretSkærm);
   knapper.add(opretSkærmOpretKnap);
-
   // Tilføj en knap til at vælge billede
   billedeKnap = new Knap (1000*width/1920, 320*width/1920, 200*width/1440, 50*width/1920, color(247, 239, 210), 
   "Vælg billede", 30*width/1440, color(71, 92, 108), color(205, 139, 98), 0, opretSkærm);
@@ -458,43 +455,56 @@ void opretSkærmKnapper() {
     }
   }
 
-  if (opretSkærmOpretKnap.mouseOver() ) {
-    String produkttype="";
-    Switch selectedSwitch=null;
-    String[] kategorier = {"Mænd", "Kvinder", "Baby (0-4 år)", "Barn (2-14 år)", "Hjem", "Højtider"};
-    for (int i=0; i<6; i++) {
-      if (kategorier[i]==opretKategorierGroup.getSelectedTitle()) {
-        if (produkttypeGrupper.get(i).getSelectedSwitch() !=null) {
-          produkttype=produkttypeGrupper.get(i).getSelectedTitle();
-          selectedSwitch=produkttypeGrupper.get(i).getSelectedSwitch();
-          break;
-        }
+ if (opretSkærmOpretKnap.mouseOver()) {
+  String produkttype = "";
+  Switch selectedSwitch = null;
+  String[] kategorier = {"Mænd", "Kvinder", "Baby (0-4 år)", "Barn (2-14 år)", "Hjem", "Højtider"};
+
+  for (int i = 0; i < kategorier.length; i++) {
+    if (kategorier[i].equals(opretKategorierGroup.getSelectedTitle())) {
+      if (produkttypeGrupper.get(i).getSelectedSwitch() != null) {
+        produkttype = produkttypeGrupper.get(i).getSelectedTitle();
+        selectedSwitch = produkttypeGrupper.get(i).getSelectedSwitch();
+        break;
       }
-    }
-    //Tjekker om alle de nødvændige ting er udfyldt
-    if (!TitelTextfelt.tekst.isEmpty()&& uploadedImage!=null && selectedSwitch != null && garnTypeGroup.switchValgt() && LinkTextfelt.tekst != null) {
-      // kommer den nye opskrift i gemte opskrifter
-      gemteOpskrifter.add(new Opskrift(TitelTextfelt.tekst, opretKategorierGroup.getSelectedSwitch().getTitel(),
-        LinkTextfelt.tekst, produkttype, uploadedImage));
-      int index=gemteOpskrifter.size();
-      for (Switch switchs : garnTypeGroup.switches) {
-        if (switchs.getState()) {
-          gemteOpskrifter.get(index-1).tilfoejGarntype(switchs.getTitel());
-          switchs.tændt=false;
-        }
-        TitelTextfelt.tekst="";
-        selectedSwitch.tændt=false;
-        opretKategorierGroup.getSelectedSwitch().tændt=false;
-        opskriftCreationFeedback=1;
-        uploadedImage=null;
-        opskriftTimer=millis();
-        saveRecipesToFile();
-      }
-    } else {
-      opskriftCreationFeedback=2;
-      opskriftTimer=millis();
     }
   }
+
+  if (!TitelTextfelt.tekst.isEmpty() && uploadedImage != null && selectedSwitch != null &&
+      garnTypeGroup.switchValgt() && LinkTextfelt.tekst != null) {
+
+    Opskrift nyOpskrift = new Opskrift(
+      TitelTextfelt.tekst,
+      opretKategorierGroup.getSelectedSwitch().getTitel(),
+      LinkTextfelt.tekst,
+      produkttype,
+      uploadedImage
+    );
+
+    for (Switch switchs : garnTypeGroup.switches) {
+      if (switchs.getState()) {
+        nyOpskrift.tilfoejGarntype(switchs.getTitel());
+        switchs.tændt = false;
+      }
+    }
+
+    // ✅ Tilføj til lokal liste og gem lokalt
+    gemteOpskrifter.add(nyOpskrift);
+    saveRecipesToFile();
+
+    // Nulstil brugerinput
+    TitelTextfelt.tekst = "";
+    selectedSwitch.tændt = false;
+    opretKategorierGroup.getSelectedSwitch().tændt = false;
+    uploadedImage = null;
+    opskriftCreationFeedback = 1;
+    opskriftTimer = millis();
+  } else {
+    opskriftCreationFeedback = 2;
+    opskriftTimer = millis();
+  }
+}
+
 
   // Hvis der er et aktivt link og det klikkes
   if (aktivtLink.length() > 0 &&
