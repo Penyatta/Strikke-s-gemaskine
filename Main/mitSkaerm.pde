@@ -251,11 +251,11 @@ void loadSavedRecipes() {
       // Extract recipe data
       String titel = recipeJSON.getString("titel");
       String link = recipeJSON.getString("link", "");
-      String svaerhedsgrad = recipeJSON.getString("svaerhedsgrad", "");
+      String kategori = recipeJSON.getString("kategori", "");
       String produktType = recipeJSON.getString("produktType", "");
 
       // Create new recipe object
-      Opskrift savedRecipe = new Opskrift(titel, link, svaerhedsgrad, produktType, null);
+      Opskrift savedRecipe = new Opskrift(titel, kategori,link, produktType, null);
 
       // Add yarn types if they exist
       if (recipeJSON.hasKey("garn")) {

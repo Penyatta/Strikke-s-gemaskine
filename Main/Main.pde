@@ -60,7 +60,7 @@ void setup() {
   lastMouseY = mouseY; // Initialize lastMouseY
 
   italicFont = loadFont("Arial-ItalicMT-15.vlw");  // Fontnavnet skal passe til systemets skrifttyper
- 
+  
 }
 
 void draw() {
