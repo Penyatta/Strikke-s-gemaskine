@@ -56,14 +56,21 @@
     "titel": "Noget",
     "garn": ["alpaka"],
     "link": "",
-    "kategori": "https://mayflower.dk/pages/showroom",
+    "kategori": "",
     "produktType": "Andet"
   },
   {
     "titel": "Hej",
     "garn": ["uld"],
-    "link": "https://mayflower.dk/pages/showroom",
-    "kategori": "Barn (2-14 år)",
+    "link": "",
+    "kategori": "https://mayflower.dk/pages/showroom",
     "produktType": "Bukser og Overalls"
+  },
+  {
+    "titel": "fefefe",
+    "garn": ["bomuld"],
+    "link": "https://mayflower.dk/pages/showroom",
+    "kategori": "Kvinder",
+    "produktType": "Sweater"
   }
 ]

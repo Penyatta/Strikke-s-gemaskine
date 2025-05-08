@@ -491,6 +491,8 @@ void opretSkærmKnapper() {
     // ✅ Tilføj til lokal liste og gem lokalt
     gemteOpskrifter.add(nyOpskrift);
     saveRecipesToFile();
+    
+    sendOpskriftTilServer(nyOpskrift);
 
     // Nulstil brugerinput
     TitelTextfelt.tekst = "";
