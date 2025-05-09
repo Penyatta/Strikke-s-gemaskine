@@ -96,6 +96,7 @@ void hentOpskrifterFraServer(String kilde) {
 }
 
 void hentBillederThread() {
+  int i=0;
   for (Opskrift o : alleOpskrifter) {
     if (o.billedeHentes && o.imageUrl != null && o.billede == null) {
 
@@ -106,6 +107,8 @@ void hentBillederThread() {
         o.billedeHentes = false;
       }
     }
+    i++;
+    println(i);
   }
 }
 
@@ -242,7 +245,8 @@ void displayOpskrifter(Opskrift opskrifter[]) {
     float knapY = posY-camY + højde - knapHøjde-40*width/1920;
 
 
-    fill(71, 92, 108);  // Baggrundsfarve
+    fill(205, 139, 98);  // Baggrundsfarve
+    stroke(205, 139, 98);
     rect(knapX, knapY, knapBredde, knapHøjde);
 
     // Tegn tekst midt i firkanten

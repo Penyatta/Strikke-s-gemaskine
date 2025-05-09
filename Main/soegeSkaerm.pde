@@ -84,6 +84,7 @@ void søgeSkærmSetup() {
   højde+=110*height/982;
   Switch MandSwitch = new Switch(bredde1, højde, radius, "Mand", false);
   Switch HjemSwitch = new Switch(bredde2, højde, radius, "Hjem", false);
+  Switch HøjtiderSwitch = new Switch(bredde3, højde, radius, "Højtider", false);
 
   //Tilføjer kategori switchesne til en gruppe
   kategoriGroup.addSwitch(KvindeSwitch);
@@ -91,6 +92,7 @@ void søgeSkærmSetup() {
   kategoriGroup.addSwitch(BabySwitch);
   kategoriGroup.addSwitch(MandSwitch);
   kategoriGroup.addSwitch(HjemSwitch);
+  kategoriGroup.addSwitch(HøjtiderSwitch);
 
   // laver udfra garn switch
   jaSwitch = new Switch(bredde1, 750 * height / 982, radius, "Ja", false);
