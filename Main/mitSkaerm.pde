@@ -98,24 +98,25 @@ void mitSkærmKnapper() {
     float bredde = width/31*16;
     float højde = height/4;
     float spacing = height/32;
-    int gemtIndex=-1;
-    boolean fjern=false;
-    for (Opskrift opskrift : gemteOpskrifter) {
-      if (mouseX>posX+bredde/31*17 && mouseX<posX+bredde/31*17+bredde/15 && mouseY>posY-camY && mouseY<posY+højde/5-camY) {
-        fjern=true;
-        for (int i = 0; i < gemteOpskrifter.size(); i++) {
-          if (opskrift.titel.equals(gemteOpskrifter.get(i).titel)) {
-            gemtIndex = i;
-            break;
-          }
-        }
+    int gemtIndex = -1;
+    
+    // Loop through each recipe and check if its star was clicked
+    for (int i = 0; i < gemteOpskrifter.size(); i++) {
+      // Calculate the current recipe's star position
+      float currentPosY = posY + (i * (spacing + højde));
+      
+      // Check if the mouse is over this recipe's star
+      if (mouseX > posX+bredde/31*17 && mouseX < posX+bredde/31*17+bredde/15 && 
+          mouseY > currentPosY-camY && mouseY < currentPosY+højde/5-camY) {
+        gemtIndex = i;
+        break;
       }
     }
-    if (fjern) {
-      if (gemtIndex!=-1) {
-        gemteOpskrifter.remove(gemtIndex);
-        saveRecipesToFile();
-      }
+    
+    // If a star was clicked, remove that recipe
+    if (gemtIndex != -1) {
+      gemteOpskrifter.remove(gemtIndex);
+      saveRecipesToFile();
     }
   }
 }
