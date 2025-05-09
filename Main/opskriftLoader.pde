@@ -96,7 +96,7 @@ void hentOpskrifterFraServer(String kilde) {
 }
 
 void hentBillederThread() {
-  int i=0;
+  //int i=0;
   for (Opskrift o : alleOpskrifter) {
     if (o.billedeHentes && o.imageUrl != null && o.billede == null) {
 
@@ -107,8 +107,8 @@ void hentBillederThread() {
         o.billedeHentes = false;
       }
     }
-    i++;
-    println(i);
+    //i++;
+    //println(i);
   }
 }
 
