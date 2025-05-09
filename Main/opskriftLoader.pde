@@ -252,7 +252,7 @@ void displayOpskrifter(Opskrift opskrifter[]) {
     text("Besøg", knapX + knapBredde / 2, knapY + knapHøjde / 2);
 
     // Tilføj klikområde
-    KlikOmråde ko = new KlikOmråde(knapX, knapY, knapBredde, knapHøjde, opskrift.link);
+    KlikOmråde ko = new KlikOmråde(knapX, knapY, knapBredde, knapHøjde, opskrift.link,skærm);
     klikOmråder.add(ko);
 
     //Beregn position for Print-området
@@ -275,11 +275,11 @@ void displayOpskrifter(Opskrift opskrifter[]) {
       // Check if it's a local file path
       if (printLink.startsWith("data/") || new File(dataPath(printLink)).exists()) {
         // For local files, we need to handle them differently
-        KlikOmråde printKO = new KlikOmråde(knapX, printY, knapBredde, knapHøjde, "LOCAL:" + printLink);
+        KlikOmråde printKO = new KlikOmråde(knapX, printY, knapBredde, knapHøjde, "LOCAL:" + printLink,skærm);
         klikOmråder.add(printKO);
       } else {
         // For web URLs, use the normal link function
-        KlikOmråde printKO = new KlikOmråde(knapX, printY, knapBredde, knapHøjde, printLink);
+        KlikOmråde printKO = new KlikOmråde(knapX, printY, knapBredde, knapHøjde, printLink,skærm);
         klikOmråder.add(printKO);
       }
     }

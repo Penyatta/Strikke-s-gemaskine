@@ -756,17 +756,19 @@ class Dropdown {
 class KlikOmråde {
   float x, y, w, h;
   String url;
+  int områdeSkærm;
 
-  KlikOmråde(float x, float y, float w, float h, String url) {
+  KlikOmråde(float x, float y, float w, float h, String url, int områdeSkærm) {
     this.x = x;
     this.y = y;
     this.w = w;
     this.h = h;
     this.url = url;
+    this.områdeSkærm = områdeSkærm;
   }
 
   boolean erKlikket(float mx, float my) {
-    return mx >= x && mx <= x + w && my >= y && my <= y + h;
+    return mx >= x && mx <= x + w && my >= y && my <= y + h && skærm == områdeSkærm;
   }
 
   void tjekKlik(float mx, float my) {
